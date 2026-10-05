@@ -1,0 +1,70 @@
+html,
+body {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
+.hero-section .container {
+  margin-top: 11rem;
+}
+
+.img-bg-shadow {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.85) 20%,
+    rgba(0, 0, 0, 0.2) 80%
+  );
+}
+
+.img-news {
+  height: 17rem;
+  object-fit: cover;
+}
+
+.text-news {
+  color: black;
+}
+
+.text-news:hover {
+  color: #0d6efd;
+}
+
+.text-news {
+  transition: 0.3s ease;
+}
+
+.icon-instagram {
+  background: linear-gradient(45deg, #833ab4, #e1306c, #f77737);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.icon-tiktok {
+  color: #ff0050;
+}
+
+.icon-youtube {
+  color: #cc0000;
+}
+
+.icon-facebook {
+  color: #007bff;
+}
+
+@media (min-width: 1024px) {
+  .scale-up:hover {
+    transform: scale(1.05);
+  }
+
+  .scale-up {
+    transition: transform 0.3s;
+  }
+}
+
+.news-text {
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}

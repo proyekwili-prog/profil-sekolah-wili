@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ $profile->nama_sekolah ?? 'SMP Negeri Satu Atap 1 Mangunreja' }}</title>
+    <title><?php echo e($profile->nama_sekolah ?? 'SMP Negeri Satu Atap 1 Mangunreja'); ?></title>
 
-    <link rel="stylesheet" href="{{ asset('assets/bootstrap-5.3.8-dist/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/bootstrap-5.3.8-dist/css/bootstrap.min.css')); ?>">
 
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -387,24 +387,23 @@
 
 <body>
 
-    {{-- =========================
-         NAVBAR
-    ========================= --}}
+    
     <nav class="navbar navbar-expand-lg fixed-top main-navbar">
         <div class="container">
 
             <a class="navbar-brand d-flex align-items-center" href="#beranda">
 
-                @if ($profile?->logo)
-                    <img src="{{ asset('storage/' . $profile->logo) }}"
+                <?php if($profile?->logo): ?>
+                    <img src="<?php echo e(asset('storage/' . $profile->logo)); ?>"
                         alt="Logo Sekolah">
-                @else
-                    <img src="{{ asset('assets/school-template/img/sataplogo.jpg') }}"
+                <?php else: ?>
+                    <img src="<?php echo e(asset('assets/school-template/img/sataplogo.jpg')); ?>"
                         alt="Logo Sekolah">
-                @endif
+                <?php endif; ?>
 
                 <span class="ms-2 fw-bold">
-                    {{ $profile->nama_sekolah ?? 'SMP NEGERI SATU ATAP 1 MANGUNREJA' }}
+                    <?php echo e($profile->nama_sekolah ?? 'SMP NEGERI SATU ATAP 1 MANGUNREJA'); ?>
+
                 </span>
 
             </a>
@@ -466,9 +465,7 @@
     </nav>
 
 
-    {{-- =========================
-         HERO CAROUSEL
-    ========================= --}}
+    
     <section id="beranda" class="hero">
 
         <div id="heroCarousel"
@@ -497,10 +494,10 @@
 
             <div class="carousel-inner">
 
-                {{-- SLIDE 1 --}}
+                
                 <div class="carousel-item active">
 
-                    <img src="{{ asset('assets/school-template/img/acara.webp') }}"
+                    <img src="<?php echo e(asset('assets/school-template/img/acara.webp')); ?>"
                         alt="Sekolah">
 
                     <div class="hero-caption">
@@ -508,11 +505,13 @@
                         <div>
 
                             <h1>
-                                {{ $profile->nama_sekolah ?? 'SMP NEGERI SATU ATAP 1 MANGUNREJA' }}
+                                <?php echo e($profile->nama_sekolah ?? 'SMP NEGERI SATU ATAP 1 MANGUNREJA'); ?>
+
                             </h1>
 
                             <p>
-                                {{ $profile->deskripsi ?? 'Membangun Generasi Cerdas, Berkarakter, dan Berprestasi' }}
+                                <?php echo e($profile->deskripsi ?? 'Membangun Generasi Cerdas, Berkarakter, dan Berprestasi'); ?>
+
                             </p>
 
                             <a href="#profil" class="btn btn-main mt-3">
@@ -527,12 +526,12 @@
                 </div>
 
 
-                {{-- SLIDE 2 --}}
+                
                 <div class="carousel-item">
 
-                    <img src="{{ $profile?->foto
+                    <img src="<?php echo e($profile?->foto
                         ? asset('storage/' . $profile->foto)
-                        : asset('assets/school-template/img/murid.webp') }}"
+                        : asset('assets/school-template/img/murid.webp')); ?>"
                         alt="Profil Sekolah">
 
                     <div class="hero-caption">
@@ -558,10 +557,10 @@
                 </div>
 
 
-                {{-- SLIDE 3 --}}
+                
                 <div class="carousel-item">
 
-                    <img src="{{ asset('assets/school-template/img/gurustap.webp') }}"
+                    <img src="<?php echo e(asset('assets/school-template/img/gurustap.webp')); ?>"
                         alt="Guru dan Staf">
 
                     <div class="hero-caption">
@@ -613,16 +612,14 @@
     </section>
 
 
-    {{-- =========================
-         STATISTIK SEKOLAH
-    ========================= --}}
+    
     <section class="statistik-section">
 
         <div class="container">
 
             <div class="row g-4">
 
-                {{-- TOTAL SISWA --}}
+                
                 <div class="col-6 col-lg-3">
 
                     <div class="statistik-card">
@@ -632,7 +629,8 @@
                         </div>
 
                         <h2>
-                            {{ $totalSiswa }}
+                            <?php echo e($totalSiswa); ?>
+
                         </h2>
 
                         <p>
@@ -644,7 +642,7 @@
                 </div>
 
 
-                {{-- TOTAL GURU --}}
+                
                 <div class="col-6 col-lg-3">
 
                     <div class="statistik-card">
@@ -654,7 +652,8 @@
                         </div>
 
                         <h2>
-                            {{ $totalGuru }}
+                            <?php echo e($totalGuru); ?>
+
                         </h2>
 
                         <p>
@@ -666,7 +665,7 @@
                 </div>
 
 
-                {{-- TOTAL BERITA --}}
+                
                 <div class="col-6 col-lg-3">
 
                     <div class="statistik-card">
@@ -676,7 +675,8 @@
                         </div>
 
                         <h2>
-                            {{ $totalBerita }}
+                            <?php echo e($totalBerita); ?>
+
                         </h2>
 
                         <p>
@@ -688,7 +688,7 @@
                 </div>
 
 
-                {{-- TOTAL EKSTRAKURIKULER --}}
+                
                 <div class="col-6 col-lg-3">
 
                     <div class="statistik-card">
@@ -698,7 +698,8 @@
                         </div>
 
                         <h2>
-                            {{ $totalEkstrakurikuler }}
+                            <?php echo e($totalEkstrakurikuler); ?>
+
                         </h2>
 
                         <p>
@@ -716,9 +717,7 @@
     </section>
 
 
-    {{-- =========================
-         PROFIL
-    ========================= --}}
+    
     <section id="profil" class="section">
 
         <div class="container">
@@ -731,7 +730,8 @@
 
                 <p class="section-subtitle">
                     Mengenal lebih dekat
-                    {{ $profile->nama_sekolah ?? 'sekolah kami' }}
+                    <?php echo e($profile->nama_sekolah ?? 'sekolah kami'); ?>
+
                 </p>
 
             </div>
@@ -741,13 +741,13 @@
 
                 <div class="col-lg-6">
 
-                    @if ($profile?->foto)
+                    <?php if($profile?->foto): ?>
 
-                        <img src="{{ asset('storage/' . $profile->foto) }}"
+                        <img src="<?php echo e(asset('storage/' . $profile->foto)); ?>"
                             class="school-photo"
-                            alt="{{ $profile->nama_sekolah }}">
+                            alt="<?php echo e($profile->nama_sekolah); ?>">
 
-                    @else
+                    <?php else: ?>
 
                         <div class="empty-photo">
 
@@ -755,7 +755,7 @@
 
                         </div>
 
-                    @endif
+                    <?php endif; ?>
 
                 </div>
 
@@ -763,11 +763,13 @@
                 <div class="col-lg-6">
 
                     <h3 class="fw-bold">
-                        {{ $profile->nama_sekolah ?? '-' }}
+                        <?php echo e($profile->nama_sekolah ?? '-'); ?>
+
                     </h3>
 
                     <p class="text-muted lh-lg">
-                        {{ $profile->deskripsi ?? 'Informasi sekolah belum tersedia.' }}
+                        <?php echo e($profile->deskripsi ?? 'Informasi sekolah belum tersedia.'); ?>
+
                     </p>
 
 
@@ -782,7 +784,8 @@
                                 </div>
 
                                 <div class="info-value">
-                                    {{ $profile->kepala_sekolah ?? '-' }}
+                                    <?php echo e($profile->kepala_sekolah ?? '-'); ?>
+
                                 </div>
 
                             </div>
@@ -799,7 +802,8 @@
                                 </div>
 
                                 <div class="info-value">
-                                    {{ $profile->npsn ?? '-' }}
+                                    <?php echo e($profile->npsn ?? '-'); ?>
+
                                 </div>
 
                             </div>
@@ -816,7 +820,8 @@
                                 </div>
 
                                 <div class="info-value">
-                                    {{ $profile->tahun_berdiri ?? '-' }}
+                                    <?php echo e($profile->tahun_berdiri ?? '-'); ?>
+
                                 </div>
 
                             </div>
@@ -833,7 +838,8 @@
                                 </div>
 
                                 <div class="info-value">
-                                    {{ $profile->kontak ?? '-' }}
+                                    <?php echo e($profile->kontak ?? '-'); ?>
+
                                 </div>
 
                             </div>
@@ -850,7 +856,8 @@
                         </div>
 
                         <div class="info-value">
-                            {{ $profile->alamat ?? '-' }}
+                            <?php echo e($profile->alamat ?? '-'); ?>
+
                         </div>
 
                     </div>
@@ -864,9 +871,7 @@
     </section>
 
 
-    {{-- =========================
-         VISI MISI
-    ========================= --}}
+    
     <section class="section section-light">
 
         <div class="container">
@@ -893,7 +898,8 @@
                     </div>
 
                     <p class="text-muted lh-lg mb-0">
-                        {{ $profile->visi_misi ?? 'Visi dan misi sekolah belum tersedia.' }}
+                        <?php echo e($profile->visi_misi ?? 'Visi dan misi sekolah belum tersedia.'); ?>
+
                     </p>
 
                 </div>
@@ -905,9 +911,7 @@
     </section>
 
 
-    {{-- =========================
-         GURU
-    ========================= --}}
+    
     <section id="guru" class="section">
 
         <div class="container">
@@ -929,24 +933,24 @@
 
                 <div class="carousel-inner">
 
-                    @foreach ($guru->chunk(3) as $index => $group)
+                    <?php $__currentLoopData = $guru->chunk(3); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $group): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
-                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                        <div class="carousel-item <?php echo e($index == 0 ? 'active' : ''); ?>">
 
                             <div class="row g-4">
 
-                                @foreach ($group as $item)
+                                <?php $__currentLoopData = $group; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                                     <div class="col-md-4 carousel-card">
 
                                         <div class="card custom-card">
 
-                                            @if ($item->foto)
+                                            <?php if($item->foto): ?>
 
-                                                <img src="{{ asset('storage/' . $item->foto) }}"
-                                                    alt="{{ $item->nama_guru }}">
+                                                <img src="<?php echo e(asset('storage/' . $item->foto)); ?>"
+                                                    alt="<?php echo e($item->nama_guru); ?>">
 
-                                            @else
+                                            <?php else: ?>
 
                                                 <div class="empty-photo">
 
@@ -954,21 +958,24 @@
 
                                                 </div>
 
-                                            @endif
+                                            <?php endif; ?>
 
 
                                             <div class="card-body text-center">
 
                                                 <h5 class="fw-bold">
-                                                    {{ $item->nama_guru }}
+                                                    <?php echo e($item->nama_guru); ?>
+
                                                 </h5>
 
                                                 <p class="text-muted mb-1">
-                                                    {{ $item->mapel ?? '-' }}
+                                                    <?php echo e($item->mapel ?? '-'); ?>
+
                                                 </p>
 
                                                 <small class="text-secondary">
-                                                    NIP: {{ $item->nip ?? '-' }}
+                                                    NIP: <?php echo e($item->nip ?? '-'); ?>
+
                                                 </small>
 
                                             </div>
@@ -977,18 +984,18 @@
 
                                     </div>
 
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                             </div>
 
                         </div>
 
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                 </div>
 
 
-                @if ($guru->count() > 3)
+                <?php if($guru->count() > 3): ?>
 
                     <button class="carousel-control-prev"
                         type="button"
@@ -1009,7 +1016,7 @@
 
                     </button>
 
-                @endif
+                <?php endif; ?>
 
             </div>
 
@@ -1018,9 +1025,7 @@
     </section>
 
 
-    {{-- =========================
-         EKSTRAKURIKULER
-    ========================= --}}
+    
     <section id="ekstrakurikuler" class="section section-light">
 
         <div class="container">
@@ -1042,24 +1047,24 @@
 
                 <div class="carousel-inner">
 
-                    @foreach ($ekstrakurikuler->chunk(3) as $index => $group)
+                    <?php $__currentLoopData = $ekstrakurikuler->chunk(3); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $group): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
-                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                        <div class="carousel-item <?php echo e($index == 0 ? 'active' : ''); ?>">
 
                             <div class="row g-4">
 
-                                @foreach ($group as $item)
+                                <?php $__currentLoopData = $group; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                                     <div class="col-md-4 carousel-card">
 
                                         <div class="card custom-card">
 
-                                            @if ($item->gambar)
+                                            <?php if($item->gambar): ?>
 
-                                                <img src="{{ asset('storage/' . $item->gambar) }}"
-                                                    alt="{{ $item->nama_eskul }}">
+                                                <img src="<?php echo e(asset('storage/' . $item->gambar)); ?>"
+                                                    alt="<?php echo e($item->nama_eskul); ?>">
 
-                                            @else
+                                            <?php else: ?>
 
                                                 <div class="empty-photo">
 
@@ -1067,21 +1072,24 @@
 
                                                 </div>
 
-                                            @endif
+                                            <?php endif; ?>
 
 
                                             <div class="card-body text-center">
 
                                                 <h5 class="fw-bold">
-                                                    {{ $item->nama_eskul }}
+                                                    <?php echo e($item->nama_eskul); ?>
+
                                                 </h5>
 
                                                 <p class="text-muted mb-2">
-                                                    {{ $item->jadwal_latihan ?? '-' }}
+                                                    <?php echo e($item->jadwal_latihan ?? '-'); ?>
+
                                                 </p>
 
                                                 <p class="text-muted small mb-0">
-                                                    {{ $item->deskripsi ?? '-' }}
+                                                    <?php echo e($item->deskripsi ?? '-'); ?>
+
                                                 </p>
 
                                             </div>
@@ -1090,18 +1098,18 @@
 
                                     </div>
 
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                             </div>
 
                         </div>
 
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                 </div>
 
 
-                @if ($ekstrakurikuler->count() > 3)
+                <?php if($ekstrakurikuler->count() > 3): ?>
 
                     <button class="carousel-control-prev"
                         type="button"
@@ -1122,7 +1130,7 @@
 
                     </button>
 
-                @endif
+                <?php endif; ?>
 
             </div>
 
@@ -1131,9 +1139,7 @@
     </section>
 
 
-    {{-- =========================
-         BERITA
-    ========================= --}}
+    
     <section id="berita" class="section">
 
         <div class="container">
@@ -1155,24 +1161,24 @@
 
                 <div class="carousel-inner">
 
-                    @foreach ($beritaTerbaru->chunk(3) as $index => $group)
+                    <?php $__currentLoopData = $beritaTerbaru->chunk(3); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $group): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
-                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                        <div class="carousel-item <?php echo e($index == 0 ? 'active' : ''); ?>">
 
                             <div class="row g-4">
 
-                                @foreach ($group as $item)
+                                <?php $__currentLoopData = $group; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                                     <div class="col-md-4 carousel-card">
 
                                         <div class="card custom-card">
 
-                                            @if ($item->gambar)
+                                            <?php if($item->gambar): ?>
 
-                                                <img src="{{ asset('storage/' . $item->gambar) }}"
-                                                    alt="{{ $item->judul }}">
+                                                <img src="<?php echo e(asset('storage/' . $item->gambar)); ?>"
+                                                    alt="<?php echo e($item->judul); ?>">
 
-                                            @else
+                                            <?php else: ?>
 
                                                 <div class="empty-photo">
 
@@ -1180,21 +1186,24 @@
 
                                                 </div>
 
-                                            @endif
+                                            <?php endif; ?>
 
 
                                             <div class="card-body">
 
                                                 <small class="text-primary">
-                                                    {{ $item->tanggal }}
+                                                    <?php echo e($item->tanggal); ?>
+
                                                 </small>
 
                                                 <h5 class="fw-bold mt-2">
-                                                    {{ $item->judul }}
+                                                    <?php echo e($item->judul); ?>
+
                                                 </h5>
 
                                                 <p class="text-muted small mb-0">
-                                                    {{ \Illuminate\Support\Str::limit(strip_tags($item->isi), 120) }}
+                                                    <?php echo e(\Illuminate\Support\Str::limit(strip_tags($item->isi), 120)); ?>
+
                                                 </p>
 
                                             </div>
@@ -1203,18 +1212,18 @@
 
                                     </div>
 
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                             </div>
 
                         </div>
 
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                 </div>
 
 
-                @if ($beritaTerbaru->count() > 3)
+                <?php if($beritaTerbaru->count() > 3): ?>
 
                     <button class="carousel-control-prev"
                         type="button"
@@ -1235,7 +1244,7 @@
 
                     </button>
 
-                @endif
+                <?php endif; ?>
 
             </div>
 
@@ -1244,9 +1253,7 @@
     </section>
 
 
-    {{-- =========================
-         GALERI
-    ========================= --}}
+    
     <section id="galeri" class="section section-light">
 
         <div class="container">
@@ -1268,24 +1275,24 @@
 
                 <div class="carousel-inner">
 
-                    @foreach ($galeri->chunk(3) as $index => $group)
+                    <?php $__currentLoopData = $galeri->chunk(3); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $group): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
-                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                        <div class="carousel-item <?php echo e($index == 0 ? 'active' : ''); ?>">
 
                             <div class="row g-4">
 
-                                @foreach ($group as $item)
+                                <?php $__currentLoopData = $group; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                                     <div class="col-md-4 carousel-card">
 
                                         <div class="card custom-card">
 
-                                            @if ($item->file)
+                                            <?php if($item->file): ?>
 
-                                                <img src="{{ asset('storage/' . $item->file) }}"
-                                                    alt="{{ $item->judul }}">
+                                                <img src="<?php echo e(asset('storage/' . $item->file)); ?>"
+                                                    alt="<?php echo e($item->judul); ?>">
 
-                                            @else
+                                            <?php else: ?>
 
                                                 <div class="empty-photo">
 
@@ -1293,17 +1300,19 @@
 
                                                 </div>
 
-                                            @endif
+                                            <?php endif; ?>
 
 
                                             <div class="card-body text-center">
 
                                                 <h5 class="fw-bold">
-                                                    {{ $item->judul }}
+                                                    <?php echo e($item->judul); ?>
+
                                                 </h5>
 
                                                 <p class="text-muted small mb-0">
-                                                    {{ $item->keterangan ?? '-' }}
+                                                    <?php echo e($item->keterangan ?? '-'); ?>
+
                                                 </p>
 
                                             </div>
@@ -1312,18 +1321,18 @@
 
                                     </div>
 
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                             </div>
 
                         </div>
 
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                 </div>
 
 
-                @if ($galeri->count() > 3)
+                <?php if($galeri->count() > 3): ?>
 
                     <button class="carousel-control-prev"
                         type="button"
@@ -1344,7 +1353,7 @@
 
                     </button>
 
-                @endif
+                <?php endif; ?>
 
             </div>
 
@@ -1353,9 +1362,7 @@
     </section>
 
 
-    {{-- =========================
-         FOOTER
-    ========================= --}}
+    
     <footer class="footer">
 
         <div class="container">
@@ -1365,11 +1372,13 @@
                 <div class="col-md-6">
 
                     <h5>
-                        {{ $profile->nama_sekolah ?? 'SMP Negeri Satu Atap 1 Mangunreja' }}
+                        <?php echo e($profile->nama_sekolah ?? 'SMP Negeri Satu Atap 1 Mangunreja'); ?>
+
                     </h5>
 
                     <p class="mt-3 lh-lg">
-                        {{ $profile->deskripsi ?? 'Website resmi profil sekolah.' }}
+                        <?php echo e($profile->deskripsi ?? 'Website resmi profil sekolah.'); ?>
+
                     </p>
 
                 </div>
@@ -1428,7 +1437,8 @@
 
                         <i class="bi bi-geo-alt me-2"></i>
 
-                        {{ $profile->alamat ?? '-' }}
+                        <?php echo e($profile->alamat ?? '-'); ?>
+
 
                     </p>
 
@@ -1436,7 +1446,8 @@
 
                         <i class="bi bi-telephone me-2"></i>
 
-                        {{ $profile->kontak ?? '-' }}
+                        <?php echo e($profile->kontak ?? '-'); ?>
+
 
                     </p>
 
@@ -1449,9 +1460,11 @@
 
                 <small>
 
-                    © {{ date('Y') }}
+                    © <?php echo e(date('Y')); ?>
 
-                    {{ $profile->nama_sekolah ?? 'SMP Negeri Satu Atap 1 Mangunreja' }}
+
+                    <?php echo e($profile->nama_sekolah ?? 'SMP Negeri Satu Atap 1 Mangunreja'); ?>
+
 
                 </small>
 
@@ -1462,8 +1475,8 @@
     </footer>
 
 
-    <script src="{{ asset('assets/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="<?php echo e(asset('assets/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js')); ?>"></script>
 
 </body>
 
-</html>
+</html><?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/public/dashboard.blade.php ENDPATH**/ ?>

@@ -1,0 +1,25 @@
+html,
+body {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
+.hero-section .container {
+  margin-top: 9rem;
+}
+
+.img-news {
+  height: 17rem;
+  object-fit: cover;
+}
+
+.icon-facebook:hover {
+  color: white !important;
+}
+
+.icon-instagram:hover {
+  color: white !important;
+}
