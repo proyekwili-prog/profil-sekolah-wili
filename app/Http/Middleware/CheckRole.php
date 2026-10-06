@@ -23,6 +23,8 @@ class CheckRole
             return $next($request);
         }
 
-        abort(403, 'Anda tidak memiliki akses ke halaman ini.');
+        return redirect()
+            ->route('admin.dashboard')
+            ->with('error', 'Anda tidak memiliki izin untuk mengakses halaman tersebut.');
     }
 }

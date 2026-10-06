@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\KelolaGuru;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Crypt;
 
 class KelolaGuruController extends Controller
 {
@@ -47,13 +48,13 @@ class KelolaGuruController extends Controller
     {
         return view('guru.edit', [
             'title' => 'Edit Data Guru',
-            'guru' => KelolaGuru::findOrFail($id),
+            'guru' => KelolaGuru::findOrFail(Crypt::decrypt($id)),
         ]);
     }
 
     public function update(Request $request, $id)
     {
-        $guru = KelolaGuru::findOrFail($id);
+        $guru = KelolaGuru::findOrFail(Crypt::decrypt($id));
 
         $data = $request->validate([
             'nama_guru' => 'required|string|max:40',

@@ -33,7 +33,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @forelse($gurus as $i => $guru)
+                    @foreach($gurus as $i => $guru)
                         <tr>
                             <td>{{ $i + 1 }}</td>
                             <td>
@@ -53,7 +53,7 @@
                             <td>{{ $guru->nip ?? '-' }}</td>
                             <td>{{ $guru->mapel }}</td>
                             <td>
-                                <a href="{{ route('admin.guru.edit', $guru->id_guru) }}"
+                                <a href="{{ route('admin.guru.edit', Crypt::encrypt ($guru->id_guru)) }}"
                                    class="btn btn-sm btn-outline-secondary">
                                     <i class="bi bi-pencil"></i>
                                 </a>
@@ -68,13 +68,8 @@
                                 </form>
                             </td>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6" class="text-center text-muted py-5">
-                                Belum ada data guru.
-                            </td>
-                        </tr>
-                    @endforelse
+                 
+                    @endforeach
                     </tbody>
                 </table>
             </div>

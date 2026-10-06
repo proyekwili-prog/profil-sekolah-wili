@@ -1,15 +1,14 @@
-@extends('public.admin')
+<?php $__env->startSection('title', $title); ?>
 
-@section('title', $title)
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container-fluid px-0">
 
-    @if(session('success'))
+    <?php if(session('success')): ?>
         <div class="alert alert-success">
-            {{ session('success') }}
+            <?php echo e(session('success')); ?>
+
         </div>
-    @endif
+    <?php endif; ?>
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
@@ -19,7 +18,7 @@
             </p>
         </div>
 
-        <a href="{{ route('admin.berita.tambah') }}" class="btn btn-secondary">
+        <a href="<?php echo e(route('admin.berita.tambah')); ?>" class="btn btn-secondary">
             <i class="bi bi-plus-circle me-1"></i>
             Tambah Berita
         </a>
@@ -42,7 +41,7 @@
                     </thead>
 
                     <tbody>
-                        @if($beritas->isEmpty())
+                        <?php if($beritas->isEmpty()): ?>
 
                             <tr>
                                 <td class="text-center text-muted">-</td>
@@ -55,60 +54,64 @@
                                 <td class="text-center text-muted">-</td>
                             </tr>
 
-                        @else
+                        <?php else: ?>
 
-                            @foreach($beritas as $i => $berita)
+                            <?php $__currentLoopData = $beritas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $i => $berita): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
-                                    <td>{{ $i + 1 }}</td>
+                                    <td><?php echo e($i + 1); ?></td>
 
                                     <td>
-                                        @if($berita->gambar)
+                                        <?php if($berita->gambar): ?>
                                             <img
-                                                src="{{ \Illuminate\Support\Facades\Storage::url($berita->gambar) }}"
+                                                src="<?php echo e(\Illuminate\Support\Facades\Storage::url($berita->gambar)); ?>"
                                                 width="80"
                                                 height="55"
                                                 class="rounded border"
                                                 style="object-fit: cover;"
-                                                alt="{{ $berita->judul }}">
-                                        @else
+                                                alt="<?php echo e($berita->judul); ?>">
+                                        <?php else: ?>
                                             <span class="text-muted">-</span>
-                                        @endif
+                                        <?php endif; ?>
                                     </td>
 
                                     <td>
                                         <div class="fw-semibold">
-                                            {{ $berita->judul }}
+                                            <?php echo e($berita->judul); ?>
+
                                         </div>
 
                                         <small class="text-muted">
-                                            {{ \Illuminate\Support\Str::limit(strip_tags($berita->isi), 70) }}
+                                            <?php echo e(\Illuminate\Support\Str::limit(strip_tags($berita->isi), 70)); ?>
+
                                         </small>
                                     </td>
 
                                     <td>
-                                        {{ $berita->tanggal }}
+                                        <?php echo e($berita->tanggal); ?>
+
                                     </td>
 
                                     <td>
-                                        {{ $berita->user?->username ?? '-' }}
+                                        <?php echo e($berita->user?->username ?? '-'); ?>
+
                                     </td>
 
                                     <td>
                                         <a
-                                            href="{{ route('admin.berita.edit', Crypt::encrypt($berita->id_berita)) }}"
+                                            href="<?php echo e(route('admin.berita.edit', Crypt::encrypt($berita->id_berita))); ?>"
                                             class="btn btn-sm btn-outline-secondary"
                                             title="Edit">
                                             <i class="bi bi-pencil"></i>
                                         </a>
 
                                         <form
-                                            action="{{ route('admin.berita.destroy', $berita->id_berita) }}"
+                                            action="<?php echo e(route('admin.berita.destroy', $berita->id_berita)); ?>"
                                             method="POST"
                                             class="d-inline"
                                             onsubmit="return confirm('Yakin ingin menghapus berita ini?');">
 
-                                            @csrf
-                                            @method('DELETE')
+                                            <?php echo csrf_field(); ?>
+                                            <?php echo method_field('DELETE'); ?>
 
                                             <button
                                                 type="submit"
@@ -119,9 +122,9 @@
                                         </form>
                                     </td>
                                 </tr>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                        @endif
+                        <?php endif; ?>
                     </tbody>
                 </table>
 
@@ -130,4 +133,5 @@
     </div>
 
 </div>
-@endsection 
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('public.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/berita/index.blade.php ENDPATH**/ ?>

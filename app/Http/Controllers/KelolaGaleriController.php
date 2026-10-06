@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\KelolaGaleri;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Crypt;
 
 class KelolaGaleriController extends Controller
 {
@@ -47,13 +48,13 @@ class KelolaGaleriController extends Controller
     {
         return view('galeri.edit', [
             'title' => 'Edit Galeri',
-            'galeri' => KelolaGaleri::findOrFail($id),
+            'galeri' => KelolaGaleri::findOrFail(Crypt::decrypt($id)),
         ]);
     }
 
     public function update(Request $request, $id)
     {
-        $galeri = KelolaGaleri::findOrFail($id);
+        $galeri = KelolaGaleri::findOrFail(Crypt::decrypt($id));
 
         $data = $request->validate([
             'judul' => 'required|string|max:50',

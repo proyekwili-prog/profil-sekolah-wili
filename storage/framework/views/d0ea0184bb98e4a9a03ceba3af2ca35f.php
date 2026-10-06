@@ -31,7 +31,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <?php $__empty_1 = true; $__currentLoopData = $gurus; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $i => $guru): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                    <?php $__currentLoopData = $gurus; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $i => $guru): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr>
                             <td><?php echo e($i + 1); ?></td>
                             <td>
@@ -51,7 +51,7 @@
                             <td><?php echo e($guru->nip ?? '-'); ?></td>
                             <td><?php echo e($guru->mapel); ?></td>
                             <td>
-                                <a href="<?php echo e(route('admin.guru.edit', $guru->id_guru)); ?>"
+                                <a href="<?php echo e(route('admin.guru.edit', Crypt::encrypt ($guru->id_guru))); ?>"
                                    class="btn btn-sm btn-outline-secondary">
                                     <i class="bi bi-pencil"></i>
                                 </a>
@@ -66,13 +66,8 @@
                                 </form>
                             </td>
                         </tr>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                        <tr>
-                            <td colspan="6" class="text-center text-muted py-5">
-                                Belum ada data guru.
-                            </td>
-                        </tr>
-                    <?php endif; ?>
+                 
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </tbody>
                 </table>
             </div>
@@ -81,4 +76,4 @@
 </div>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('public.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\RPL-SMK\Downloads\celkom_wili_fixed\resources\views/guru/index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('public.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/guru/index.blade.php ENDPATH**/ ?>

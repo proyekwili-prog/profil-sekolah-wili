@@ -1,13 +1,11 @@
-@extends('public.admin')
+<?php $__env->startSection('title', $title); ?>
 
-@section('title', $title)
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container-fluid px-0">
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
+    <?php if(session('success')): ?>
+        <div class="alert alert-success"><?php echo e(session('success')); ?></div>
+    <?php endif; ?>
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
@@ -15,7 +13,7 @@
             <p class="text-muted mb-0">Dokumentasi kegiatan sekolah.</p>
         </div>
 
-        <a href="{{ route('admin.galeri.create') }}" class="btn btn-secondary">
+        <a href="<?php echo e(route('admin.galeri.create')); ?>" class="btn btn-secondary">
             <i class="bi bi-plus-circle me-1"></i> Tambah Galeri
         </a>
     </div>
@@ -37,48 +35,50 @@
                     </thead>
 
                     <tbody>
-                        @foreach($galeri as $i => $item)
+                        <?php $__currentLoopData = $galeri; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $i => $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr>
-                                <td>{{ $i + 1 }}</td>
+                                <td><?php echo e($i + 1); ?></td>
 
                                 <td>
-                                    @if($item->file)
-                                        <img src="{{ asset('storage/' . $item->file) }}"
+                                    <?php if($item->file): ?>
+                                        <img src="<?php echo e(asset('storage/' . $item->file)); ?>"
                                              width="90"
                                              height="60"
                                              class="rounded border"
                                              style="object-fit: cover;">
-                                    @else
+                                    <?php else: ?>
                                         -
-                                    @endif
+                                    <?php endif; ?>
                                 </td>
 
-                                <td class="fw-semibold">{{ $item->judul }}</td>
+                                <td class="fw-semibold"><?php echo e($item->judul); ?></td>
 
                                 <td>
-                                    {{ \Illuminate\Support\Str::limit($item->keterangan ?? '-', 60) }}
+                                    <?php echo e(\Illuminate\Support\Str::limit($item->keterangan ?? '-', 60)); ?>
+
                                 </td>
 
                                 <td>
                                     <span class="badge bg-light text-dark border">
-                                        {{ $item->kategori }}
+                                        <?php echo e($item->kategori); ?>
+
                                     </span>
                                 </td>
 
-                                <td>{{ $item->tanggal }}</td>
+                                <td><?php echo e($item->tanggal); ?></td>
 
                                 <td>
-                                    <a href="{{ route('admin.galeri.edit', Crypt::encrypt($item->id_galeri)) }}"
+                                    <a href="<?php echo e(route('admin.galeri.edit', Crypt::encrypt($item->id_galeri))); ?>"
                                        class="btn btn-sm btn-outline-secondary">
                                         <i class="bi bi-pencil"></i>
                                     </a>
 
-                                    <form action="{{ route('admin.galeri.destroy', $item->id_galeri) }}"
+                                    <form action="<?php echo e(route('admin.galeri.destroy', $item->id_galeri)); ?>"
                                           method="POST"
                                           class="d-inline"
                                           onsubmit="return confirm('Yakin ingin menghapus galeri ini?')">
-                                        @csrf
-                                        @method('DELETE')
+                                        <?php echo csrf_field(); ?>
+                                        <?php echo method_field('DELETE'); ?>
 
                                         <button type="submit"
                                                 class="btn btn-sm btn-outline-danger">
@@ -87,7 +87,7 @@
                                     </form>
                                 </td>
                             </tr>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </tbody>
                 </table>
             </div>
@@ -95,4 +95,5 @@
     </div>
 
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('public.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/galeri/index.blade.php ENDPATH**/ ?>

@@ -6,6 +6,7 @@ use App\Models\KelolaBerita;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Crypt;
 
 class KelolaBeritaController extends Controller
 {
@@ -53,13 +54,13 @@ class KelolaBeritaController extends Controller
     {
         return view('berita.edit', [
             'title' => 'Edit Berita',
-            'berita' => KelolaBerita::findOrFail($id),
+            'berita' => KelolaBerita::findOrFail(Crypt::decrypt($id)),
         ]);
     }
 
     public function update(Request $request, $id)
     {
-        $berita = KelolaBerita::findOrFail($id);
+        $berita = KelolaBerita::findOrFail(Crypt::decrypt($id));
 
         $data = $request->validate([
             'judul' => 'required|string|max:50',

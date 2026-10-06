@@ -29,7 +29,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @forelse($ekstrakurikulers as $i => $eskul)
+                    @foreach($ekstrakurikulers as $i => $eskul)
                         <tr>
                             <td>{{ $i+1 }}</td>
                             <td>
@@ -56,9 +56,7 @@
                                 </form>
                             </td>
                         </tr>
-                    @empty
-                        <tr><td colspan="7" class="text-center text-muted py-5">Belum ada data ekstrakurikuler.</td></tr>
-                    @endforelse
+                    @endforeach
                     </tbody>
                 </table>
             </div>

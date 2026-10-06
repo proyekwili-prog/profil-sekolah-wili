@@ -29,15 +29,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @forelse($siswas as $i => $siswa)
+                    @foreach($siswas as $i => $siswa)
                         <tr>
                             <td>{{ $i+1 }}</td>
                             <td>{{ $siswa->nisn }}</td>
                             <td class="fw-semibold">{{ $siswa->nama_siswa }}</td>
                             <td>{{ $siswa->jenis_kelamin }}</td>
                             <td>{{ $siswa->tahun_masuk }}</td>
-                            <td>
-                                <a href="{{ route('admin.siswa.edit', $siswa->id_siswa) }}"
+                            <td> 
+                                <a href="{{ route('admin.siswa.edit', Crypt::encrypt( $siswa->id_siswa)) }}"
                                    class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></a>
                                 <form action="{{ route('admin.siswa.destroy', $siswa->id_siswa) }}"
                                       method="POST" class="d-inline"
@@ -47,9 +47,7 @@
                                 </form>
                             </td>
                         </tr>
-                    @empty
-                        <tr><td colspan="6" class="text-center text-muted py-5">Belum ada data siswa.</td></tr>
-                    @endforelse
+                    @endforeach
                     </tbody>
                 </table>
             </div>

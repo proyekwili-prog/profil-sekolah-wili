@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\KelolaSiswa;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Crypt;
 class KelolaSiswaController extends Controller
 {
     public function index()
@@ -42,13 +42,13 @@ class KelolaSiswaController extends Controller
     {
         return view('siswa.edit', [
             'title' => 'Edit Data Siswa',
-            'siswa' => KelolaSiswa::findOrFail($id),
+            'siswa' => KelolaSiswa::findOrFail(Crypt::decrypt($id)),
         ]);
     }
 
     public function update(Request $request, $id)
     {
-        $siswa = KelolaSiswa::findOrFail($id);
+        $siswa = KelolaSiswa::findOrFail(Crypt::decrypt($id));
 
         $data = $request->validate([
             'nisn' => 'required|string|max:10',

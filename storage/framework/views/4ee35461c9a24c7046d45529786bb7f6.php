@@ -1,183 +1,507 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guru & Staf - <?php echo e($profile->nama_sekolah ?? 'SMP Negeri Satu Atap 1 Mangunreja'); ?></title>
 
-    <link rel="stylesheet" href="<?php echo e(asset('assets/bootstrap-5.3.8-dist/css/bootstrap.min.css')); ?>">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="<?php echo e(asset('assets/school-template/css/navbar.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(asset('assets/school-template/css/footer.css')); ?>">
+    <link rel="icon" type="image/png" href="<?php echo e(asset('assets/images/satap.png')); ?>">
+
+    <title>
+        Guru & Staf -
+        <?php echo e($profile->nama_sekolah ?? 'SMP Negeri Satu Atap 1 Mangunreja'); ?>
+
+    </title>
+
+    <link rel="stylesheet"
+        href="<?php echo e(asset('assets/bootstrap-5.3.8-dist/css/bootstrap.min.css')); ?>">
+
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet"
+        href="<?php echo e(asset('assets/school-template/css/navbar.css')); ?>">
+
+    <link rel="stylesheet"
+        href="<?php echo e(asset('assets/school-template/css/footer.css')); ?>">
 
     <style>
-        body { font-family: 'Montserrat', sans-serif; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #f8fafc;
+        }
+
         .page-header {
             padding: 150px 0 80px;
-            background: linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)),
+            background:
+                linear-gradient(rgba(0, 0, 0, .55), rgba(0, 0, 0, .55)),
                 url("<?php echo e(asset('assets/school-template/img/background.jpg')); ?>") center/cover;
         }
-        .section-title { font-weight: 700; }
-        .guru-card { transition: .3s; }
-        .guru-card:hover { transform: translateY(-5px); }
-        .guru-photo { width: 100%; height: 280px; object-fit: cover; }
+
+        .section-title {
+            font-weight: 700;
+            color: #1e3a8a;
+        }
+
+        .guru-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            height: 100%;
+        }
+
+        .guru-card {
+            border: 0;
+            border-radius: 18px;
+            overflow: hidden;
+            background: #fff;
+            transition: .3s;
+            height: 100%;
+        }
+
+        .guru-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 15px 35px rgba(15, 23, 42, .15) !important;
+        }
+
+        .guru-photo {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .guru-empty {
+            width: 100%;
+            height: 280px;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .guru-empty i {
+            font-size: 70px;
+            color: #94a3b8;
+        }
+
+        .guru-card .card-body {
+            padding: 25px;
+        }
+
+        .guru-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 12px;
+            border-radius: 50%;
+            background: #dbeafe;
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 23px;
+        }
+
+        .guru-name {
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .guru-mapel {
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        .detail-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 18px;
+            border-radius: 9px;
+            background: #2563eb;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .guru-card:hover .detail-button {
+            background: #1d4ed8;
+        }
+
+        footer {
+            margin-top: 50px;
+        }
     </style>
 </head>
 
 <body>
 
-<nav class="navbar navbar-expand-lg bg-white shadow-sm fixed-top">
-    <div class="container">
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg bg-white shadow-sm fixed-top">
 
-        <a class="navbar-brand d-flex align-items-center" href="<?php echo e(route('public.dashboard')); ?>">
-            <?php if($profile?->logo): ?>
-                <img src="<?php echo e(asset('storage/' . $profile->logo)); ?>" alt="Logo Sekolah" style="height:50px;">
-            <?php else: ?>
-                <img src="<?php echo e(asset('assets/school-template/img/logo-sekolah-tut-wuri-handayani.avif')); ?>" alt="Logo Sekolah" style="height:50px;">
-            <?php endif; ?>
-            <span class="ms-2 fw-bold">
-                <?php echo e($profile->nama_sekolah ?? 'SMP NEGERI SATU ATAP 1 MANGUNREJA'); ?>
+        <div class="container">
 
-            </span>
-        </a>
+            <a class="navbar-brand d-flex align-items-center"
+                href="<?php echo e(route('public.dashboard')); ?>">
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+                <?php if($profile?->logo): ?>
 
-        <div class="collapse navbar-collapse" id="navbarMenu">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="<?php echo e(route('public.dashboard')); ?>">Beranda</a></li>
-                <li class="nav-item"><a class="nav-link" href="<?php echo e(route('public.profil')); ?>">Profil Sekolah</a></li>
-                <li class="nav-item"><a class="nav-link active" href="<?php echo e(route('public.guru')); ?>">Guru & Staf</a></li>
-                <li class="nav-item"><a class="nav-link" href="<?php echo e(route('public.ekstrakurikuler')); ?>">Ekstrakurikuler</a></li>
-                <li class="nav-item"><a class="nav-link" href="<?php echo e(route('public.berita')); ?>">Berita</a></li>
-                <li class="nav-item"><a class="nav-link" href="<?php echo e(route('public.galeri')); ?>">Galeri</a></li>
-            </ul>
+                    <img src="<?php echo e(asset('storage/' . $profile->logo)); ?>"
+                        alt="Logo Sekolah"
+                        style="height:50px;">
+
+                <?php else: ?>
+
+                    <img src="<?php echo e(asset('assets/school-template/img/logo-sekolah-tut-wuri-handayani.avif')); ?>"
+                        alt="Logo Sekolah"
+                        style="height:50px;">
+
+                <?php endif; ?>
+
+                <span class="ms-2 fw-bold">
+                    <?php echo e($profile->nama_sekolah ?? 'SMP NEGERI SATU ATAP 1 MANGUNREJA'); ?>
+
+                </span>
+
+            </a>
+
+
+            <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarMenu">
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+
+            <div class="collapse navbar-collapse" id="navbarMenu">
+
+                <ul class="navbar-nav ms-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                            href="<?php echo e(route('public.dashboard')); ?>">
+                            Beranda
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                            href="<?php echo e(route('public.profil')); ?>">
+                            Profil Sekolah
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active"
+                            href="<?php echo e(route('public.guru')); ?>">
+                            Guru & Staf
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                            href="<?php echo e(route('public.ekstrakurikuler')); ?>">
+                            Ekstrakurikuler
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                            href="<?php echo e(route('public.berita')); ?>">
+                            Berita
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                            href="<?php echo e(route('public.galeri')); ?>">
+                            Galeri
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
         </div>
 
-    </div>
-</nav>
+    </nav>
 
-<section class="page-header text-white text-center">
-    <div class="container">
-        <h1 class="fw-bold">Guru & Staf</h1>
-        <p class="mb-0">Mengenal guru dan tenaga pendidik di sekolah kami</p>
-    </div>
-</section>
 
-<section class="py-5">
-    <div class="container">
+    <!-- HEADER -->
+    <section class="page-header text-white text-center">
 
-        <div class="text-center mb-5">
-            <h2 class="section-title">Guru & Staf Sekolah</h2>
-            <p class="text-muted">Tenaga pendidik dan staf yang mendukung kegiatan sekolah</p>
+        <div class="container">
+
+            <h1 class="fw-bold">
+                Guru & Staf
+            </h1>
+
+            <p class="mb-0">
+                Mengenal guru dan tenaga pendidik di sekolah kami
+            </p>
+
         </div>
 
-        <div class="row g-4">
+    </section>
 
-            <?php $__currentLoopData = $guru; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <div class="col-md-6 col-lg-4">
-                    <div class="card border-0 shadow-sm h-100 guru-card overflow-hidden">
 
-                        <?php if($item->foto): ?>
-                            <img src="<?php echo e(asset('storage/' . $item->foto)); ?>"
-                                 class="guru-photo"
-                                 alt="<?php echo e($item->nama_guru); ?>">
-                        <?php else: ?>
-                            <div class="bg-light d-flex align-items-center justify-content-center" style="height:280px;">
-                                <i class="bi bi-person-circle fs-1 text-secondary"></i>
-                            </div>
-                        <?php endif; ?>
+    <!-- DATA GURU -->
+    <section class="py-5">
 
-                        <div class="card-body text-center p-4">
-                            <i class="bi bi-person-badge fs-2 text-primary"></i>
+        <div class="container">
 
-                            <h5 class="fw-bold mt-3 mb-2">
-                                <?php echo e($item->nama_guru); ?>
+            <div class="text-center mb-5">
 
-                            </h5>
+                <h2 class="section-title">
+                    Guru & Staf Sekolah
+                </h2>
 
-                            <p class="text-primary fw-semibold mb-2">
-                                <?php echo e($item->mapel ?? 'Guru'); ?>
+                <p class="text-muted">
+                    Tenaga pendidik dan staf yang mendukung kegiatan sekolah
+                </p>
 
+            </div>
+
+
+            <div class="row g-4">
+
+                <?php if($guru->isEmpty()): ?>
+
+                    <div class="col-12">
+
+                        <div class="text-center py-5">
+
+                            <i class="bi bi-person-x fs-1 text-secondary"></i>
+
+                            <p class="text-muted mt-3 mb-0">
+                                Belum ada data guru.
                             </p>
 
-                            <p class="text-muted mb-0">
-                                <?php if($item->nip): ?>
-                                    NIP: <?php echo e($item->nip); ?>
-
-                                <?php else: ?>
-                                    Tenaga Pendidik
-                                <?php endif; ?>
-                            </p>
                         </div>
 
                     </div>
-                </div>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                <?php else: ?>
+
+                    <?php $__currentLoopData = $guru; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
+                        <div class="col-md-6 col-lg-4">
+
+                            <!-- CARD GURU KLIKABLE -->
+                            <a href="<?php echo e(route('public.guru.detail', $item->id_guru)); ?>"
+                                class="guru-link">
+
+                                <div class="card guru-card shadow-sm">
+
+                                    <!-- FOTO -->
+                                    <?php if($item->foto): ?>
+
+                                        <img src="<?php echo e(asset('storage/' . $item->foto)); ?>"
+                                            class="guru-photo"
+                                            alt="<?php echo e($item->nama_guru); ?>">
+
+                                    <?php else: ?>
+
+                                        <div class="guru-empty">
+
+                                            <i class="bi bi-person-circle"></i>
+
+                                        </div>
+
+                                    <?php endif; ?>
+
+
+                                    <!-- INFORMASI -->
+                                    <div class="card-body text-center">
+
+                                        <div class="guru-icon">
+
+                                            <i class="bi bi-person-badge"></i>
+
+                                        </div>
+
+
+                                        <h5 class="guru-name mb-2">
+
+                                            <?php echo e($item->nama_guru); ?>
+
+
+                                        </h5>
+
+
+                                        <p class="guru-mapel mb-2">
+
+                                            <?php echo e($item->mapel ?? 'Guru'); ?>
+
+
+                                        </p>
+
+
+                                        <p class="text-muted mb-0">
+
+                                            <?php if($item->nip): ?>
+
+                                                NIP: <?php echo e($item->nip); ?>
+
+
+                                            <?php else: ?>
+
+                                                Tenaga Pendidik
+
+                                            <?php endif; ?>
+
+                                        </p>
+
+
+                                        <span class="detail-button">
+
+                                            Lihat Detail
+                                            <i class="bi bi-arrow-right ms-1"></i>
+
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </a>
+
+                        </div>
+
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                <?php endif; ?>
+
+            </div>
 
         </div>
 
-    </div>
-</section>
+    </section>
 
-<footer class="bg-dark text-white py-5">
-    <div class="container">
 
-        <div class="row">
+    <!-- FOOTER -->
+    <footer class="bg-dark text-white py-5">
 
-            <div class="col-md-6 mb-4">
-                <h5 class="fw-bold">
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-6 mb-4">
+
+                    <h5 class="fw-bold">
+
+                        <?php echo e($profile->nama_sekolah ?? 'SMP Negeri Satu Atap 1 Mangunreja'); ?>
+
+
+                    </h5>
+
+                    <p class="text-white-50">
+
+                        <?php echo e($profile->deskripsi ?? 'Website resmi profil sekolah.'); ?>
+
+
+                    </p>
+
+                </div>
+
+
+                <div class="col-md-3 mb-4">
+
+                    <h6 class="fw-bold">
+                        Menu
+                    </h6>
+
+                    <a href="<?php echo e(route('public.dashboard')); ?>"
+                        class="d-block text-white-50 text-decoration-none mb-2">
+                        Beranda
+                    </a>
+
+                    <a href="<?php echo e(route('public.profil')); ?>"
+                        class="d-block text-white-50 text-decoration-none mb-2">
+                        Profil Sekolah
+                    </a>
+
+                    <a href="<?php echo e(route('public.guru')); ?>"
+                        class="d-block text-white-50 text-decoration-none mb-2">
+                        Guru & Staf
+                    </a>
+
+                    <a href="<?php echo e(route('public.ekstrakurikuler')); ?>"
+                        class="d-block text-white-50 text-decoration-none mb-2">
+                        Ekstrakurikuler
+                    </a>
+
+                    <a href="<?php echo e(route('public.berita')); ?>"
+                        class="d-block text-white-50 text-decoration-none mb-2">
+                        Berita
+                    </a>
+
+                    <a href="<?php echo e(route('public.galeri')); ?>"
+                        class="d-block text-white-50 text-decoration-none">
+                        Galeri
+                    </a>
+
+                </div>
+
+
+                <div class="col-md-3">
+
+                    <h6 class="fw-bold">
+                        Kontak
+                    </h6>
+
+                    <p class="text-white-50 mb-2">
+
+                        <i class="bi bi-geo-alt me-2"></i>
+
+                        <?php echo e($profile->alamat ?? '-'); ?>
+
+
+                    </p>
+
+
+                    <p class="text-white-50">
+
+                        <i class="bi bi-telephone me-2"></i>
+
+                        <?php echo e($profile->kontak ?? '-'); ?>
+
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <hr class="border-secondary">
+
+
+            <div class="text-center text-white-50">
+
+                <small>
+
+                    © <?php echo e(date('Y')); ?>
+
+
                     <?php echo e($profile->nama_sekolah ?? 'SMP Negeri Satu Atap 1 Mangunreja'); ?>
 
-                </h5>
-                <p class="text-white-50">
-                    <?php echo e($profile->deskripsi ?? 'Website resmi profil sekolah.'); ?>
 
-                </p>
-            </div>
+                </small>
 
-            <div class="col-md-3 mb-4">
-                <h6 class="fw-bold">Menu</h6>
-
-                <a href="<?php echo e(route('public.dashboard')); ?>" class="d-block text-white-50 text-decoration-none mb-2">Beranda</a>
-                <a href="<?php echo e(route('public.profil')); ?>" class="d-block text-white-50 text-decoration-none mb-2">Profil Sekolah</a>
-                <a href="<?php echo e(route('public.guru')); ?>" class="d-block text-white-50 text-decoration-none mb-2">Guru & Staf</a>
-                <a href="<?php echo e(route('public.ekstrakurikuler')); ?>" class="d-block text-white-50 text-decoration-none mb-2">Ekstrakurikuler</a>
-                <a href="<?php echo e(route('public.berita')); ?>" class="d-block text-white-50 text-decoration-none mb-2">Berita</a>
-                <a href="<?php echo e(route('public.galeri')); ?>" class="d-block text-white-50 text-decoration-none">Galeri</a>
-            </div>
-
-            <div class="col-md-3">
-                <h6 class="fw-bold">Kontak</h6>
-
-                <p class="text-white-50 mb-2">
-                    <i class="bi bi-geo-alt me-2"></i><?php echo e($profile->alamat ?? '-'); ?>
-
-                </p>
-
-                <p class="text-white-50">
-                    <i class="bi bi-telephone me-2"></i><?php echo e($profile->kontak ?? '-'); ?>
-
-                </p>
             </div>
 
         </div>
 
-        <hr class="border-secondary">
+    </footer>
 
-        <div class="text-center text-white-50">
-            <small>
-                © <?php echo e(date('Y')); ?> <?php echo e($profile->nama_sekolah ?? 'SMP Negeri Satu Atap 1 Mangunreja'); ?>
 
-            </small>
-        </div>
-
-    </div>
-</footer>
-
-<script src="<?php echo e(asset('assets/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js')); ?>"></script>
 
 </body>
+
 </html><?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/public/guru.blade.php ENDPATH**/ ?>
