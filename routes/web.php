@@ -138,8 +138,6 @@ Route::delete('/guru/{id}', [KelolaGuruController::class, 'destroy'])
 
 
 
-            // SISWA
-          // SISWA
 Route::get('/siswa', [KelolaSiswaController::class, 'index'])
     ->name('siswa.index');
 

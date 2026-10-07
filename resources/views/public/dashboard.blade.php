@@ -7,13 +7,20 @@
 
     <title>{{ $profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja' }}</title>
 
-    <link rel="icon" href="{{ asset('assets/images/satap.png') }}">
+    {{-- Logo favicon dari database --}}
+    @if($profile?->logo)
+        <link rel="icon" href="{{ asset('storage/' . $profile->logo) }}">
+    @endif
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
 
@@ -371,6 +378,7 @@
             color: #64748b;
             font-size: 14px;
             line-height: 1.9;
+            white-space: pre-line;
         }
 
         .profile-info {
@@ -423,6 +431,7 @@
         .vision-box {
             background: #0f3d91;
             color: #fff;
+            text-align: center;
         }
 
         .mission-box {
@@ -435,6 +444,12 @@
             margin-bottom: 18px;
             font-size: 22px;
             font-weight: 800;
+        }
+
+        .vision-box h3 i {
+            display: inline-block;
+            margin-right: 8px;
+            vertical-align: middle;
         }
 
         .vision-box p,
@@ -719,6 +734,7 @@
             color: #cbd5e1;
             font-size: 12px;
             line-height: 1.9;
+            white-space: pre-line;
         }
 
         .footer-links {
@@ -754,6 +770,7 @@
         ========================= */
 
         @media (max-width: 991px) {
+
             .navbar-nav {
                 padding-top: 15px;
             }
@@ -772,6 +789,7 @@
         }
 
         @media (max-width: 767px) {
+
             .hero-slide {
                 height: 560px;
             }
@@ -811,27 +829,30 @@
 
 <body>
 
-
-    
     {{-- =========================
        NAVBAR
     ========================= --}}
 
     <nav class="navbar navbar-expand-lg navbar-custom">
+
         <div class="container">
 
             <a class="navbar-brand menu-link" href="#beranda">
 
+                {{-- LOGO DARI DATABASE --}}
                 @if($profile?->logo)
-                    <img src="{{ asset('storage/' . $profile->logo) }}" alt="Logo Sekolah">
-                @else
-                    <img src="{{ asset('assets/images/satap.png') }}" alt="Logo Sekolah">
+
+                    <img src="{{ asset('storage/' . $profile->logo) }}"
+                        alt="Logo {{ $profile->nama_sekolah ?? 'Sekolah' }}">
+
                 @endif
 
                 <div class="brand-text">
+
                     <div class="school-name">
                         {{ $profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja' }}
                     </div>
+
                 </div>
 
             </a>
@@ -893,6 +914,7 @@
             </div>
 
         </div>
+
     </nav>
 
 
@@ -912,8 +934,10 @@
 
                     <div class="hero-slide">
 
-                        <img src="{{ asset('assets/school-template/img/acara.webp') }}"
-                            alt="Kegiatan Sekolah">
+                      @if($profile && $profile->foto)
+    <img src="{{ asset('storage/' . $profile->foto) }}"
+         alt="{{ $profile->nama_sekolah }}">
+@endif
 
                         <div class="hero-overlay"></div>
 
@@ -933,7 +957,7 @@
                                     </h1>
 
                                     <p class="hero-description">
-                                        {{ $profile?->deskripsi ?? 'Sekolah yang berkomitmen memberikan pendidikan berkualitas dan membentuk generasi berkarakter.' }}
+                                        {!! nl2br(e($profile?->deskripsi ?? 'Sekolah yang berkomitmen memberikan pendidikan berkualitas dan membentuk generasi berkarakter.')) !!}
                                     </p>
 
                                     <div class="hero-buttons">
@@ -1096,6 +1120,7 @@
             <div class="row g-3">
 
                 <div class="col-6 col-lg-3">
+
                     <div class="stat-card">
 
                         <div class="stat-icon">
@@ -1111,9 +1136,11 @@
                         </div>
 
                     </div>
+
                 </div>
 
                 <div class="col-6 col-lg-3">
+
                     <div class="stat-card">
 
                         <div class="stat-icon">
@@ -1129,9 +1156,11 @@
                         </div>
 
                     </div>
+
                 </div>
 
                 <div class="col-6 col-lg-3">
+
                     <div class="stat-card">
 
                         <div class="stat-icon">
@@ -1147,9 +1176,11 @@
                         </div>
 
                     </div>
+
                 </div>
 
                 <div class="col-6 col-lg-3">
+
                     <div class="stat-card">
 
                         <div class="stat-icon">
@@ -1165,6 +1196,7 @@
                         </div>
 
                     </div>
+
                 </div>
 
             </div>
@@ -1205,11 +1237,22 @@
 
                     <div class="profile-image-wrapper">
 
-                        <img src="{{ $profile?->foto
-                            ? asset('storage/' . $profile->foto)
-                            : asset('assets/school-template/img/murid.webp') }}"
-                            class="profile-image"
-                            alt="Profil Sekolah">
+                        @if($profile?->foto)
+
+                            <img src="{{ asset('storage/' . $profile->foto) }}"
+                                class="profile-image"
+                                alt="Foto {{ $profile->nama_sekolah ?? 'Sekolah' }}">
+
+                        @else
+
+                            <div class="d-flex align-items-center justify-content-center bg-light profile-image">
+
+                                <i class="bi bi-building text-secondary"
+                                    style="font-size:80px;"></i>
+
+                            </div>
+
+                        @endif
 
                     </div>
 
@@ -1224,7 +1267,15 @@
                         </h2>
 
                         <p>
-                            {{ $profile?->deskripsi ?? 'Informasi profil sekolah belum tersedia.' }}
+                            @if(!empty($profile?->deskripsi))
+
+                                {!! nl2br(e($profile->deskripsi)) !!}
+
+                            @else
+
+                                Deskripsi sekolah belum diisi.
+
+                            @endif
                         </p>
 
                         <a href="{{ route('public.profil') }}"
@@ -1355,9 +1406,9 @@
 
             </div>
 
-            <div class="row g-4">
+            <div class="row g-4 justify-content-center">
 
-                <div class="col-lg-6">
+                <div class="col-lg-8 col-md-10">
 
                     <div class="vision-box">
 
@@ -1373,26 +1424,6 @@
                     </div>
 
                 </div>
-{{-- 
-                <div class="col-lg-6">
-
-                    <div class="mission-box">
-
-                        <h3>
-                            <i class="bi bi-bullseye me-2"></i>
-                            Komitmen Sekolah
-                        </h3>
-
-                        <p>
-                            Sekolah berkomitmen memberikan pendidikan yang
-                            berkualitas, membangun karakter peserta didik,
-                            serta menciptakan lingkungan belajar yang aman,
-                            nyaman, dan mendukung perkembangan siswa.
-                        </p>
-
-                    </div>
-
-                </div> --}}
 
             </div>
 
@@ -2002,9 +2033,6 @@
 
             </div>
 
-
-            {{-- BUTTON LIHAT SEMUA GALERI --}}
-
             @if($galeri->count() > 0)
 
                 <div class="text-center mt-5">
@@ -2044,8 +2072,8 @@
                     </div>
 
                     <p class="footer-text">
-                        {{ $profile?->deskripsi
-                            ?? 'Sekolah yang berkomitmen memberikan pendidikan berkualitas bagi generasi bangsa.' }}
+                        {!! nl2br(e($profile?->deskripsi
+                            ?? 'Sekolah yang berkomitmen memberikan pendidikan berkualitas bagi generasi bangsa.')) !!}
                     </p>
 
                 </div>
@@ -2105,18 +2133,27 @@
                     </div>
 
                     <p class="footer-text mb-2">
+
                         <i class="bi bi-geo-alt me-2"></i>
+
                         {{ $profile?->alamat ?? '-' }}
+
                     </p>
 
                     <p class="footer-text mb-2">
+
                         <i class="bi bi-telephone me-2"></i>
+
                         {{ $profile?->kontak ?? '-' }}
+
                     </p>
 
                     <p class="footer-text">
+
                         <i class="bi bi-building me-2"></i>
+
                         NPSN: {{ $profile?->npsn ?? '-' }}
+
                     </p>
 
                 </div>
@@ -2168,7 +2205,10 @@
                     event.preventDefault();
 
                     const navbar = document.querySelector('.navbar-custom');
-                    const navbarHeight = navbar ? navbar.offsetHeight : 0;
+
+                    const navbarHeight = navbar
+                        ? navbar.offsetHeight
+                        : 0;
 
                     const targetPosition =
                         target.getBoundingClientRect().top +
@@ -2180,9 +2220,13 @@
                         behavior: 'smooth'
                     });
 
-                    const navbarMenu = document.getElementById('navbarMenu');
+                    const navbarMenu =
+                        document.getElementById('navbarMenu');
 
-                    if (navbarMenu && navbarMenu.classList.contains('show')) {
+                    if (
+                        navbarMenu &&
+                        navbarMenu.classList.contains('show')
+                    ) {
 
                         const collapse =
                             bootstrap.Collapse.getInstance(navbarMenu);
@@ -2198,8 +2242,11 @@
             });
 
 
-            const sections = document.querySelectorAll('section[id]');
-            const navLinks = document.querySelectorAll('.navbar-nav .menu-link');
+            const sections =
+                document.querySelectorAll('section[id]');
+
+            const navLinks =
+                document.querySelectorAll('.navbar-nav .menu-link');
 
             window.addEventListener('scroll', function () {
 
@@ -2207,10 +2254,14 @@
 
                 sections.forEach(function (section) {
 
-                    const sectionTop = section.offsetTop - 120;
+                    const sectionTop =
+                        section.offsetTop - 120;
 
                     if (window.scrollY >= sectionTop) {
-                        currentSection = section.getAttribute('id');
+
+                        currentSection =
+                            section.getAttribute('id');
+
                     }
 
                 });
@@ -2219,7 +2270,8 @@
 
                     link.classList.toggle(
                         'active',
-                        link.getAttribute('href') === '#' + currentSection
+                        link.getAttribute('href') ===
+                        '#' + currentSection
                     );
 
                 });

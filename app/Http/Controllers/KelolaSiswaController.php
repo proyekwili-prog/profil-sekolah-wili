@@ -25,7 +25,7 @@ class KelolaSiswaController extends Controller
 
     public function detail($id)
 {
-    $siswa = KelolaSiswa::findOrFail($id);
+    $siswa = KelolaSiswa::findOrFail(Crypt::decrypt($id));
 
     return view('siswa.detail', [
         'title' => 'Detail Data Siswa',
@@ -56,7 +56,7 @@ class KelolaSiswaController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request , $id)
     {
         $siswa = KelolaSiswa::findOrFail(Crypt::decrypt($id));
 
@@ -72,12 +72,13 @@ class KelolaSiswaController extends Controller
         return redirect()->route('admin.siswa.index')
             ->with('success', 'Data siswa berhasil diperbarui.');
     }
+public function destroy($id)
+{
+    $siswa = KelolaSiswa::findOrFail(Crypt::decrypt($id));
 
-    public function destroy($id)
-    {
-        KelolaSiswa::findOrFail($id)->delete();
+    $siswa->delete();
 
-        return redirect()->route('admin.siswa.index')
-            ->with('success', 'Data siswa berhasil dihapus.');
-    }
+    return redirect()->route('admin.siswa.index')
+        ->with('success', 'Data siswa berhasil dihapus.');
+}
 }

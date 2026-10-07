@@ -947,7 +947,7 @@
                                     {{-- DETAIL --}}
 
                                     <a
-                                        href="{{ route('admin.siswa.detail', $siswa->id_siswa) }}"
+                                        href="{{ route('admin.siswa.detail', Crypt::encrypt($siswa->id_siswa)) }}"
                                         class="btn siswa-action-btn siswa-detail-btn"
                                         title="Lihat Detail">
 
@@ -971,7 +971,7 @@
                                     {{-- HAPUS --}}
 
                                     <form
-                                        action="{{ route('admin.siswa.destroy', $siswa->id_siswa) }}"
+                                        action="{{ route('admin.siswa.destroy', Crypt::encrypt($siswa->id_siswa)) }}"
                                         method="POST"
                                         class="d-inline"
                                         onsubmit="return confirm('Yakin ingin menghapus siswa ini?')">

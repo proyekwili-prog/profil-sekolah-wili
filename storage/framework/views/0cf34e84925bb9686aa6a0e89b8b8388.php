@@ -1,49 +1,496 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" href="<?php echo e(asset('assets/images/satap.png')); ?>">
+
+    <title>
+        Profil Sekolah -
+        <?php echo e($profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja'); ?>
+
+    </title>
+
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 90px;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: #1e293b;
+            background: #ffffff;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        section[id] {
+            scroll-margin-top: 90px;
+        }
 
 
-<?php $__env->startSection('title', 'Profil Sekolah - ' . ($profile->nama_sekolah ?? 'SMP Negeri Satu Atap 1 Mangunreja')); ?>
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
 
-<?php $__env->startPush('styles'); ?>
-<style>
-    body {
-        font-family: 'Montserrat', sans-serif;
-    }
+        .navbar-custom {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+            padding: 12px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1050;
+        }
 
-    .page-header {
-        padding: 150px 0 80px;
-        background:
-            linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)),
-            url("<?php echo e(asset('assets/school-template/img/background.jpg')); ?>") center/cover;
-    }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-    .section-title {
-        font-weight: 700;
-    }
+        .navbar-brand img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+        }
 
-    .profile-image {
-        width: 100%;
-        height: 380px;
-        object-fit: cover;
-    }
+        .brand-text {
+            line-height: 1.15;
+        }
 
-    .info-card {
-        transition: .3s;
-    }
+        .brand-text .school-name {
+            font-size: 14px;
+            font-weight: 800;
+            color: #0f3d91;
+        }
 
-    .info-card:hover {
-        transform: translateY(-4px);
-    }
-</style>
-<?php $__env->stopPush(); ?>
+        .brand-text small {
+            font-size: 10px;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .navbar-nav {
+            gap: 5px;
+        }
+
+        .navbar-nav .nav-link {
+            color: #334155;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 9px 13px !important;
+            border-radius: 7px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            color: #0f3d91;
+            background: #eff6ff;
+        }
 
 
-<?php $__env->startSection('content'); ?>
+        /* =====================================================
+           PAGE HEADER
+        ===================================================== */
+
+        .page-header {
+            margin-top: 72px;
+            padding: 85px 0;
+            background:
+                linear-gradient(
+                    rgba(15, 61, 145, 0.88),
+                    rgba(8, 44, 107, 0.88)
+                ),
+                url("<?php echo e(asset('assets/school-template/img/background.jpg')); ?>")
+                center/cover;
+        }
+
+        .page-header h1 {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .page-header p {
+            font-size: 15px;
+            font-weight: 500;
+            opacity: 0.95;
+        }
+
+
+        /* =====================================================
+           GENERAL
+        ===================================================== */
+
+        .section-title {
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .section-subtitle {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           PROFIL SEKOLAH
+        ===================================================== */
+
+        .profile-section {
+            padding: 80px 0;
+        }
+
+        .profile-image-wrapper {
+            width: 100%;
+            height: 380px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .profile-image-empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            color: #94a3b8;
+        }
+
+        .profile-description {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.9;
+        }
+
+
+        /* =====================================================
+           INFORMASI SEKOLAH
+        ===================================================== */
+
+        .info-section {
+            padding: 80px 0;
+            background: #f8fafc;
+        }
+
+        .info-card {
+            height: 100%;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            transition: 0.3s;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(15, 61, 145, 0.08);
+        }
+
+        .info-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background: #eff6ff;
+            color: #0f3d91;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .info-card h6 {
+            color: #0f172a;
+        }
+
+        .info-card p {
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+
+        /* =====================================================
+           VISI MISI
+        ===================================================== */
+
+        .vision-section {
+            padding: 80px 0;
+        }
+
+        .vision-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            background: #ffffff;
+            box-shadow: 0 8px 25px rgba(15, 23, 42, 0.05);
+        }
+
+        .vision-icon {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: #eff6ff;
+            color: #0f3d91;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            font-size: 28px;
+        }
+
+        .vision-text {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.9;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        footer {
+            background: #0f172a;
+            color: #ffffff;
+            padding: 60px 0 25px;
+        }
+
+        .footer-title {
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 18px;
+        }
+
+        .footer-text {
+            color: #94a3b8;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            font-size: 13px;
+            transition: 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+
+        .footer-bottom {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #64748b;
+            font-size: 12px;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 991px) {
+
+            .navbar-nav {
+                margin-top: 12px;
+                padding-bottom: 10px;
+            }
+
+            .page-header {
+                padding: 70px 0;
+            }
+
+            .page-header h1 {
+                font-size: 34px;
+            }
+
+        }
+
+        @media (max-width: 767px) {
+
+            .profile-section,
+            .info-section,
+            .vision-section {
+                padding: 60px 0;
+            }
+
+            .profile-image-wrapper {
+                height: 300px;
+            }
+
+            .page-header h1 {
+                font-size: 30px;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-custom">
+
+    <div class="container">
+
+        <a class="navbar-brand"
+           href="<?php echo e(route('public.dashboard')); ?>">
+
+            <?php if($profile?->logo): ?>
+
+                <img src="<?php echo e(asset('storage/' . $profile->logo)); ?>"
+                     alt="Logo Sekolah">
+
+            <?php else: ?>
+
+                <img src="<?php echo e(asset('assets/images/satap.png')); ?>"
+                     alt="Logo Sekolah">
+
+            <?php endif; ?>
+
+            <div class="brand-text">
+
+                <div class="school-name">
+                    <?php echo e($profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja'); ?>
+
+                </div>
+
+            </div>
+
+        </a>
+
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarMenu"
+                aria-controls="navbarMenu"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+
+        <div class="collapse navbar-collapse"
+             id="navbarMenu">
+
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="<?php echo e(route('public.dashboard')); ?>">
+                        Beranda
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link active"
+                       href="<?php echo e(route('public.profil')); ?>">
+                        Profil
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="<?php echo e(route('public.guru')); ?>">
+                        Guru
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="<?php echo e(route('public.ekstrakurikuler')); ?>">
+                        Ekstrakurikuler
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="<?php echo e(route('public.berita')); ?>">
+                        Berita
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="<?php echo e(route('public.galeri')); ?>">
+                        Galeri
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
 
 
 <section class="page-header text-white text-center">
 
     <div class="container">
 
-        <h1 class="fw-bold">
+        <h1>
             Profil Sekolah
         </h1>
 
@@ -57,40 +504,50 @@
 
 
 
-<section class="py-5">
+
+<section class="profile-section">
 
     <div class="container">
 
         <div class="text-center mb-5">
 
             <h2 class="section-title">
-                <?php echo e($profile->nama_sekolah ?? 'SMP Negeri Satu Atap 1 Mangunreja'); ?>
+                <?php echo e($profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja'); ?>
 
             </h2>
 
-            <p class="text-muted">
+            <p class="section-subtitle">
                 Profil dan informasi sekolah
             </p>
 
         </div>
 
 
-        <div class="row align-items-center">
+        <div class="row align-items-center g-5">
 
-            <div class="col-lg-6 mb-4 mb-lg-0">
+            <div class="col-lg-6">
 
                 <?php if($profile?->foto): ?>
 
-                    <img src="<?php echo e(\Illuminate\Support\Facades\Storage::url($profile->foto)); ?>"
-                         class="img-fluid rounded shadow-sm profile-image"
-                         alt="<?php echo e($profile->nama_sekolah); ?>">
+                    <div class="profile-image-wrapper">
+
+                        <img src="<?php echo e(asset('storage/' . $profile->foto)); ?>"
+                             class="profile-image"
+                             alt="<?php echo e($profile->nama_sekolah); ?>">
+
+                    </div>
 
                 <?php else: ?>
 
-                    <div class="bg-light rounded shadow-sm d-flex align-items-center justify-content-center"
-                         style="height:380px;">
+                    <div class="profile-image-wrapper">
 
-                        <i class="bi bi-building fs-1 text-secondary"></i>
+                        <div class="profile-image-empty">
+
+                            <i class="bi bi-building"
+                               style="font-size: 80px;">
+                            </i>
+
+                        </div>
 
                     </div>
 
@@ -101,15 +558,27 @@
 
             <div class="col-lg-6">
 
-                <h3 class="fw-bold">
-                    <?php echo e($profile->nama_sekolah ?? '-'); ?>
+                <h3 class="fw-bold mb-3">
+
+                    <?php echo e($profile?->nama_sekolah ?? '-'); ?>
+
 
                 </h3>
 
-                <p class="text-muted">
-                    <?php echo e($profile->deskripsi ?? 'Informasi sekolah belum tersedia.'); ?>
+                <p class="profile-description mb-0">
+
+                    <?php echo e($profile?->deskripsi ?? 'Informasi sekolah belum tersedia.'); ?>
+
 
                 </p>
+                <a href="<?php echo e(route('public.dashboard')); ?>"
+   class="btn btn-primary mt-4"
+   style="background:#0f3d91; border-color:#0f3d91;">
+
+    <i class="bi bi-arrow-left me-1"></i>
+    Kembali ke Halaman Landing Page
+
+</a>
 
             </div>
 
@@ -121,15 +590,20 @@
 
 
 
-<section class="py-5 bg-light">
+
+<section id="detail-profil" class="info-section">
 
     <div class="container">
 
         <div class="text-center mb-5">
 
             <h2 class="section-title">
-                Informasi Sekolah
+                Detail Profil Sekolah
             </h2>
+
+            <p class="section-subtitle">
+                Informasi umum mengenai sekolah
+            </p>
 
         </div>
 
@@ -139,18 +613,22 @@
             
             <div class="col-md-6 col-lg-4">
 
-                <div class="card border-0 shadow-sm h-100 info-card">
+                <div class="info-card">
 
                     <div class="card-body p-4">
 
-                        <i class="bi bi-person-badge fs-2 text-primary"></i>
+                        <div class="info-icon">
+
+                            <i class="bi bi-person-badge"></i>
+
+                        </div>
 
                         <h6 class="fw-bold mt-3">
                             Kepala Sekolah
                         </h6>
 
-                        <p class="text-muted mb-0">
-                            <?php echo e($profile->kepala_sekolah ?? '-'); ?>
+                        <p class="mb-0">
+                            <?php echo e($profile?->kepala_sekolah ?? '-'); ?>
 
                         </p>
 
@@ -164,18 +642,22 @@
             
             <div class="col-md-6 col-lg-4">
 
-                <div class="card border-0 shadow-sm h-100 info-card">
+                <div class="info-card">
 
                     <div class="card-body p-4">
 
-                        <i class="bi bi-card-text fs-2 text-primary"></i>
+                        <div class="info-icon">
+
+                            <i class="bi bi-card-text"></i>
+
+                        </div>
 
                         <h6 class="fw-bold mt-3">
                             NPSN
                         </h6>
 
-                        <p class="text-muted mb-0">
-                            <?php echo e($profile->npsn ?? '-'); ?>
+                        <p class="mb-0">
+                            <?php echo e($profile?->npsn ?? '-'); ?>
 
                         </p>
 
@@ -189,18 +671,22 @@
             
             <div class="col-md-6 col-lg-4">
 
-                <div class="card border-0 shadow-sm h-100 info-card">
+                <div class="info-card">
 
                     <div class="card-body p-4">
 
-                        <i class="bi bi-calendar-event fs-2 text-primary"></i>
+                        <div class="info-icon">
+
+                            <i class="bi bi-calendar-event"></i>
+
+                        </div>
 
                         <h6 class="fw-bold mt-3">
                             Tahun Berdiri
                         </h6>
 
-                        <p class="text-muted mb-0">
-                            <?php echo e($profile->tahun_berdiri ?? '-'); ?>
+                        <p class="mb-0">
+                            <?php echo e($profile?->tahun_berdiri ?? '-'); ?>
 
                         </p>
 
@@ -214,18 +700,22 @@
             
             <div class="col-md-6 col-lg-6">
 
-                <div class="card border-0 shadow-sm h-100 info-card">
+                <div class="info-card">
 
                     <div class="card-body p-4">
 
-                        <i class="bi bi-geo-alt fs-2 text-primary"></i>
+                        <div class="info-icon">
+
+                            <i class="bi bi-geo-alt"></i>
+
+                        </div>
 
                         <h6 class="fw-bold mt-3">
                             Alamat
                         </h6>
 
-                        <p class="text-muted mb-0">
-                            <?php echo e($profile->alamat ?? '-'); ?>
+                        <p class="mb-0">
+                            <?php echo e($profile?->alamat ?? '-'); ?>
 
                         </p>
 
@@ -239,18 +729,22 @@
             
             <div class="col-md-6 col-lg-6">
 
-                <div class="card border-0 shadow-sm h-100 info-card">
+                <div class="info-card">
 
                     <div class="card-body p-4">
 
-                        <i class="bi bi-telephone fs-2 text-primary"></i>
+                        <div class="info-icon">
+
+                            <i class="bi bi-telephone"></i>
+
+                        </div>
 
                         <h6 class="fw-bold mt-3">
                             Kontak
                         </h6>
 
-                        <p class="text-muted mb-0">
-                            <?php echo e($profile->kontak ?? '-'); ?>
+                        <p class="mb-0">
+                            <?php echo e($profile?->kontak ?? '-'); ?>
 
                         </p>
 
@@ -268,7 +762,8 @@
 
 
 
-<section class="py-5">
+
+<section class="vision-section">
 
     <div class="container">
 
@@ -278,19 +773,26 @@
                 Visi & Misi
             </h2>
 
+            <p class="section-subtitle">
+                Landasan dan arah pendidikan sekolah
+            </p>
+
         </div>
 
 
-        <div class="card border-0 shadow-sm">
+        <div class="vision-card">
 
             <div class="card-body p-5 text-center">
 
-                <i class="bi bi-bullseye fs-1 text-primary"></i>
+                <div class="vision-icon">
 
-                <p class="text-muted mt-4 mb-0"
-                   style="white-space: pre-line; line-height: 1.8;">
+                    <i class="bi bi-bullseye"></i>
 
-                    <?php echo e($profile->visi_misi ?? 'Visi dan misi sekolah belum tersedia.'); ?>
+                </div>
+
+                <p class="vision-text mt-4 mb-0">
+
+                    <?php echo e($profile?->visi_misi ?? 'Visi dan misi sekolah belum tersedia.'); ?>
 
 
                 </p>
@@ -303,5 +805,144 @@
 
 </section>
 
-<?php $__env->stopSection(); ?>
-<?php echo $__env->make('public.layout', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/public/profil.blade.php ENDPATH**/ ?>
+
+
+
+<footer>
+
+    <div class="container">
+
+        <div class="row g-5">
+
+            
+            <div class="col-lg-5">
+
+                <div class="footer-title">
+
+                    <?php echo e($profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja'); ?>
+
+
+                </div>
+
+                <p class="footer-text">
+
+                    <?php echo e($profile?->deskripsi
+                        ?? 'Sekolah yang berkomitmen memberikan pendidikan berkualitas bagi generasi bangsa.'); ?>
+
+
+                </p>
+
+            </div>
+
+
+            
+            <div class="col-lg-3">
+
+                <div class="footer-title">
+                    Navigasi
+                </div>
+
+                <ul class="footer-links">
+
+                    <li>
+                        <a href="<?php echo e(route('public.dashboard')); ?>">
+                            Beranda
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="<?php echo e(route('public.profil')); ?>">
+                            Profil
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="<?php echo e(route('public.guru')); ?>">
+                            Guru
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="<?php echo e(route('public.ekstrakurikuler')); ?>">
+                            Ekstrakurikuler
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="<?php echo e(route('public.berita')); ?>">
+                            Berita
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="<?php echo e(route('public.galeri')); ?>">
+                            Galeri
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            
+            <div class="col-lg-4">
+
+                <div class="footer-title">
+                    Kontak Sekolah
+                </div>
+
+                <p class="footer-text mb-2">
+
+                    <i class="bi bi-geo-alt me-2"></i>
+
+                    <?php echo e($profile?->alamat ?? '-'); ?>
+
+
+                </p>
+
+                <p class="footer-text mb-2">
+
+                    <i class="bi bi-telephone me-2"></i>
+
+                    <?php echo e($profile?->kontak ?? '-'); ?>
+
+
+                </p>
+
+                <p class="footer-text">
+
+                    <i class="bi bi-building me-2"></i>
+
+                    NPSN: <?php echo e($profile?->npsn ?? '-'); ?>
+
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom text-center">
+
+            &copy; <?php echo e(date('Y')); ?>
+
+
+            <?php echo e($profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja'); ?>.
+
+            Semua Hak Dilindungi.
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js">
+</script>
+
+</body>
+</html>
+<?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/public/profil.blade.php ENDPATH**/ ?>
