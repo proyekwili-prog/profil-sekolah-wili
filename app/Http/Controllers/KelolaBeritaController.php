@@ -29,6 +29,17 @@ class KelolaBeritaController extends Controller
         return view('berita.tambah', ['title' => 'Tambah Berita Baru']);
     }
 
+    public function detail($id)
+{
+    $berita = KelolaBerita::with('user')
+        ->findOrFail($id);
+
+    return view('berita.detail', [
+        'title' => 'Detail Berita',
+        'berita' => $berita,
+    ]);
+}
+
     public function store(Request $request)
     {
         $data = $request->validate([

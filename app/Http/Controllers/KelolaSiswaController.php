@@ -23,6 +23,16 @@ class KelolaSiswaController extends Controller
         return view('siswa.tambah', ['title' => 'Tambah Data Siswa']);
     }
 
+    public function detail($id)
+{
+    $siswa = KelolaSiswa::findOrFail($id);
+
+    return view('siswa.detail', [
+        'title' => 'Detail Data Siswa',
+        'siswa' => $siswa,
+    ]);
+}
+
     public function store(Request $request)
     {
         $data = $request->validate([

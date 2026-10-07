@@ -114,44 +114,52 @@ Route::middleware('auth')
                 ->name('profile.update');
 
 
-            // GURU
-            Route::get('/guru', [KelolaGuruController::class, 'index'])
-                ->name('guru.index');
+           
+Route::get('/guru', [KelolaGuruController::class, 'index'])
+    ->name('guru.index');
 
-            Route::get('/guru/tambah', [KelolaGuruController::class, 'create'])
-                ->name('guru.create');
+Route::get('/guru/tambah', [KelolaGuruController::class, 'create'])
+    ->name('guru.create');
 
-            Route::post('/guru', [KelolaGuruController::class, 'store'])
-                ->name('guru.store');
+Route::post('/guru', [KelolaGuruController::class, 'store'])
+    ->name('guru.store');
 
-            Route::get('/guru/{id}/edit', [KelolaGuruController::class, 'edit'])
-                ->name('guru.edit');
+Route::get('/guru/{id}/detail', [KelolaGuruController::class, 'detail'])
+    ->name('guru.detail');
 
-            Route::put('/guru/{id}', [KelolaGuruController::class, 'update'])
-                ->name('guru.update');
+Route::get('/guru/{id}/edit', [KelolaGuruController::class, 'edit'])
+    ->name('guru.edit');
 
-            Route::delete('/guru/{id}', [KelolaGuruController::class, 'destroy'])
-                ->name('guru.destroy');
+Route::put('/guru/{id}', [KelolaGuruController::class, 'update'])
+    ->name('guru.update');
+
+Route::delete('/guru/{id}', [KelolaGuruController::class, 'destroy'])
+    ->name('guru.destroy');
+
 
 
             // SISWA
-            Route::get('/siswa', [KelolaSiswaController::class, 'index'])
-                ->name('siswa.index');
+          // SISWA
+Route::get('/siswa', [KelolaSiswaController::class, 'index'])
+    ->name('siswa.index');
 
-            Route::get('/siswa/tambah', [KelolaSiswaController::class, 'create'])
-                ->name('siswa.create');
+Route::get('/siswa/{id}/detail', [KelolaSiswaController::class, 'detail'])
+    ->name('siswa.detail');
 
-            Route::post('/siswa', [KelolaSiswaController::class, 'store'])
-                ->name('siswa.store');
+Route::get('/siswa/tambah', [KelolaSiswaController::class, 'create'])
+    ->name('siswa.create');
 
-            Route::get('/siswa/{id}/edit', [KelolaSiswaController::class, 'edit'])
-                ->name('siswa.edit');
+Route::post('/siswa', [KelolaSiswaController::class, 'store'])
+    ->name('siswa.store');
 
-            Route::put('/siswa/{id}', [KelolaSiswaController::class, 'update'])
-                ->name('siswa.update');
+Route::get('/siswa/{id}/edit', [KelolaSiswaController::class, 'edit'])
+    ->name('siswa.edit');
 
-            Route::delete('/siswa/{id}', [KelolaSiswaController::class, 'destroy'])
-                ->name('siswa.destroy');
+Route::put('/siswa/{id}', [KelolaSiswaController::class, 'update'])
+    ->name('siswa.update');
+
+Route::delete('/siswa/{id}', [KelolaSiswaController::class, 'destroy'])
+    ->name('siswa.destroy');
         });
 
 
@@ -164,6 +172,9 @@ Route::middleware('auth')
             // BERITA
             Route::get('/berita', [KelolaBeritaController::class, 'index'])
                 ->name('berita.index');
+
+            Route::get('/berita/{id}/detail', [KelolaBeritaController::class, 'detail'])
+                 ->name('berita.detail');
 
             Route::get('/berita/tambah', [KelolaBeritaController::class, 'tambah'])
                 ->name('berita.tambah');
@@ -187,6 +198,8 @@ Route::middleware('auth')
 
             Route::get('/galeri/tambah', [KelolaGaleriController::class, 'create'])
                 ->name('galeri.create');
+                Route::get('/galeri/{id}/detail', [KelolaGaleriController::class, 'detail'])
+    ->name('galeri.detail');
 
             Route::post('/galeri', [KelolaGaleriController::class, 'store'])
                 ->name('galeri.store');
@@ -207,6 +220,8 @@ Route::middleware('auth')
 
             Route::get('/ekstrakulikuler/tambah', [KelolaEkstraKuliKulerController::class, 'tambah'])
                 ->name('ekstrakulikuler.tambah');
+            Route::get('/ekstrakulikuler/{id}/detail', [KelolaEkstraKuliKulerController::class, 'detail'])
+              ->name('ekstrakulikuler.detail');
 
             Route::post('/ekstrakulikuler', [KelolaEkstraKuliKulerController::class, 'store'])
                 ->name('ekstrakulikuler.store');

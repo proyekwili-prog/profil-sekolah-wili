@@ -29,6 +29,16 @@ class KelolaEkstraKuliKulerController extends Controller
         ]);
     }
 
+    public function detail($id)
+{
+    $ekstrakurikuler = KelolaEkstrakuliKuler::findOrFail($id);
+
+    return view('ekstrakulikuler.detail', [
+        'title' => 'Detail Ekstrakurikuler',
+        'ekstrakurikuler' => $ekstrakurikuler,
+    ]);
+}
+
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -55,14 +65,14 @@ class KelolaEkstraKuliKulerController extends Controller
             ->with('success', 'Data ekstrakurikuler berhasil ditambahkan.');
     }
 
-    public function edit($id)
-    {
-        return view('ekstrakulikuler.edit', [
-            'title' => 'Edit Ekstrakurikuler',
-            'ekstrakulikuler' => KelolaEkstrakuliKuler::findOrFail($id),
-            'gurus' => KelolaGuru::orderBy('nama_guru')->get(),
-        ]);
-    }
+   public function edit($id)
+{
+    return view('ekstrakulikuler.edit', [
+        'title' => 'Edit Ekstrakurikuler',
+        'ekstrakurikuler' => KelolaEkstrakuliKuler::findOrFail($id),
+        'gurus' => KelolaGuru::orderBy('nama_guru')->get(),
+    ]);
+}
 
     public function update(Request $request, $id)
     {

@@ -1,16 +1,35 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
+
+@php
+    use App\Models\ProfileSekolah;
+    use Illuminate\Support\Facades\Storage;
+
+    $profile = ProfileSekolah::first();
+@endphp
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-     <link rel="icon" type="image/png" href="{{ asset('assets/images/satap.png') }}">
-    <title>@yield('title', 'Admin') - SMPN Satu Atap 1 Mangunreja</title>
 
-    <meta name="description" content="SMPN Satu Atap 1 Mangunreja - Admin Dashboard">
-    <meta name="author" content="SMPN Satu Atap 1 Mangunreja">
+    {{-- Logo sekolah dari database --}}
+    @if($profile?->logo)
+        <link rel="icon"
+              type="image/png"
+              href="{{ asset('storage/' . $profile->logo) }}">
+    @endif
+
+    {{-- Nama sekolah dari database --}}
+    <title>
+        @yield('title', 'Admin') - {{ $profile?->nama_sekolah ?? 'Sekolah' }}
+    </title>
+
+    {{-- Informasi sekolah dari database --}}
+    <meta name="description"
+          content="{{ $profile?->nama_sekolah ?? 'Sekolah' }} - Admin Dashboard">
+
+    <meta name="author"
+          content="{{ $profile?->nama_sekolah ?? 'Sekolah' }}">
 
     <link rel="stylesheet" href="{{ asset('datatables/datatables.css') }}">
     <link rel="stylesheet" href="{{ asset('datatables/datatables.min.css') }}">
@@ -27,13 +46,19 @@
 
     <a href="{{ route('admin.dashboard') }}"
        class="sidebar-brand d-flex align-items-center gap-3 text-decoration-none p-3">
-        <img src="{{ asset('assets/images/satap.png') }}"
-             alt="Logo"
-             style="width:45px;height:45px;object-fit:contain;">
 
+        {{-- Logo dari database --}}
+        @if(!empty($profile?->logo) && Storage::disk('public')->exists($profile->logo))
+            <img src="{{ asset('storage/' . $profile->logo) }}"
+                 alt="Logo {{ $profile->nama_sekolah ?? 'Sekolah' }}"
+                 style="width:45px;height:45px;object-fit:contain;">
+        @endif
+
+        {{-- Nama sekolah dari database --}}
         <span class="fs-6 fw-bold text-white lh-sm">
-            SMPN SATU ATAP<br>1 MANGUNREJA
+            {{ $profile?->nama_sekolah ?? '-' }}
         </span>
+
     </a>
 
     <div class="flex-grow-1 overflow-y-auto">
@@ -132,6 +157,7 @@
     <header class="navbar-custom bg-white border-bottom px-3 d-flex align-items-center justify-content-between">
 
         <div class="navbar-left d-flex align-items-center">
+
             <button
                 class="btn-desktop-toggle d-none d-xl-flex align-items-center justify-content-center me-3 btn btn-light border-0"
                 id="desktop-sidebar-toggle"
@@ -144,10 +170,14 @@
                 aria-label="Toggle Navigation">
                 <i class="bi bi-list"></i>
             </button>
+
         </div>
+
         <div class="navbar-search-wrapper d-flex align-items-center">
         </div>
+
         <div class="navbar-actions d-flex align-items-center">
+
             <div class="dropdown ms-2">
 
                 <button
@@ -157,16 +187,20 @@
                     aria-expanded="false"
                     id="profile-dropdown">
 
-                    <img src="{{ asset('assets/images/satap.png') }}"
-                         alt="Logo"
-                         class="rounded-circle"
-                         style="width:32px;height:32px;object-fit:contain;">
+                    {{-- Logo dari database --}}
+                    @if(!empty($profile?->logo) && Storage::disk('public')->exists($profile->logo))
+                        <img src="{{ asset('storage/' . $profile->logo) }}"
+                             alt="Logo {{ $profile->nama_sekolah ?? 'Sekolah' }}"
+                             class="rounded-circle"
+                             style="width:32px;height:32px;object-fit:contain;">
+                    @endif
 
                     <span class="navbar-profile-name d-none d-md-inline fw-medium text-dark">
                         {{ auth()->user()->username }}
                     </span>
 
                     <i class="bi bi-chevron-down navbar-profile-caret small text-muted"></i>
+
                 </button>
 
                 <ul class="dropdown-menu dropdown-menu-end shadow-sm"
@@ -176,6 +210,7 @@
                         <form action="{{ route('admin.logout') }}"
                               method="POST"
                               class="m-0">
+
                             @csrf
 
                             <button type="submit"
@@ -185,28 +220,37 @@
                                 <i class="bi bi-box-arrow-right me-2"></i>
                                 Keluar
                             </button>
+
                         </form>
                     </li>
 
                 </ul>
+
             </div>
+
         </div>
+
     </header>
 
 
     <div class="container-fluid p-4">
 
         @if(session('error'))
+
             <div class="alert alert-warning alert-dismissible fade show shadow-sm mb-4"
                  role="alert">
 
                 <div class="d-flex align-items-center">
+
                     <i class="bi bi-shield-lock-fill fs-4 me-3"></i>
 
                     <div>
                         <strong>Akses Terbatas</strong>
-                        <div class="small">{{ session('error') }}</div>
+                        <div class="small">
+                            {{ session('error') }}
+                        </div>
                     </div>
+
                 </div>
 
                 <button type="button"
@@ -214,14 +258,19 @@
                         data-bs-dismiss="alert"
                         aria-label="Close">
                 </button>
+
             </div>
+
         @endif
 
         <div class="row g-4">
+
             @yield('content')
+
         </div>
 
     </div>
+
 </div>
 
 
@@ -235,7 +284,9 @@
 
 <script>
     $(document).ready(function () {
+
         $('.table').DataTable({
+
             language: {
                 emptyTable: 'Belum ada data.',
                 zeroRecords: 'Data tidak ditemukan.',
@@ -243,14 +294,17 @@
                 lengthMenu: 'Tampilkan _MENU_ data',
                 info: 'Menampilkan _START_ sampai _END_ dari _TOTAL_ data',
                 infoEmpty: 'Tidak ada data',
+
                 paginate: {
                     previous: 'Sebelumnya',
                     next: 'Berikutnya'
                 }
             }
+
         });
+
     });
-</script>  
+</script>
 
 </body>
 </html>

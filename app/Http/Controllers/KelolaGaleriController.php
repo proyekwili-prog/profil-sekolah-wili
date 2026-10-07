@@ -26,6 +26,16 @@ class KelolaGaleriController extends Controller
         return view('galeri.tambah', ['title' => 'Tambah Galeri']);
     }
 
+    public function detail($id)
+{
+    $galeri = KelolaGaleri::findOrFail($id);
+
+    return view('galeri.detail', [
+        'title' => 'Detail Galeri',
+        'galeri' => $galeri,
+    ]);
+}
+
     public function store(Request $request)
     {
         $data = $request->validate([

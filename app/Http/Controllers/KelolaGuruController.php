@@ -91,4 +91,14 @@ class KelolaGuruController extends Controller
         return redirect()->route('admin.guru.index')
             ->with('success', 'Data guru berhasil dihapus.');
     }
+
+    public function detail($id)
+{
+    $guru = KelolaGuru::findOrFail($id);
+
+    return view('guru.detail', [
+        'title' => 'Detail Data Guru',
+        'guru' => $guru,
+    ]);
+}
 }
