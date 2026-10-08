@@ -191,7 +191,7 @@
                                 <td class="text-center">
 
                                     <!-- Detail -->
-                                    <a href="{{ route('admin.berita.detail', $berita->id_berita) }}"
+                                    <a href="{{ route('admin.berita.detail',  Crypt::encrypt($berita->id_berita)) }}"
                                        class="btn btn-sm btn-outline-primary"
                                        title="Lihat Detail">
 
@@ -210,7 +210,7 @@
 
                                     <!-- Hapus -->
                                     <form
-                                        action="{{ route('admin.berita.destroy', $berita->id_berita) }}"
+                                        action="{{ route('admin.berita.destroy', Crypt::encrypt($berita->id_berita)) }}"
                                         method="POST"
                                         class="d-inline"
                                         onsubmit="return confirm('Yakin ingin menghapus berita ini?');">

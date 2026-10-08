@@ -28,7 +28,7 @@ class KelolaGaleriController extends Controller
 
     public function detail($id)
 {
-    $galeri = KelolaGaleri::findOrFail($id);
+    $galeri = KelolaGaleri::findOrFail(Crypt::decrypt($id));
 
     return view('galeri.detail', [
         'title' => 'Detail Galeri',

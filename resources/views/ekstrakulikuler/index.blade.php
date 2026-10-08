@@ -192,7 +192,7 @@
                                 <td class="text-center">
 
                                     <!-- Detail -->
-                                    <a href="{{ route('admin.ekstrakulikuler.detail', $ekstrakurikuler->id_eskul) }}"
+                                    <a href="{{ route('admin.ekstrakulikuler.detail', Crypt::encrypt($ekstrakurikuler->id_eskul)) }}"
                                        class="btn btn-sm btn-outline-primary"
                                        title="Lihat Detail">
 
@@ -202,7 +202,7 @@
 
 
                                     <!-- Edit -->
-                                    <a href="{{ route('admin.ekstrakulikuler.edit', $ekstrakurikuler->id_eskul) }}"
+                                    <a href="{{ route('admin.ekstrakulikuler.edit',Crypt::encrypt($ekstrakurikuler->id_eskul)) }}"
                                        class="btn btn-sm btn-outline-secondary"
                                        title="Edit">
 
@@ -213,7 +213,7 @@
 
                                     <!-- Hapus -->
                                     <form
-                                        action="{{ route('admin.ekstrakulikuler.destroy', $ekstrakurikuler->id_eskul) }}"
+                                        action="{{ route('admin.ekstrakulikuler.destroy', Crypt::encrypt($ekstrakurikuler->id_eskul)) }}"
                                         method="POST"
                                         class="d-inline"
                                         onsubmit="return confirm('Yakin ingin menghapus data ekstrakurikuler ini?');">

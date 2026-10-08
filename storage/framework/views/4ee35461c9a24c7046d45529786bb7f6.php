@@ -128,29 +128,25 @@
         ========================== */
 
         .page-header {
-            margin-top: 72px;
-
-            min-height: 280px;
-
-            background:
-                linear-gradient(
-                    rgba(15, 61, 145, 0.82),
-                    rgba(15, 61, 145, 0.82)
-                ),
-                url("<?php echo e(asset('assets/images/school.jpg')); ?>");
-
-            background-size: cover;
-            background-position: center;
+               margin-top: 72px;
+            min-height: 360px;
 
             display: flex;
             align-items: center;
-            justify-content: center;
 
-            text-align: center;
+            position: relative;
 
-            color: white;
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(5, 25, 70, .88) 0%,
+                    rgba(5, 25, 70, .65) 45%,
+                    rgba(5, 25, 70, .35) 100%
+                ),
+                url('<?php echo e(asset('assets/school-template/img/background.jpg')); ?>');
 
-            padding: 50px 20px;
+            background-size: cover;
+            background-position: center;
         }
 
         .page-header h1 {
@@ -685,27 +681,22 @@
      HEADER
 ========================== -->
 
-<section class="page-header">
 
-    <div>
 
-        <h1>
-            Guru & Tenaga Kependidikan
-        </h1>
-
-        <p>
-
-            Mengenal guru dan tenaga pendidik
+    <section class="page-header">
+        <div class="container">
+            <div class="page-header-content">
+                <h1 class="text-white">
+                      Guru & Tenaga Kependidikan
+                </h1>
+                <p class="text-white">
             <?php echo e($profile?->nama_sekolah
                 ?? 'SMPN Satu Atap 1 Mangunreja'); ?>
 
-
         </p>
-
-    </div>
-
-</section>
-
+            </div>
+        </div>
+    </section>
 
 <!-- =========================
      DATA GURU
@@ -1003,5 +994,5 @@
 
 </body>
 </html>
-```
+
 <?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/public/guru.blade.php ENDPATH**/ ?>

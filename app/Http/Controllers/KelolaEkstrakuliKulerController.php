@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\KelolaEkstrakuliKuler;
 use App\Models\KelolaGuru;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 
 class KelolaEkstraKuliKulerController extends Controller
@@ -31,7 +32,7 @@ class KelolaEkstraKuliKulerController extends Controller
 
     public function detail($id)
 {
-    $ekstrakurikuler = KelolaEkstrakuliKuler::findOrFail($id);
+    $ekstrakurikuler = KelolaEkstrakuliKuler::findOrFail(Crypt::decrypt($id));
 
     return view('ekstrakulikuler.detail', [
         'title' => 'Detail Ekstrakurikuler',
@@ -69,14 +70,14 @@ class KelolaEkstraKuliKulerController extends Controller
 {
     return view('ekstrakulikuler.edit', [
         'title' => 'Edit Ekstrakurikuler',
-        'ekstrakurikuler' => KelolaEkstrakuliKuler::findOrFail($id),
+        'ekstrakurikuler' => KelolaEkstrakuliKuler::findOrFail(Crypt::decrypt($id)),
         'gurus' => KelolaGuru::orderBy('nama_guru')->get(),
     ]);
 }
 
     public function update(Request $request, $id)
     {
-        $eskul = KelolaEkstrakuliKuler::findOrFail($id);
+        $eskul = KelolaEkstrakuliKuler::findOrFail(Crypt::decrypt($id));
 
         $data = $request->validate([
             'nama_eskul' => 'required|string|max:40',

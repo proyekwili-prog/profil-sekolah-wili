@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class UserController extends Controller
 {
@@ -44,19 +46,30 @@ class UserController extends Controller
             ->with('success', 'Data user berhasil ditambahkan.');
     }
 
+    /**
+     * Membuka halaman edit user.
+     */
     public function edit($id)
     {
-        $user = User::findOrFail($id);
+        $idUser = $this->decryptUserId($id);
+
+        $user = User::where('id_user', $idUser)->firstOrFail();
 
         return view('admin.user.edit', compact('user'));
     }
 
+    /**
+     * Memperbarui data user.
+     */
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);
+        $idUser = $this->decryptUserId($id);
+
+        $user = User::where('id_user', $idUser)->firstOrFail();
 
         $request->validate([
-            'username' => 'required|string|max:255|unique:user,username,' . $id . ',id_user',
+            'username' => 'required|string|max:255|unique:user,username,'
+                . $user->id_user . ',id_user',
             'role' => 'required|string|max:50',
         ], [
             'username.required' => 'Username wajib diisi.',
@@ -69,7 +82,6 @@ class UserController extends Controller
             'role' => $request->role,
         ];
 
-        // Password hanya diubah jika diisi.
         if ($request->filled('password')) {
             $request->validate([
                 'password' => 'string|min:6',
@@ -87,9 +99,14 @@ class UserController extends Controller
             ->with('success', 'Data user berhasil diperbarui.');
     }
 
+    /**
+     * Menghapus data user.
+     */
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
+        $idUser = $this->decryptUserId($id);
+
+        $user = User::where('id_user', $idUser)->firstOrFail();
 
         $user->delete();
 
@@ -97,4 +114,17 @@ class UserController extends Controller
             ->route('admin.user.index')
             ->with('success', 'Data user berhasil dihapus.');
     }
+
+    /**
+     * Mendekripsi ID user dari URL.
+     */
+    private function decryptUserId($id)
+    {
+        try {
+            return Crypt::decrypt($id);
+        } catch (DecryptException $e) {
+            abort(404, 'ID user tidak valid.');
+        }
+    }
 }
+

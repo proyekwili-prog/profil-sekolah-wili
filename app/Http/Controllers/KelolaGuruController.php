@@ -94,7 +94,7 @@ class KelolaGuruController extends Controller
 
     public function detail($id)
 {
-    $guru = KelolaGuru::findOrFail($id);
+    $guru = KelolaGuru::findOrFail(Crypt::decrypt($id));
 
     return view('guru.detail', [
         'title' => 'Detail Data Guru',

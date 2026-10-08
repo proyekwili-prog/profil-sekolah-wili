@@ -1,9 +1,9 @@
 ```blade
-@extends('public.admin')
 
-@section('title', 'Edit User')
 
-@section('content')
+<?php $__env->startSection('title', 'Edit User'); ?>
+
+<?php $__env->startSection('content'); ?>
 <div class="container-fluid px-4 py-4">
 
     <div class="mb-4">
@@ -14,25 +14,25 @@
     <div class="card border-0 shadow-sm">
         <div class="card-body">
 
-            @if($errors->any())
+            <?php if($errors->any()): ?>
                 <div class="alert alert-danger">
                     <ul class="mb-0">
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
+                        <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <li><?php echo e($error); ?></li>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </ul>
                 </div>
-            @endif
+            <?php endif; ?>
 
-            <form action="{{ route('admin.user.update', Crypt::encrypt($user->id_user)) }}" method="POST">
-                @csrf
-                @method('PUT')
+            <form action="<?php echo e(route('admin.user.update', Crypt::encrypt($user->id_user))); ?>" method="POST">
+                <?php echo csrf_field(); ?>
+                <?php echo method_field('PUT'); ?>
 
                 <div class="mb-3">
                     <label for="username" class="form-label fw-semibold">Username</label>
                     <input type="text" name="username" id="username"
                            class="form-control"
-                           value="{{ old('username', $user->username) }}"
+                           value="<?php echo e(old('username', $user->username)); ?>"
                            required>
                 </div>
 
@@ -50,17 +50,17 @@
                     <label for="role" class="form-label fw-semibold">Role</label>
                     <select name="role" id="role" class="form-select" required>
                         <option value="">-- Pilih Role --</option>
-                        <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>
+                        <option value="admin" <?php echo e(old('role', $user->role) == 'admin' ? 'selected' : ''); ?>>
                             Admin
                         </option>
-                        <option value="operator" {{ old('role', $user->role) == 'operator' ? 'selected' : '' }}>
+                        <option value="operator" <?php echo e(old('role', $user->role) == 'operator' ? 'selected' : ''); ?>>
                             Operator
                         </option>
                     </select>
                 </div>
 
                 <div class="d-flex gap-2">
-                    <a href="{{ route('admin.user.index') }}" class="btn btn-secondary">
+                    <a href="<?php echo e(route('admin.user.index')); ?>" class="btn btn-secondary">
                         <i class="bi bi-arrow-left me-1"></i>Kembali
                     </a>
 
@@ -74,4 +74,6 @@
     </div>
 
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('public.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/admin/user/edit.blade.php ENDPATH**/ ?>

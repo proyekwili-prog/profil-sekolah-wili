@@ -568,7 +568,7 @@
                 </div>
 
                 <h1>
-                    Berita <span>Sekolah</span>
+                    Berita Sekolah
                 </h1>
 
                 <p>
@@ -840,4 +840,8 @@
 
 </body>
 
-</html><?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/public/berita.blade.php ENDPATH**/ ?>
+</html>
+
+ <?php if($profile?->logo): ?>
+        <link rel="icon" href="<?php echo e(asset('storage/' . $profile->logo)); ?>">
+    <?php endif; ?><?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/public/berita.blade.php ENDPATH**/ ?>

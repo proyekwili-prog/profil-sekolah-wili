@@ -570,7 +570,7 @@
                 </div>
 
                 <h1>
-                    Berita <span>Sekolah</span>
+                    Berita Sekolah
                 </h1>
 
                 <p>
@@ -838,3 +838,7 @@
 </body>
 
 </html>
+
+ @if($profile?->logo)
+        <link rel="icon" href="{{ asset('storage/' . $profile->logo) }}">
+    @endif

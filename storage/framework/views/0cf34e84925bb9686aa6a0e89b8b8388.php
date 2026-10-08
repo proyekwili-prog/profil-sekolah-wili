@@ -125,21 +125,32 @@
         ===================================================== */
 
         .page-header {
-            margin-top: 72px;
-            padding: 85px 0;
+              margin-top: 72px;
+            min-height: 360px;
+
+            display: flex;
+            align-items: center;
+
+            position: relative;
+
             background:
                 linear-gradient(
-                    rgba(15, 61, 145, 0.88),
-                    rgba(8, 44, 107, 0.88)
+                    90deg,
+                    rgba(5, 25, 70, .88) 0%,
+                    rgba(5, 25, 70, .65) 45%,
+                    rgba(5, 25, 70, .35) 100%
                 ),
-                url("<?php echo e(asset('assets/school-template/img/background.jpg')); ?>")
-                center/cover;
+                url('<?php echo e(asset('assets/school-template/img/background.jpg')); ?>');
+
+            background-size: cover;
+            background-position: center;
         }
 
         .page-header h1 {
             font-size: 42px;
             font-weight: 800;
             margin-bottom: 12px;
+            color: #60a5fa;
         }
 
         .page-header p {
@@ -485,24 +496,19 @@
 
 
 
+ <section class="page-header">
+        <div class="container">
+            <div class="page-header-content">
+                <h1 class="text-white">
+                       Profil Sekolah
+                </h1>
+                <p class="text-white">
+            <?php echo e($profile->nama_sekolah); ?>
 
-<section class="page-header text-white text-center">
-
-    <div class="container">
-
-        <h1>
-            Profil Sekolah
-        </h1>
-
-        <p class="mb-0">
-            Mengenal lebih dekat sekolah kami
         </p>
-
-    </div>
-
-</section>
-
-
+            </div>
+        </div>
+    </section>
 
 
 <section class="profile-section">

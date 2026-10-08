@@ -1,4 +1,6 @@
-```blade
+@php
+    use Illuminate\Support\Facades\Crypt;
+@endphp
 @extends('public.admin')
 
 @section('title', 'Data User')
@@ -69,12 +71,9 @@
 
                                 @if(strtolower(auth()->user()->role) === 'admin')
                                     <td>
-                                        <a href="{{ route('admin.user.edit', $user->id_user) }}"
-                                           class="btn btn-sm btn-warning">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </a>
+                                       <a href="{{ route('admin.user.edit', ['id' => Crypt::encrypt($user->id_user)]) }}" class="btn btn-sm btn-warning"> <i class="bi bi-pencil-square"></i> </a> 
 
-                                        <form action="{{ route('admin.user.destroy', $user->id_user) }}"
+                                        <form action="{{ route('admin.user.destroy', Crypt::encrypt($user->id_user)) }}"
                                               method="POST" class="d-inline"
                                               onsubmit="return confirm('Yakin ingin menghapus user ini?');">
                                             @csrf

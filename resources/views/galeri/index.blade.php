@@ -228,7 +228,7 @@
 
                                     <!-- Detail -->
                                     <a
-                                        href="{{ route('admin.galeri.detail', $item->id_galeri) }}"
+                                        href="{{ route('admin.galeri.detail', Crypt::encrypt($item->id_galeri)) }}"
                                         class="btn btn-sm btn-outline-primary"
                                         title="Lihat Detail">
 
@@ -250,7 +250,7 @@
 
                                     <!-- Hapus -->
                                     <form
-                                        action="{{ route('admin.galeri.destroy', $item->id_galeri) }}"
+                                        action="{{ route('admin.galeri.destroy',Crypt::encrypt($item->id_galeri)) }}"
                                         method="POST"
                                         class="d-inline"
                                         onsubmit="return confirm('Yakin ingin menghapus data galeri ini?');">

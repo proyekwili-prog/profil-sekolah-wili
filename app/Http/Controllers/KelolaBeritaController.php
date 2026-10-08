@@ -32,7 +32,7 @@ class KelolaBeritaController extends Controller
     public function detail($id)
 {
     $berita = KelolaBerita::with('user')
-        ->findOrFail($id);
+        ->findOrFail(Crypt::decrypt($id));
 
     return view('berita.detail', [
         'title' => 'Detail Berita',

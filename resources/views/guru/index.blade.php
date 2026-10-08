@@ -889,7 +889,7 @@
 
                                     {{-- DETAIL --}}
                                     <a
-                                        href="{{ route('admin.guru.detail', $guru->id_guru) }}"
+                                        href="{{ route('admin.guru.detail',Crypt::encrypt($guru->id_guru)) }}"
                                         class="btn btn-outline-primary guru-action"
                                         title="Lihat Detail">
 

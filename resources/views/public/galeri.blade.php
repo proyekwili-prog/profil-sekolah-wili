@@ -117,8 +117,14 @@
         ========================= */
 
         .page-header {
-            margin-top: 72px;
-            padding: 90px 0 80px;
+             margin-top: 72px;
+            min-height: 360px;
+
+            display: flex;
+            align-items: center;
+
+            position: relative;
+
             background: linear-gradient(
                 135deg,
                 #0f3d91,

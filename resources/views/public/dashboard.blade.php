@@ -918,26 +918,132 @@
     </nav>
 
 
-    {{-- =========================
-       HERO
-    ========================= --}}
+ {{-- =========================
+   HERO / CAROUSEL SEMUA DATA
+   PROFIL + GURU + EKSKUL + BERITA + GALERI
+========================= --}}
 
-    <section id="beranda" class="hero">
+<section id="beranda" class="hero">
 
-        <div id="heroCarousel"
-            class="carousel slide carousel-fade"
-            data-bs-ride="carousel">
+    @php
+        $heroSlides = collect();
 
-            <div class="carousel-inner">
+        /*
+        |--------------------------------------------------------------------------
+        | 1. PROFIL SEKOLAH
+        |--------------------------------------------------------------------------
+        */
+        if ($profile?->foto) {
+            $heroSlides->push([
+                'type' => 'Profil Sekolah',
+                'icon' => 'bi-building',
+                'title' => $profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja',
+                'description' => $profile?->deskripsi
+                    ? \Illuminate\Support\Str::limit(strip_tags($profile->deskripsi), 180)
+                    : 'Mengenal lebih dekat profil dan identitas sekolah kami.',
+                'image' => asset('storage/' . $profile->foto),
+                'button_text' => 'Lihat Profil',
+                'button_href' => '#profil',
+            ]);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | 2. GURU
+        |--------------------------------------------------------------------------
+        */
+        
+
+        /*
+        |--------------------------------------------------------------------------
+        | 3. EKSTRAKURIKULER
+        |--------------------------------------------------------------------------
+        */
+        foreach ($ekstrakurikuler as $item) {
+            $heroSlides->push([
+                'type' => 'Kegiatan Siswa',
+                'icon' => 'bi-trophy-fill',
+                'title' => $item->nama_eskul,
+                'description' =>
+                    \Illuminate\Support\Str::limit(
+                        strip_tags($item->deskripsi ?? 'Kegiatan ekstrakurikuler sekolah.'),
+                        180
+                    ),
+                'image' => $item->gambar
+                    ? asset('storage/' . $item->gambar)
+                    : null,
+                'button_text' => 'Lihat Ekstrakurikuler',
+                'button_href' => '#ekstrakurikuler',
+                'fallback_icon' => 'bi-trophy',
+            ]);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | 4. BERITA
+        |--------------------------------------------------------------------------
+        */
+        foreach ($beritaTerbaru as $item) {
+            $heroSlides->push([
+                'type' => 'Berita Sekolah',
+                'icon' => 'bi-newspaper',
+                'title' => $item->judul,
+                'description' =>
+                    \Illuminate\Support\Str::limit(
+                        strip_tags($item->isi ?? ''),
+                        180
+                    ),
+                'image' => $item->gambar
+                    ? asset('storage/' . $item->gambar)
+                    : null,
+                'button_text' => 'Lihat Berita',
+                'button_href' => '#berita',
+                'fallback_icon' => 'bi-newspaper',
+            ]);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | 5. GALERI
+        |--------------------------------------------------------------------------
+        */
+        foreach ($galeri as $item) {
+            $heroSlides->push([
+                'type' => 'Galeri Sekolah',
+                'icon' => 'bi-images',
+                'title' => $item->judul,
+                'description' =>
+                    $item->keterangan
+                    ?? 'Dokumentasi kegiatan SMPN Satu Atap 1 Mangunreja.',
+                'image' => $item->file
+                    ? asset('storage/' . $item->file)
+                    : null,
+                'button_text' => 'Lihat Galeri',
+                'button_href' => '#galeri',
+                'fallback_icon' => 'bi-images',
+            ]);
+        }
+    @endphp
+
+
+    <div id="heroCarousel"
+        class="carousel slide carousel-fade"
+        data-bs-ride="carousel"
+        data-bs-interval="5000">
+
+        <div class="carousel-inner">
+
+            @if($heroSlides->isEmpty())
+
+                {{-- FALLBACK JIKA BELUM ADA DATA --}}
 
                 <div class="carousel-item active">
 
-                    <div class="hero-slide">
+                    <div class="hero-slide hero-slide-empty">
 
-                      @if($profile && $profile->foto)
-    <img src="{{ asset('storage/' . $profile->foto) }}"
-         alt="{{ $profile->nama_sekolah }}">
-@endif
+                        <div class="hero-fallback-background">
+                            <i class="bi bi-building"></i>
+                        </div>
 
                         <div class="hero-overlay"></div>
 
@@ -948,8 +1054,8 @@
                                 <div class="hero-content-inner">
 
                                     <div class="hero-badge">
-                                        <i class="bi bi-mortarboard-fill"></i>
-                                        SELAMAT DATANG
+                                        <i class="bi bi-building"></i>
+                                        PROFIL SEKOLAH
                                     </div>
 
                                     <h1 class="hero-title">
@@ -957,7 +1063,8 @@
                                     </h1>
 
                                     <p class="hero-description">
-                                        {!! nl2br(e($profile?->deskripsi ?? 'Sekolah yang berkomitmen memberikan pendidikan berkualitas dan membentuk generasi berkarakter.')) !!}
+                                        Selamat datang di website resmi
+                                        SMPN Satu Atap 1 Mangunreja.
                                     </p>
 
                                     <div class="hero-buttons">
@@ -965,15 +1072,16 @@
                                         <a href="#profil"
                                             class="btn-primary-school menu-link">
 
-                                            <i class="bi bi-building"></i>
+                                            <i class="bi bi-building me-1"></i>
                                             Tentang Sekolah
 
                                         </a>
 
-                                        <a href="#berita"
+                                        <a href="#guru"
                                             class="btn-outline-school menu-link">
 
-                                            Lihat Berita
+                                            <i class="bi bi-people me-1"></i>
+                                            Guru Kami
 
                                         </a>
 
@@ -989,47 +1097,99 @@
 
                 </div>
 
+            @else
 
-                <div class="carousel-item">
+                {{-- SEMUA DATA DITAMPILKAN DALAM CAROUSEL --}}
 
-                    <div class="hero-slide">
+                @foreach($heroSlides as $index => $slide)
 
-                        <img src="{{ $profile?->foto
-                            ? asset('storage/' . $profile->foto)
-                            : asset('assets/school-template/img/murid.webp') }}"
-                            alt="Sekolah">
+                    <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
 
-                        <div class="hero-overlay"></div>
+                        <div class="hero-slide">
 
-                        <div class="hero-content">
+                            {{-- GAMBAR --}}
 
-                            <div class="container">
+                            @if($slide['image'])
 
-                                <div class="hero-content-inner">
+                                <img src="{{ $slide['image'] }}"
+                                    alt="{{ $slide['title'] }}">
 
-                                    <div class="hero-badge">
-                                        <i class="bi bi-stars"></i>
-                                        PENDIDIKAN BERKARAKTER
-                                    </div>
+                            @else
 
-                                    <h1 class="hero-title">
-                                        Membangun Generasi
-                                        <span>Berprestasi</span>
-                                    </h1>
+                                <div class="hero-fallback-background">
 
-                                    <p class="hero-description">
-                                        Bersama menciptakan lingkungan pendidikan
-                                        yang nyaman, aktif, kreatif, dan berkarakter.
-                                    </p>
+                                    <i class="bi {{ $slide['fallback_icon'] ?? $slide['icon'] }}"></i>
 
-                                    <div class="hero-buttons">
+                                </div>
 
-                                        <a href="#guru"
-                                            class="btn-primary-school menu-link">
+                            @endif
 
-                                            Kenali Guru Kami
 
-                                        </a>
+                            {{-- OVERLAY --}}
+
+                            <div class="hero-overlay"></div>
+
+
+                            {{-- KONTEN --}}
+
+                            <div class="hero-content">
+
+                                <div class="container">
+
+                                    <div class="hero-content-inner">
+
+                                        {{-- KATEGORI --}}
+
+                                        <div class="hero-badge">
+
+                                            <i class="bi {{ $slide['icon'] }}"></i>
+
+                                            {{ $slide['type'] }}
+
+                                        </div>
+
+
+                                        {{-- JUDUL --}}
+
+                                        <h1 class="hero-title">
+
+                                            {{ $slide['title'] }}
+
+                                        </h1>
+
+
+                                        {{-- DESKRIPSI --}}
+
+                                        <p class="hero-description">
+
+                                            {{ $slide['description'] }}
+
+                                        </p>
+
+
+                                        {{-- BUTTON --}}
+
+                                        <div class="hero-buttons">
+
+                                            <a href="{{ $slide['button_href'] }}"
+                                                class="btn-primary-school menu-link">
+
+                                                <i class="bi bi-arrow-right-circle me-1"></i>
+
+                                                {{ $slide['button_text'] }}
+
+                                            </a>
+
+                                            <a href="#profil"
+                                                class="btn-outline-school menu-link">
+
+                                                <i class="bi bi-building me-1"></i>
+
+                                                Profil Sekolah
+
+                                            </a>
+
+                                        </div>
 
                                     </div>
 
@@ -1041,74 +1201,74 @@
 
                     </div>
 
-                </div>
+                @endforeach
+
+            @endif
+
+        </div>
 
 
-                <div class="carousel-item">
+        {{-- INDICATOR --}}
 
-                    <div class="hero-slide">
+        @if($heroSlides->count() > 1)
 
-                        <img src="{{ asset('assets/school-template/img/gurustap.webp') }}"
-                            alt="Guru dan Staf">
+            <div class="carousel-indicators hero-indicators">
 
-                        <div class="hero-overlay"></div>
+                @foreach($heroSlides as $index => $slide)
 
-                        <div class="hero-content">
+                    <button type="button"
+                        data-bs-target="#heroCarousel"
+                        data-bs-slide-to="{{ $index }}"
+                        class="{{ $index === 0 ? 'active' : '' }}"
+                        aria-current="{{ $index === 0 ? 'true' : 'false' }}"
+                        aria-label="Slide {{ $index + 1 }}">
+                    </button>
 
-                            <div class="container">
-
-                                <div class="hero-content-inner">
-
-                                    <div class="hero-badge">
-                                        <i class="bi bi-people-fill"></i>
-                                        GURU & TENAGA KEPENDIDIKAN
-                                    </div>
-
-                                    <h1 class="hero-title">
-                                        Bersama Mendidik
-                                        <span>Generasi Bangsa</span>
-                                    </h1>
-
-                                    <p class="hero-description">
-                                        Tenaga pendidik yang berdedikasi dalam
-                                        mendampingi siswa untuk berkembang dan berprestasi.
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
+                @endforeach
 
             </div>
 
-            <button class="carousel-control-prev"
+
+            {{-- PREVIOUS --}}
+
+            <button class="carousel-control-prev hero-control"
                 type="button"
                 data-bs-target="#heroCarousel"
                 data-bs-slide="prev">
 
-                <span class="carousel-control-prev-icon"></span>
+                <span class="hero-control-icon">
+                    <i class="bi bi-chevron-left"></i>
+                </span>
+
+                <span class="visually-hidden">
+                    Sebelumnya
+                </span>
 
             </button>
 
-            <button class="carousel-control-next"
+
+            {{-- NEXT --}}
+
+            <button class="carousel-control-next hero-control"
                 type="button"
                 data-bs-target="#heroCarousel"
                 data-bs-slide="next">
 
-                <span class="carousel-control-next-icon"></span>
+                <span class="hero-control-icon">
+                    <i class="bi bi-chevron-right"></i>
+                </span>
+
+                <span class="visually-hidden">
+                    Berikutnya
+                </span>
 
             </button>
 
-        </div>
+        @endif
 
-    </section>
+    </div>
 
-
+</section>
     {{-- =========================
        STATISTICS
     ========================= --}}
@@ -1380,7 +1540,63 @@
 
     </section>
 
+    {{-- =========================================================
+     SAMBUTAN KEPALA SEKOLAH
+========================================================= --}}
+<section id="sambutan" class="py-5 bg-white">
+    <div class="container">
 
+        <div class="row align-items-center g-5">
+
+            {{-- FOTO KEPALA SEKOLAH --}}
+            <div class="col-lg-4 text-center">
+
+                @if($profile?->foto_kepala_sekolah)
+
+                    <img
+                        src="{{ asset('storage/' . $profile->foto_kepala_sekolah) }}"
+                        alt="{{ $profile?->kepala_sekolah ?? 'Kepala Sekolah' }}"
+                        class="sambutan-foto"
+                    >
+
+                @else
+
+                    <div class="sambutan-foto-placeholder">
+                        <i class="bi bi-person"></i>
+                    </div>
+
+                @endif
+
+            </div>
+
+
+            {{-- TEKS SAMBUTAN --}}
+            <div class="col-lg-8">
+
+                <div class="sambutan-label">
+                    KOMITMEN KAMI UNTUK PENDIDIKAN
+                </div>
+                <h2 class="sambutan-title">
+                    Sambutan Kepala Sekolah
+                </h2>
+                <div class="sambutan-line"></div>
+                @if($profile?->sambutan_kepala_sekolah)
+
+                    <div class="sambutan-text">
+                        {!! nl2br(e($profile->sambutan_kepala_sekolah)) !!}
+                    </div>
+
+                @else
+
+                    <p class="text-muted">
+                        Sambutan kepala sekolah belum tersedia.
+                    </p>
+
+                @endif
+            </div>
+        </div>
+    </div>
+</section>
     {{-- =========================
        VISI MISI
     ========================= --}}
@@ -1395,14 +1611,14 @@
                     Visi & Misi
                 </div>
 
-                <h2>
+                {{-- <h2>
                     Arah dan Tujuan Sekolah
                 </h2>
 
                 <p>
                     Landasan sekolah dalam membentuk peserta didik
                     yang berprestasi dan berkarakter.
-                </p>
+                </p> --}}
 
             </div>
 
@@ -1673,9 +1889,13 @@
 
                                                     @else
 
-                                                        <img src="{{ asset('assets/school-template/img/murid.webp') }}"
-                                                            class="eskul-image"
-                                                            alt="{{ $item->nama_eskul }}">
+                                                        <div class="d-flex align-items-center justify-content-center"
+                                                            style="width:100%;height:100%;background:#f8fafc;">
+
+                                                            <i class="bi bi-trophy text-secondary"
+                                                                style="font-size:70px;"></i>
+
+                                                        </div>
 
                                                     @endif
 
@@ -1848,9 +2068,13 @@
 
                                                 @else
 
-                                                    <img src="{{ asset('assets/school-template/img/acara.webp') }}"
-                                                        class="school-card-image"
-                                                        alt="{{ $item->judul }}">
+                                                    <div class="d-flex align-items-center justify-content-center"
+                                                        style="width:100%;height:220px;background:#f8fafc;">
+
+                                                        <i class="bi bi-newspaper text-secondary"
+                                                            style="font-size:70px;"></i>
+
+                                                    </div>
 
                                                 @endif
 
@@ -2001,9 +2225,13 @@
 
                                 @else
 
-                                    <img src="{{ asset('assets/school-template/img/acara.webp') }}"
-                                        class="gallery-image"
-                                        alt="{{ $item->judul }}">
+                                    <div class="d-flex align-items-center justify-content-center"
+                                        style="width:100%;height:100%;background:#e2e8f0;">
+
+                                        <i class="bi bi-images text-secondary"
+                                            style="font-size:70px;"></i>
+
+                                    </div>
 
                                 @endif
 

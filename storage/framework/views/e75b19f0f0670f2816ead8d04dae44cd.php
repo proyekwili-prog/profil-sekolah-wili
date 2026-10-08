@@ -917,24 +917,129 @@
     </nav>
 
 
-    
+ 
 
-    <section id="beranda" class="hero">
+<section id="beranda" class="hero">
 
-        <div id="heroCarousel"
-            class="carousel slide carousel-fade"
-            data-bs-ride="carousel">
+    <?php
+        $heroSlides = collect();
 
-            <div class="carousel-inner">
+        /*
+        |--------------------------------------------------------------------------
+        | 1. PROFIL SEKOLAH
+        |--------------------------------------------------------------------------
+        */
+        if ($profile?->foto) {
+            $heroSlides->push([
+                'type' => 'Profil Sekolah',
+                'icon' => 'bi-building',
+                'title' => $profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja',
+                'description' => $profile?->deskripsi
+                    ? \Illuminate\Support\Str::limit(strip_tags($profile->deskripsi), 180)
+                    : 'Mengenal lebih dekat profil dan identitas sekolah kami.',
+                'image' => asset('storage/' . $profile->foto),
+                'button_text' => 'Lihat Profil',
+                'button_href' => '#profil',
+            ]);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | 2. GURU
+        |--------------------------------------------------------------------------
+        */
+        
+
+        /*
+        |--------------------------------------------------------------------------
+        | 3. EKSTRAKURIKULER
+        |--------------------------------------------------------------------------
+        */
+        foreach ($ekstrakurikuler as $item) {
+            $heroSlides->push([
+                'type' => 'Kegiatan Siswa',
+                'icon' => 'bi-trophy-fill',
+                'title' => $item->nama_eskul,
+                'description' =>
+                    \Illuminate\Support\Str::limit(
+                        strip_tags($item->deskripsi ?? 'Kegiatan ekstrakurikuler sekolah.'),
+                        180
+                    ),
+                'image' => $item->gambar
+                    ? asset('storage/' . $item->gambar)
+                    : null,
+                'button_text' => 'Lihat Ekstrakurikuler',
+                'button_href' => '#ekstrakurikuler',
+                'fallback_icon' => 'bi-trophy',
+            ]);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | 4. BERITA
+        |--------------------------------------------------------------------------
+        */
+        foreach ($beritaTerbaru as $item) {
+            $heroSlides->push([
+                'type' => 'Berita Sekolah',
+                'icon' => 'bi-newspaper',
+                'title' => $item->judul,
+                'description' =>
+                    \Illuminate\Support\Str::limit(
+                        strip_tags($item->isi ?? ''),
+                        180
+                    ),
+                'image' => $item->gambar
+                    ? asset('storage/' . $item->gambar)
+                    : null,
+                'button_text' => 'Lihat Berita',
+                'button_href' => '#berita',
+                'fallback_icon' => 'bi-newspaper',
+            ]);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | 5. GALERI
+        |--------------------------------------------------------------------------
+        */
+        foreach ($galeri as $item) {
+            $heroSlides->push([
+                'type' => 'Galeri Sekolah',
+                'icon' => 'bi-images',
+                'title' => $item->judul,
+                'description' =>
+                    $item->keterangan
+                    ?? 'Dokumentasi kegiatan SMPN Satu Atap 1 Mangunreja.',
+                'image' => $item->file
+                    ? asset('storage/' . $item->file)
+                    : null,
+                'button_text' => 'Lihat Galeri',
+                'button_href' => '#galeri',
+                'fallback_icon' => 'bi-images',
+            ]);
+        }
+    ?>
+
+
+    <div id="heroCarousel"
+        class="carousel slide carousel-fade"
+        data-bs-ride="carousel"
+        data-bs-interval="5000">
+
+        <div class="carousel-inner">
+
+            <?php if($heroSlides->isEmpty()): ?>
+
+                
 
                 <div class="carousel-item active">
 
-                    <div class="hero-slide">
+                    <div class="hero-slide hero-slide-empty">
 
-                      <?php if($profile && $profile->foto): ?>
-    <img src="<?php echo e(asset('storage/' . $profile->foto)); ?>"
-         alt="<?php echo e($profile->nama_sekolah); ?>">
-<?php endif; ?>
+                        <div class="hero-fallback-background">
+                            <i class="bi bi-building"></i>
+                        </div>
 
                         <div class="hero-overlay"></div>
 
@@ -945,8 +1050,8 @@
                                 <div class="hero-content-inner">
 
                                     <div class="hero-badge">
-                                        <i class="bi bi-mortarboard-fill"></i>
-                                        SELAMAT DATANG
+                                        <i class="bi bi-building"></i>
+                                        PROFIL SEKOLAH
                                     </div>
 
                                     <h1 class="hero-title">
@@ -955,8 +1060,8 @@
                                     </h1>
 
                                     <p class="hero-description">
-                                        <?php echo nl2br(e($profile?->deskripsi ?? 'Sekolah yang berkomitmen memberikan pendidikan berkualitas dan membentuk generasi berkarakter.')); ?>
-
+                                        Selamat datang di website resmi
+                                        SMPN Satu Atap 1 Mangunreja.
                                     </p>
 
                                     <div class="hero-buttons">
@@ -964,15 +1069,16 @@
                                         <a href="#profil"
                                             class="btn-primary-school menu-link">
 
-                                            <i class="bi bi-building"></i>
+                                            <i class="bi bi-building me-1"></i>
                                             Tentang Sekolah
 
                                         </a>
 
-                                        <a href="#berita"
+                                        <a href="#guru"
                                             class="btn-outline-school menu-link">
 
-                                            Lihat Berita
+                                            <i class="bi bi-people me-1"></i>
+                                            Guru Kami
 
                                         </a>
 
@@ -988,47 +1094,103 @@
 
                 </div>
 
+            <?php else: ?>
 
-                <div class="carousel-item">
+                
 
-                    <div class="hero-slide">
+                <?php $__currentLoopData = $heroSlides; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $slide): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
-                        <img src="<?php echo e($profile?->foto
-                            ? asset('storage/' . $profile->foto)
-                            : asset('assets/school-template/img/murid.webp')); ?>"
-                            alt="Sekolah">
+                    <div class="carousel-item <?php echo e($index === 0 ? 'active' : ''); ?>">
 
-                        <div class="hero-overlay"></div>
+                        <div class="hero-slide">
 
-                        <div class="hero-content">
+                            
 
-                            <div class="container">
+                            <?php if($slide['image']): ?>
 
-                                <div class="hero-content-inner">
+                                <img src="<?php echo e($slide['image']); ?>"
+                                    alt="<?php echo e($slide['title']); ?>">
 
-                                    <div class="hero-badge">
-                                        <i class="bi bi-stars"></i>
-                                        PENDIDIKAN BERKARAKTER
-                                    </div>
+                            <?php else: ?>
 
-                                    <h1 class="hero-title">
-                                        Membangun Generasi
-                                        <span>Berprestasi</span>
-                                    </h1>
+                                <div class="hero-fallback-background">
 
-                                    <p class="hero-description">
-                                        Bersama menciptakan lingkungan pendidikan
-                                        yang nyaman, aktif, kreatif, dan berkarakter.
-                                    </p>
+                                    <i class="bi <?php echo e($slide['fallback_icon'] ?? $slide['icon']); ?>"></i>
 
-                                    <div class="hero-buttons">
+                                </div>
 
-                                        <a href="#guru"
-                                            class="btn-primary-school menu-link">
+                            <?php endif; ?>
 
-                                            Kenali Guru Kami
 
-                                        </a>
+                            
+
+                            <div class="hero-overlay"></div>
+
+
+                            
+
+                            <div class="hero-content">
+
+                                <div class="container">
+
+                                    <div class="hero-content-inner">
+
+                                        
+
+                                        <div class="hero-badge">
+
+                                            <i class="bi <?php echo e($slide['icon']); ?>"></i>
+
+                                            <?php echo e($slide['type']); ?>
+
+
+                                        </div>
+
+
+                                        
+
+                                        <h1 class="hero-title">
+
+                                            <?php echo e($slide['title']); ?>
+
+
+                                        </h1>
+
+
+                                        
+
+                                        <p class="hero-description">
+
+                                            <?php echo e($slide['description']); ?>
+
+
+                                        </p>
+
+
+                                        
+
+                                        <div class="hero-buttons">
+
+                                            <a href="<?php echo e($slide['button_href']); ?>"
+                                                class="btn-primary-school menu-link">
+
+                                                <i class="bi bi-arrow-right-circle me-1"></i>
+
+                                                <?php echo e($slide['button_text']); ?>
+
+
+                                            </a>
+
+                                            <a href="#profil"
+                                                class="btn-outline-school menu-link">
+
+                                                <i class="bi bi-building me-1"></i>
+
+                                                Profil Sekolah
+
+                                            </a>
+
+                                        </div>
 
                                     </div>
 
@@ -1040,74 +1202,74 @@
 
                     </div>
 
-                </div>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+            <?php endif; ?>
+
+        </div>
 
 
-                <div class="carousel-item">
+        
 
-                    <div class="hero-slide">
+        <?php if($heroSlides->count() > 1): ?>
 
-                        <img src="<?php echo e(asset('assets/school-template/img/gurustap.webp')); ?>"
-                            alt="Guru dan Staf">
+            <div class="carousel-indicators hero-indicators">
 
-                        <div class="hero-overlay"></div>
+                <?php $__currentLoopData = $heroSlides; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $slide): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
-                        <div class="hero-content">
+                    <button type="button"
+                        data-bs-target="#heroCarousel"
+                        data-bs-slide-to="<?php echo e($index); ?>"
+                        class="<?php echo e($index === 0 ? 'active' : ''); ?>"
+                        aria-current="<?php echo e($index === 0 ? 'true' : 'false'); ?>"
+                        aria-label="Slide <?php echo e($index + 1); ?>">
+                    </button>
 
-                            <div class="container">
-
-                                <div class="hero-content-inner">
-
-                                    <div class="hero-badge">
-                                        <i class="bi bi-people-fill"></i>
-                                        GURU & TENAGA KEPENDIDIKAN
-                                    </div>
-
-                                    <h1 class="hero-title">
-                                        Bersama Mendidik
-                                        <span>Generasi Bangsa</span>
-                                    </h1>
-
-                                    <p class="hero-description">
-                                        Tenaga pendidik yang berdedikasi dalam
-                                        mendampingi siswa untuk berkembang dan berprestasi.
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
             </div>
 
-            <button class="carousel-control-prev"
+
+            
+
+            <button class="carousel-control-prev hero-control"
                 type="button"
                 data-bs-target="#heroCarousel"
                 data-bs-slide="prev">
 
-                <span class="carousel-control-prev-icon"></span>
+                <span class="hero-control-icon">
+                    <i class="bi bi-chevron-left"></i>
+                </span>
+
+                <span class="visually-hidden">
+                    Sebelumnya
+                </span>
 
             </button>
 
-            <button class="carousel-control-next"
+
+            
+
+            <button class="carousel-control-next hero-control"
                 type="button"
                 data-bs-target="#heroCarousel"
                 data-bs-slide="next">
 
-                <span class="carousel-control-next-icon"></span>
+                <span class="hero-control-icon">
+                    <i class="bi bi-chevron-right"></i>
+                </span>
+
+                <span class="visually-hidden">
+                    Berikutnya
+                </span>
 
             </button>
 
-        </div>
+        <?php endif; ?>
 
-    </section>
+    </div>
 
-
+</section>
     
 
     <section class="statistics">
@@ -1385,7 +1547,62 @@
 
     </section>
 
+    
+<section id="sambutan" class="py-5 bg-white">
+    <div class="container">
 
+        <div class="row align-items-center g-5">
+
+            
+            <div class="col-lg-4 text-center">
+
+                <?php if($profile?->foto_kepala_sekolah): ?>
+
+                    <img
+                        src="<?php echo e(asset('storage/' . $profile->foto_kepala_sekolah)); ?>"
+                        alt="<?php echo e($profile?->kepala_sekolah ?? 'Kepala Sekolah'); ?>"
+                        class="sambutan-foto"
+                    >
+
+                <?php else: ?>
+
+                    <div class="sambutan-foto-placeholder">
+                        <i class="bi bi-person"></i>
+                    </div>
+
+                <?php endif; ?>
+
+            </div>
+
+
+            
+            <div class="col-lg-8">
+
+                <div class="sambutan-label">
+                    KOMITMEN KAMI UNTUK PENDIDIKAN
+                </div>
+                <h2 class="sambutan-title">
+                    Sambutan Kepala Sekolah
+                </h2>
+                <div class="sambutan-line"></div>
+                <?php if($profile?->sambutan_kepala_sekolah): ?>
+
+                    <div class="sambutan-text">
+                        <?php echo nl2br(e($profile->sambutan_kepala_sekolah)); ?>
+
+                    </div>
+
+                <?php else: ?>
+
+                    <p class="text-muted">
+                        Sambutan kepala sekolah belum tersedia.
+                    </p>
+
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</section>
     
 
     <section class="section section-light">
@@ -1398,14 +1615,7 @@
                     Visi & Misi
                 </div>
 
-                <h2>
-                    Arah dan Tujuan Sekolah
-                </h2>
-
-                <p>
-                    Landasan sekolah dalam membentuk peserta didik
-                    yang berprestasi dan berkarakter.
-                </p>
+                
 
             </div>
 
@@ -1676,9 +1886,13 @@
 
                                                     <?php else: ?>
 
-                                                        <img src="<?php echo e(asset('assets/school-template/img/murid.webp')); ?>"
-                                                            class="eskul-image"
-                                                            alt="<?php echo e($item->nama_eskul); ?>">
+                                                        <div class="d-flex align-items-center justify-content-center"
+                                                            style="width:100%;height:100%;background:#f8fafc;">
+
+                                                            <i class="bi bi-trophy text-secondary"
+                                                                style="font-size:70px;"></i>
+
+                                                        </div>
 
                                                     <?php endif; ?>
 
@@ -1853,9 +2067,13 @@
 
                                                 <?php else: ?>
 
-                                                    <img src="<?php echo e(asset('assets/school-template/img/acara.webp')); ?>"
-                                                        class="school-card-image"
-                                                        alt="<?php echo e($item->judul); ?>">
+                                                    <div class="d-flex align-items-center justify-content-center"
+                                                        style="width:100%;height:220px;background:#f8fafc;">
+
+                                                        <i class="bi bi-newspaper text-secondary"
+                                                            style="font-size:70px;"></i>
+
+                                                    </div>
 
                                                 <?php endif; ?>
 
@@ -2007,9 +2225,13 @@
 
                                 <?php else: ?>
 
-                                    <img src="<?php echo e(asset('assets/school-template/img/acara.webp')); ?>"
-                                        class="gallery-image"
-                                        alt="<?php echo e($item->judul); ?>">
+                                    <div class="d-flex align-items-center justify-content-center"
+                                        style="width:100%;height:100%;background:#e2e8f0;">
+
+                                        <i class="bi bi-images text-secondary"
+                                            style="font-size:70px;"></i>
+
+                                    </div>
 
                                 <?php endif; ?>
 
