@@ -1,4 +1,5 @@
-@extends('public.admin')
+
+@extends('layout.admin')
 
 @section('title', $title)
 
@@ -8,76 +9,57 @@
 
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-
         <div>
             <div class="d-flex align-items-center gap-2 mb-1">
-
                 <div class="bg-primary bg-opacity-10 text-primary rounded-3 p-2">
                     <i class="bi bi-images fs-5"></i>
                 </div>
 
                 <div>
-                    <h3 class="fw-bold mb-0">
-                        Edit Galeri
-                    </h3>
-
+                    <h3 class="fw-bold mb-0">Edit Galeri</h3>
                     <p class="text-muted mb-0">
                         Perbarui dokumentasi foto dan kegiatan sekolah.
                     </p>
                 </div>
-
             </div>
         </div>
 
         <a href="{{ route('admin.galeri.index') }}"
            class="btn btn-outline-secondary">
-
             <i class="bi bi-arrow-left me-1"></i>
             Kembali
-
         </a>
-
     </div>
-
 
     <!-- Error -->
     @if($errors->any())
-
         <div class="alert alert-danger alert-dismissible fade show shadow-sm"
              role="alert">
 
             <div class="d-flex align-items-start">
-
                 <i class="bi bi-exclamation-triangle me-2 mt-1"></i>
 
                 <div>
-
                     <strong>Terjadi kesalahan:</strong>
 
                     @foreach($errors->all() as $error)
                         <div>{{ $error }}</div>
                     @endforeach
-
                 </div>
-
             </div>
 
             <button type="button"
                     class="btn-close"
                     data-bs-dismiss="alert">
             </button>
-
         </div>
-
     @endif
-
 
     <!-- Card -->
     <div class="card border-0 shadow-sm">
 
         <!-- Card Header -->
         <div class="card-header bg-white border-bottom py-3">
-
             <div class="d-flex align-items-center">
 
                 <div class="bg-primary bg-opacity-10 text-primary rounded-3 p-2 me-3">
@@ -85,21 +67,14 @@
                 </div>
 
                 <div>
-
-                    <h5 class="fw-bold mb-1">
-                        Form Edit Galeri
-                    </h5>
-
+                    <h5 class="fw-bold mb-1">Form Edit Galeri</h5>
                     <small class="text-muted">
                         Perbarui informasi dokumentasi sekolah.
                     </small>
-
                 </div>
 
             </div>
-
         </div>
-
 
         <!-- Card Body -->
         <div class="card-body p-4">
@@ -111,15 +86,10 @@
                 @csrf
                 @method('PUT')
 
-
                 <!-- Judul -->
                 <div class="mb-3">
-
                     <label class="form-label fw-semibold">
-
-                        Judul
-                        <span class="text-danger">*</span>
-
+                        Judul <span class="text-danger">*</span>
                     </label>
 
                     <input
@@ -134,13 +104,10 @@
                     <small class="text-muted">
                         Maksimal 50 karakter.
                     </small>
-
                 </div>
-
 
                 <!-- Keterangan -->
                 <div class="mb-3">
-
                     <label class="form-label fw-semibold">
                         Keterangan
                     </label>
@@ -150,58 +117,40 @@
                         rows="5"
                         class="form-control"
                         placeholder="Masukkan keterangan dokumentasi...">{{ old('keterangan', $galeri->keterangan) }}</textarea>
-
                 </div>
-
 
                 <!-- Kategori -->
                 <div class="mb-3">
-
                     <label class="form-label fw-semibold">
-
-                        Kategori
-                        <span class="text-danger">*</span>
-
+                        Kategori <span class="text-danger">*</span>
                     </label>
 
                     <select
                         name="kategori"
+                        id="kategori"
                         class="form-select"
                         required>
 
-                        <option value="">
-                            -- Pilih Kategori --
-                        </option>
+                        <option value="">-- Pilih Kategori --</option>
 
                         <option
                             value="Foto"
                             @selected(old('kategori', $galeri->kategori) === 'Foto')>
-
                             Foto
-
                         </option>
 
                         <option
                             value="Video"
                             @selected(old('kategori', $galeri->kategori) === 'Video')>
-
                             Video
-
                         </option>
-
                     </select>
-
                 </div>
-
 
                 <!-- Tanggal -->
                 <div class="mb-3">
-
                     <label class="form-label fw-semibold">
-
-                        Tanggal
-                        <span class="text-danger">*</span>
-
+                        Tanggal <span class="text-danger">*</span>
                     </label>
 
                     <input
@@ -210,13 +159,10 @@
                         class="form-control"
                         value="{{ old('tanggal', $galeri->tanggal) }}"
                         required>
-
                 </div>
-
 
                 <!-- File Saat Ini -->
                 @if($galeri->file)
-
                     <div class="mb-4">
 
                         <label class="form-label fw-semibold d-block">
@@ -225,24 +171,34 @@
 
                         <div class="border rounded-3 p-2 d-inline-block bg-light">
 
-                            <img
-                                src="{{ \Illuminate\Support\Facades\Storage::url($galeri->file) }}"
-                                width="180"
-                                height="120"
-                                class="rounded"
-                                style="object-fit: cover;"
-                                alt="{{ $galeri->judul }}">
+                            @if($galeri->kategori === 'Video')
+                                <video
+                                    controls
+                                    preload="metadata"
+                                    class="rounded"
+                                    style="width: 320px; max-width: 100%;">
+
+                                    <source
+                                        src="{{ \Illuminate\Support\Facades\Storage::url($galeri->file) }}">
+
+                                    Browser Anda tidak mendukung pemutar video.
+                                </video>
+                            @else
+                                <img
+                                    src="{{ \Illuminate\Support\Facades\Storage::url($galeri->file) }}"
+                                    width="180"
+                                    height="120"
+                                    class="rounded"
+                                    style="object-fit: cover;"
+                                    alt="{{ $galeri->judul }}">
+                            @endif
 
                         </div>
-
                     </div>
-
                 @endif
-
 
                 <!-- Ganti File -->
                 <div class="mb-4">
-
                     <label class="form-label fw-semibold">
                         Ganti File
                     </label>
@@ -250,35 +206,33 @@
                     <input
                         type="file"
                         name="file"
+                        id="file"
                         class="form-control"
-                        accept="image/*">
+                        accept="image/jpeg,image/png,image/webp,video/mp4,video/webm,video/quicktime,video/ogg">
 
-                    <small class="text-muted">
+                    <small class="text-muted d-block mt-2">
                         Kosongkan jika tidak ingin mengganti file.
-                        Format JPG, JPEG, PNG, atau WEBP. Maksimal 2 MB.
+                        <br>
+                        Foto: JPG, JPEG, PNG, atau WEBP, maksimal 2 MB.
+                        <br>
+                        Video: MP4, WEBM, MOV, atau OGG.
                     </small>
-
                 </div>
-
 
                 <!-- Tombol -->
                 <div class="d-flex justify-content-end gap-2">
 
                     <a href="{{ route('admin.galeri.index') }}"
                        class="btn btn-outline-secondary">
-
                         <i class="bi bi-arrow-left me-1"></i>
                         Kembali
-
                     </a>
 
                     <button
                         type="submit"
                         class="btn btn-primary">
-
                         <i class="bi bi-save me-1"></i>
                         Simpan Perubahan
-
                     </button>
 
                 </div>
@@ -286,14 +240,11 @@
             </form>
 
         </div>
-
     </div>
 
 </div>
 
-
 <style>
-
     .form-control,
     .form-select {
         border-color: #dee2e6;
@@ -308,7 +259,6 @@
     textarea.form-control {
         resize: vertical;
     }
-
 </style>
 
 @endsection

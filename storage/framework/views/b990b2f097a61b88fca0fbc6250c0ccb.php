@@ -1,8 +1,8 @@
-@extends('layout.admin')
 
-@section('title', $title)
 
-@section('content')
+<?php $__env->startSection('title', $title); ?>
+
+<?php $__env->startSection('content'); ?>
 
 <style>
     /* =========================================================
@@ -408,9 +408,7 @@
 <div class="container-fluid px-0 guru-detail-page">
 
 
-    {{-- =====================================================
-         HEADER
-    ====================================================== --}}
+    
     <div class="guru-page-header">
 
         <div class="guru-header-left">
@@ -434,15 +432,11 @@
     </div>
 
 
-    {{-- =====================================================
-         MAIN CARD
-    ====================================================== --}}
+    
     <div class="guru-detail-card">
 
 
-        {{-- =================================================
-             CARD HEADER
-        ================================================== --}}
+        
         <div class="guru-card-header">
 
             <div class="guru-card-icon">
@@ -466,27 +460,23 @@
         </div>
 
 
-        {{-- =================================================
-             DETAIL CONTENT
-        ================================================== --}}
+        
         <div class="guru-detail-body">
 
             <div class="guru-profile">
 
 
-                {{-- =================================================
-                     FOTO GURU
-                ================================================== --}}
+                
                 <div class="guru-photo-wrapper">
 
-                    @if($guru->foto)
+                    <?php if($guru->foto): ?>
 
                         <img
-                            src="{{ asset('storage/'.$guru->foto) }}"
-                            alt="{{ $guru->nama_guru }}"
+                            src="<?php echo e(asset('storage/'.$guru->foto)); ?>"
+                            alt="<?php echo e($guru->nama_guru); ?>"
                             class="guru-photo">
 
-                    @else
+                    <?php else: ?>
 
                         <div class="guru-photo-placeholder">
 
@@ -494,30 +484,28 @@
 
                         </div>
 
-                    @endif
+                    <?php endif; ?>
 
                 </div>
 
 
-                {{-- =================================================
-                     NAMA GURU
-                ================================================== --}}
+                
                 <h2 class="guru-profile-name">
-                    {{ $guru->nama_guru }}
+                    <?php echo e($guru->nama_guru); ?>
+
                 </h2>
 
                 <p class="guru-profile-role">
-                    Guru {{ $guru->mapel }}
+                    Guru <?php echo e($guru->mapel); ?>
+
                 </p>
 
 
-                {{-- =================================================
-                     DATA GURU
-                ================================================== --}}
+                
                 <div class="guru-info-list">
 
 
-                    {{-- NAMA --}}
+                    
                     <div class="guru-info-row">
 
                         <div class="guru-info-label">
@@ -525,13 +513,14 @@
                         </div>
 
                         <div class="guru-info-value">
-                            {{ $guru->nama_guru }}
+                            <?php echo e($guru->nama_guru); ?>
+
                         </div>
 
                     </div>
 
 
-                    {{-- NIP --}}
+                    
                     <div class="guru-info-row">
 
                         <div class="guru-info-label">
@@ -540,14 +529,15 @@
 
                         <div class="guru-info-value">
 
-                            {{ $guru->nip ?: '-' }}
+                            <?php echo e($guru->nip ?: '-'); ?>
+
 
                         </div>
 
                     </div>
 
 
-                    {{-- MATA PELAJARAN --}}
+                    
                     <div class="guru-info-row">
 
                         <div class="guru-info-label">
@@ -556,7 +546,8 @@
 
                         <div class="guru-info-value">
 
-                            {{ $guru->mapel }}
+                            <?php echo e($guru->mapel); ?>
+
 
                         </div>
 
@@ -566,15 +557,13 @@
                 </div>
 
 
-                {{-- =================================================
-                     ACTION
-                ================================================== --}}
+                
                 <div class="guru-detail-actions">
 
 
-                    {{-- EDIT --}}
+                    
                     <a
-                        href="{{ route('admin.guru.edit', Crypt::encrypt($guru->id_guru)) }}"
+                        href="<?php echo e(route('admin.guru.edit', Crypt::encrypt($guru->id_guru))); ?>"
                         class="btn guru-btn guru-btn-edit">
 
                         <i class="bi bi-pencil-square me-1"></i>
@@ -584,9 +573,9 @@
                     </a>
 
 
-                    {{-- KEMBALI --}}
+                    
                     <a
-                        href="{{ route('admin.guru.index') }}"
+                        href="<?php echo e(route('admin.guru.index')); ?>"
                         class="btn guru-btn guru-btn-back">
 
                         <i class="bi bi-arrow-left me-1"></i>
@@ -606,4 +595,5 @@
 
 </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('public.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/guru/detail.blade.php ENDPATH**/ ?>

@@ -1,12 +1,12 @@
-@php
+<?php
     use Illuminate\Support\Facades\Crypt;
-@endphp
+?>
 
-@extends('layout.admin')
 
-@section('title', $title)
 
-@section('content')
+<?php $__env->startSection('title', $title); ?>
+
+<?php $__env->startSection('content'); ?>
 
 <style>
     /* =========================================================
@@ -339,9 +339,7 @@
 <div class="container-fluid px-0 siswa-form-page">
 
 
-    {{-- =====================================================
-         HEADER
-    ====================================================== --}}
+    
 
     <div class="siswa-form-header">
 
@@ -366,11 +364,9 @@
     </div>
 
 
-    {{-- =====================================================
-         ERROR VALIDASI
-    ====================================================== --}}
+    
 
-    @if($errors->any())
+    <?php if($errors->any()): ?>
 
         <div class="siswa-error-alert">
 
@@ -381,29 +377,28 @@
 
             <ul class="mb-0 mt-1 ps-3">
 
-                @foreach($errors->all() as $error)
+                <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                     <li>
-                        {{ $error }}
+                        <?php echo e($error); ?>
+
                     </li>
 
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
             </ul>
 
         </div>
 
-    @endif
+    <?php endif; ?>
 
 
-    {{-- =====================================================
-         CARD
-    ====================================================== --}}
+    
 
     <div class="siswa-form-card">
 
 
-        {{-- CARD HEADER --}}
+        
 
         <div class="siswa-form-card-header">
 
@@ -428,21 +423,19 @@
         </div>
 
 
-        {{-- =================================================
-             FORM
-        ================================================== --}}
+        
 
         <div class="siswa-form-body">
 
             <form
-                action="{{ route('admin.siswa.update', Crypt::encrypt($siswa->id_siswa)) }}"
+                action="<?php echo e(route('admin.siswa.update', Crypt::encrypt($siswa->id_siswa))); ?>"
                 method="POST">
 
-                @csrf
-                @method('PUT')
+                <?php echo csrf_field(); ?>
+                <?php echo method_field('PUT'); ?>
 
 
-                {{-- NISN --}}
+                
 
                 <div class="siswa-form-group">
 
@@ -460,23 +453,31 @@
                         id="nisn"
                         name="nisn"
                         class="siswa-form-control"
-                        value="{{ old('nisn', $siswa->nisn) }}"
+                        value="<?php echo e(old('nisn', $siswa->nisn)); ?>"
                         placeholder="Masukkan NISN siswa"
                         maxlength="10"
                         required>
 
-                    @error('nisn')
+                    <?php $__errorArgs = ['nisn'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
 
                         <div class="siswa-error">
-                            {{ $message }}
+                            <?php echo e($message); ?>
+
                         </div>
 
-                    @enderror
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
 
                 </div>
 
 
-                {{-- NAMA SISWA --}}
+                
 
                 <div class="siswa-form-group">
 
@@ -494,23 +495,31 @@
                         id="nama_siswa"
                         name="nama_siswa"
                         class="siswa-form-control"
-                        value="{{ old('nama_siswa', $siswa->nama_siswa) }}"
+                        value="<?php echo e(old('nama_siswa', $siswa->nama_siswa)); ?>"
                         placeholder="Masukkan nama siswa"
                         maxlength="40"
                         required>
 
-                    @error('nama_siswa')
+                    <?php $__errorArgs = ['nama_siswa'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
 
                         <div class="siswa-error">
-                            {{ $message }}
+                            <?php echo e($message); ?>
+
                         </div>
 
-                    @enderror
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
 
                 </div>
 
 
-                {{-- JENIS KELAMIN --}}
+                
 
                 <div class="siswa-form-group">
 
@@ -535,7 +544,7 @@
 
                         <option
                             value="Laki-laki"
-                            @selected(old('jenis_kelamin', $siswa->jenis_kelamin) === 'Laki-laki')>
+                            <?php if(old('jenis_kelamin', $siswa->jenis_kelamin) === 'Laki-laki'): echo 'selected'; endif; ?>>
 
                             Laki-laki
 
@@ -543,7 +552,7 @@
 
                         <option
                             value="Perempuan"
-                            @selected(old('jenis_kelamin', $siswa->jenis_kelamin) === 'Perempuan')>
+                            <?php if(old('jenis_kelamin', $siswa->jenis_kelamin) === 'Perempuan'): echo 'selected'; endif; ?>>
 
                             Perempuan
 
@@ -551,18 +560,26 @@
 
                     </select>
 
-                    @error('jenis_kelamin')
+                    <?php $__errorArgs = ['jenis_kelamin'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
 
                         <div class="siswa-error">
-                            {{ $message }}
+                            <?php echo e($message); ?>
+
                         </div>
 
-                    @enderror
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
 
                 </div>
 
 
-                {{-- TAHUN MASUK --}}
+                
 
                 <div class="siswa-form-group mb-0">
 
@@ -580,31 +597,37 @@
                         id="tahun_masuk"
                         name="tahun_masuk"
                         class="siswa-form-control"
-                        value="{{ old('tahun_masuk', $siswa->tahun_masuk) }}"
+                        value="<?php echo e(old('tahun_masuk', $siswa->tahun_masuk)); ?>"
                         placeholder="Contoh: 2025"
                         min="2000"
                         max="2100"
                         required>
 
-                    @error('tahun_masuk')
+                    <?php $__errorArgs = ['tahun_masuk'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
 
                         <div class="siswa-error">
-                            {{ $message }}
+                            <?php echo e($message); ?>
+
                         </div>
 
-                    @enderror
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
 
                 </div>
 
 
-                {{-- =================================================
-                     BUTTON
-                ================================================== --}}
+                
 
                 <div class="siswa-form-footer">
 
                     <a
-                        href="{{ route('admin.siswa.index') }}"
+                        href="<?php echo e(route('admin.siswa.index')); ?>"
                         class="siswa-btn siswa-btn-back">
 
                         <i class="bi bi-arrow-left me-1"></i>
@@ -635,4 +658,5 @@
 
 </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('public.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/siswa/edit.blade.php ENDPATH**/ ?>

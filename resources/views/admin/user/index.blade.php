@@ -1,7 +1,7 @@
 @php
     use Illuminate\Support\Facades\Crypt;
 @endphp
-@extends('public.admin')
+@extends('layout.admin')
 
 @section('title', 'Data User')
 

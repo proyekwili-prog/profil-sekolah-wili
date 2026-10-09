@@ -1,12 +1,12 @@
-@php
+<?php
     use Illuminate\Support\Facades\Crypt;
-@endphp
+?>
 
-@extends('layout.admin')
 
-@section('title', $title)
 
-@section('content')
+<?php $__env->startSection('title', $title); ?>
+
+<?php $__env->startSection('content'); ?>
 
 <style>
     /* =========================================================
@@ -722,9 +722,7 @@
 <div class="container-fluid px-0 siswa-page">
 
 
-    {{-- =====================================================
-         HEADER
-    ====================================================== --}}
+    
 
     <div class="siswa-page-header">
 
@@ -750,7 +748,7 @@
 
 
         <a
-            href="{{ route('admin.siswa.create') }}"
+            href="<?php echo e(route('admin.siswa.create')); ?>"
             class="siswa-add-btn">
 
             <i class="bi bi-plus-lg"></i>
@@ -762,31 +760,28 @@
     </div>
 
 
-    {{-- =====================================================
-         ALERT
-    ====================================================== --}}
+    
 
-    @if(session('success'))
+    <?php if(session('success')): ?>
 
         <div class="alert alert-success siswa-alert">
 
             <i class="bi bi-check-circle me-1"></i>
 
-            {{ session('success') }}
+            <?php echo e(session('success')); ?>
+
 
         </div>
 
-    @endif
+    <?php endif; ?>
 
 
-    {{-- =====================================================
-         CARD DATA SISWA
-    ====================================================== --}}
+    
 
     <div class="siswa-card">
 
 
-        {{-- CARD HEADER --}}
+        
 
         <div class="siswa-card-header">
 
@@ -817,16 +812,14 @@
 
                 <i class="bi bi-people"></i>
 
-                {{ $totalSiswa }} Siswa
+                <?php echo e($totalSiswa); ?> Siswa
 
             </div>
 
         </div>
 
 
-        {{-- =================================================
-             TABLE
-        ================================================== --}}
+        
 
         <div class="siswa-table-wrapper">
 
@@ -867,87 +860,92 @@
 
                 <tbody>
 
-                    @foreach($siswas as $i => $siswa)
+                    <?php $__currentLoopData = $siswas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $i => $siswa): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                         <tr>
 
 
-                            {{-- NO --}}
+                            
 
                             <td class="siswa-col-no">
 
                                 <span class="siswa-number">
 
-                                    {{ $i + 1 }}
+                                    <?php echo e($i + 1); ?>
+
 
                                 </span>
 
                             </td>
 
 
-                            {{-- NISN --}}
+                            
 
                             <td class="siswa-col-nisn">
 
                                 <span class="siswa-nisn">
 
-                                    {{ $siswa->nisn }}
+                                    <?php echo e($siswa->nisn); ?>
+
 
                                 </span>
 
                             </td>
 
 
-                            {{-- NAMA --}}
+                            
 
                             <td class="siswa-col-name">
 
                                 <span class="siswa-name">
 
-                                    {{ $siswa->nama_siswa }}
+                                    <?php echo e($siswa->nama_siswa); ?>
+
 
                                 </span>
 
                             </td>
 
 
-                            {{-- JENIS KELAMIN --}}
+                            
 
                             <td class="siswa-col-gender">
 
                                 <span class="siswa-gender">
 
-                                    {{ $siswa->jenis_kelamin }}
+                                    <?php echo e($siswa->jenis_kelamin); ?>
+
 
                                 </span>
 
                             </td>
 
 
-                            {{-- TAHUN MASUK --}}
+                            
 
                             <td class="siswa-col-year">
 
                                 <span class="siswa-year">
 
-                                    {{ $siswa->tahun_masuk }}
+                                    <?php echo e($siswa->tahun_masuk); ?>
+
 
                                 </span>
 
                             </td>
 
 
-                            {{-- AKSI --}}
+                            
 
                             <td class="siswa-col-action">
 
                                 <div class="siswa-actions">
 
 
-                                    {{-- DETAIL --}}
+                                    
 
                                     <a
-                                        href="{{ route('admin.siswa.detail', Crypt::encrypt($siswa->id_siswa)) }}"
+                                        href="<?php echo e(route('admin.siswa.detail', Crypt::encrypt($siswa->id_siswa))); ?>"
                                         class="btn siswa-action-btn siswa-detail-btn"
                                         title="Lihat Detail">
 
@@ -956,10 +954,10 @@
                                     </a>
 
 
-                                    {{-- EDIT --}}
+                                    
 
                                     <a
-                                        href="{{ route('admin.siswa.edit', Crypt::encrypt($siswa->id_siswa)) }}"
+                                        href="<?php echo e(route('admin.siswa.edit', Crypt::encrypt($siswa->id_siswa))); ?>"
                                         class="btn siswa-action-btn siswa-edit-btn"
                                         title="Edit">
 
@@ -968,17 +966,17 @@
                                     </a>
 
 
-                                    {{-- HAPUS --}}
+                                    
 
                                     <form
-                                        action="{{ route('admin.siswa.destroy', Crypt::encrypt($siswa->id_siswa)) }}"
+                                        action="<?php echo e(route('admin.siswa.destroy', Crypt::encrypt($siswa->id_siswa))); ?>"
                                         method="POST"
                                         class="d-inline"
                                         onsubmit="return confirm('Yakin ingin menghapus siswa ini?')">
 
-                                        @csrf
+                                        <?php echo csrf_field(); ?>
 
-                                        @method('DELETE')
+                                        <?php echo method_field('DELETE'); ?>
 
                                         <button
                                             type="submit"
@@ -998,7 +996,7 @@
 
                         </tr>
 
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                 </tbody>
 
@@ -1010,4 +1008,5 @@
 
 </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/siswa/index.blade.php ENDPATH**/ ?>

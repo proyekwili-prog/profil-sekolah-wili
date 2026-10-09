@@ -1,9 +1,6 @@
-@extends('layout.admin')
+<?php $__env->startSection('title', $title); ?>
 
-
-@section('title', $title)
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 <div class="container-fluid px-0">
 
@@ -24,7 +21,7 @@
             </div>
         </div>
 
-        <a href="{{ route('admin.galeri.index') }}"
+        <a href="<?php echo e(route('admin.galeri.index')); ?>"
            class="btn btn-outline-secondary">
             <i class="bi bi-arrow-left me-1"></i>
             Kembali
@@ -32,7 +29,7 @@
     </div>
 
     <!-- Error -->
-    @if($errors->any())
+    <?php if($errors->any()): ?>
         <div class="alert alert-danger alert-dismissible fade show shadow-sm"
              role="alert">
             <div class="d-flex align-items-start">
@@ -41,9 +38,9 @@
                 <div>
                     <strong>Terjadi kesalahan:</strong>
 
-                    @foreach($errors->all() as $error)
-                        <div>{{ $error }}</div>
-                    @endforeach
+                    <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <div><?php echo e($error); ?></div>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
             </div>
 
@@ -52,7 +49,7 @@
                     data-bs-dismiss="alert">
             </button>
         </div>
-    @endif
+    <?php endif; ?>
 
     <!-- Card -->
     <div class="card border-0 shadow-sm">
@@ -76,11 +73,11 @@
         <!-- Card Body -->
         <div class="card-body p-4">
 
-            <form action="{{ route('admin.galeri.store') }}"
+            <form action="<?php echo e(route('admin.galeri.store')); ?>"
                   method="POST"
                   enctype="multipart/form-data">
 
-                @csrf
+                <?php echo csrf_field(); ?>
 
                 <!-- Judul -->
                 <div class="mb-3">
@@ -93,7 +90,7 @@
                         name="judul"
                         class="form-control"
                         maxlength="50"
-                        value="{{ old('judul') }}"
+                        value="<?php echo e(old('judul')); ?>"
                         placeholder="Masukkan judul dokumentasi"
                         required>
 
@@ -112,7 +109,7 @@
                         name="keterangan"
                         rows="5"
                         class="form-control"
-                        placeholder="Masukkan keterangan dokumentasi...">{{ old('keterangan') }}</textarea>
+                        placeholder="Masukkan keterangan dokumentasi..."><?php echo e(old('keterangan')); ?></textarea>
                 </div>
 
                 <!-- Kategori -->
@@ -131,13 +128,13 @@
 
                         <option
                             value="Foto"
-                            @selected(old('kategori') === 'Foto')>
+                            <?php if(old('kategori') === 'Foto'): echo 'selected'; endif; ?>>
                             Foto
                         </option>
 
                         <option
                             value="Video"
-                            @selected(old('kategori') === 'Video')>
+                            <?php if(old('kategori') === 'Video'): echo 'selected'; endif; ?>>
                             Video
                         </option>
                     </select>
@@ -157,7 +154,7 @@
                         type="date"
                         name="tanggal"
                         class="form-control"
-                        value="{{ old('tanggal', date('Y-m-d')) }}"
+                        value="<?php echo e(old('tanggal', date('Y-m-d'))); ?>"
                         required>
                 </div>
 
@@ -207,7 +204,7 @@
 
                 <!-- Tombol -->
                 <div class="d-flex justify-content-end gap-2">
-                    <a href="{{ route('admin.galeri.index') }}"
+                    <a href="<?php echo e(route('admin.galeri.index')); ?>"
                        class="btn btn-outline-secondary">
                         <i class="bi bi-arrow-left me-1"></i>
                         Kembali
@@ -360,4 +357,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layout.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/galeri/tambah.blade.php ENDPATH**/ ?>

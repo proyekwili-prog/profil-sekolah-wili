@@ -14,8 +14,9 @@
 
     </title>
 
-    <link rel="icon"
-        href="<?php echo e(asset('assets/images/satap.png')); ?>">
+    <?php if($profile?->logo): ?>
+        <link rel="icon" href="<?php echo e(asset('storage/' . $profile->logo)); ?>">
+    <?php endif; ?>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
         rel="stylesheet">

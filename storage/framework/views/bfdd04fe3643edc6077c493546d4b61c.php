@@ -1,12 +1,6 @@
-@php
-    use Illuminate\Support\Facades\Crypt;
-@endphp
+<?php $__env->startSection('title', $title); ?>
 
-@extends('layout.admin')
-
-@section('title', $title)
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 <div class="container-fluid px-0">
 
@@ -14,37 +8,53 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <div class="d-flex align-items-center gap-2 mb-1">
+
                 <div class="bg-primary bg-opacity-10 text-primary rounded-3 p-2">
-                    <i class="bi bi-newspaper fs-5"></i>
+                    <i class="bi bi-trophy fs-5"></i>
                 </div>
 
                 <div>
-                    <h3 class="fw-bold mb-0">Kelola Berita</h3>
+                    <h3 class="fw-bold mb-0">
+                        Kelola Ekstrakurikuler
+                    </h3>
+
                     <p class="text-muted mb-0">
-                        Kelola berita dan informasi sekolah.
+                        Kelola data kegiatan ekstrakurikuler sekolah.
                     </p>
                 </div>
+
             </div>
         </div>
 
-        <a href="{{ route('admin.berita.tambah') }}" class="btn btn-primary">
+        <a href="<?php echo e(route('admin.ekstrakulikuler.tambah')); ?>"
+           class="btn btn-primary">
+
             <i class="bi bi-plus-circle me-1"></i>
-            Tambah Berita
+            Tambah Ekstrakurikuler
+
         </a>
     </div>
 
+
     <!-- Notifikasi -->
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+    <?php if(session('success')): ?>
+
+        <div class="alert alert-success alert-dismissible fade show shadow-sm"
+             role="alert">
+
             <i class="bi bi-check-circle me-2"></i>
-            {{ session('success') }}
+            <?php echo e(session('success')); ?>
+
 
             <button type="button"
                     class="btn-close"
                     data-bs-dismiss="alert">
             </button>
+
         </div>
-    @endif
+
+    <?php endif; ?>
+
 
     <!-- Card Data -->
     <div class="card border-0 shadow-sm">
@@ -62,23 +72,24 @@
 
                     <div>
                         <h5 class="fw-bold mb-1">
-                            Data Berita
+                            Data Ekstrakurikuler
                         </h5>
 
                         <small class="text-muted">
-                            Daftar berita dan informasi sekolah
+                            Daftar kegiatan ekstrakurikuler sekolah
                         </small>
                     </div>
 
                 </div>
 
                 <span class="badge bg-primary rounded-pill px-3 py-2">
-                    {{ $beritas->count() }} Data
+                    <?php echo e($ekstrakurikulers->count()); ?> Data
                 </span>
 
             </div>
 
         </div>
+
 
         <!-- Card Body -->
         <div class="card-body p-0">
@@ -88,110 +99,103 @@
                 <table class="table table-bordered table-hover align-middle mb-0">
 
                     <thead class="table-light">
+
                         <tr>
+
                             <th class="text-center" style="width:60px;">
                                 No
                             </th>
 
-                            <th class="text-center" style="width:100px;">
+                            <th class="text-center" style="width:110px;">
                                 Gambar
                             </th>
 
                             <th>
-                                Judul Berita
+                                Nama Ekstrakurikuler
                             </th>
 
-                            <th style="width:130px;">
-                                Tanggal
+                            <th>
+                                Pembina
                             </th>
 
-                            <th style="width:150px;">
-                                Penulis
+                            <th>
+                                Jadwal Latihan
                             </th>
 
                             <th class="text-center" style="width:150px;">
                                 Aksi
                             </th>
+
                         </tr>
+
                     </thead>
 
                     <tbody>
 
-                        @foreach($beritas as $i => $berita)
+                        <?php $__currentLoopData = $ekstrakurikulers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $i => $ekstrakurikuler): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                             <tr>
 
                                 <!-- No -->
                                 <td class="text-center">
-                                    {{ $i + 1 }}
+                                    <?php echo e($i + 1); ?>
+
                                 </td>
+
 
                                 <!-- Gambar -->
                                 <td class="text-center">
 
-                                    @if($berita->gambar)
+                                    <?php if($ekstrakurikuler->gambar): ?>
 
                                         <img
-                                            src="{{ \Illuminate\Support\Facades\Storage::url($berita->gambar) }}"
-                                            width="80"
+                                            src="<?php echo e(\Illuminate\Support\Facades\Storage::url($ekstrakurikuler->gambar)); ?>"
+                                            alt="<?php echo e($ekstrakurikuler->nama_eskul); ?>"
+                                            width="75"
                                             height="55"
                                             class="rounded border"
-                                            style="object-fit: cover;"
-                                            alt="{{ $berita->judul }}">
+                                            style="object-fit:cover;">
 
-                                    @else
+                                    <?php else: ?>
 
                                         <div class="bg-light border rounded d-inline-flex align-items-center justify-content-center"
-                                             style="width:80px;height:55px;">
+                                             style="width:75px;height:55px;">
 
                                             <i class="bi bi-image text-muted"></i>
 
                                         </div>
 
-                                    @endif
+                                    <?php endif; ?>
 
                                 </td>
 
-                                <!-- Judul -->
+
+                                <!-- Nama -->
+                                <td class="fw-semibold">
+                                    <?php echo e($ekstrakurikuler->nama_eskul); ?>
+
+                                </td>
+
+
+                                <!-- Pembina -->
                                 <td>
-
-                                    <div class="fw-semibold">
-                                        {{ $berita->judul }}
-                                    </div>
-
-                                    <small class="text-muted">
-                                        {{ \Illuminate\Support\Str::limit(strip_tags($berita->isi), 70) }}
-                                    </small>
+                                    <?php echo e($ekstrakurikuler->pembina); ?>
 
                                 </td>
 
-                                <!-- Tanggal -->
+
+                                <!-- Jadwal -->
                                 <td>
-
-                                    {{ \Carbon\Carbon::parse($berita->tanggal)->translatedFormat('d F Y') }}
-
-                                </td>
-
-                                <!-- Penulis -->
-                                <td>
-
-                                    @if($berita->user)
-
-                                        {{ $berita->user->username }}
-
-                                    @else
-
-                                        -
-
-                                    @endif
+                                    <?php echo e($ekstrakurikuler->jadwal_latihan); ?>
 
                                 </td>
+
 
                                 <!-- Aksi -->
                                 <td class="text-center">
 
                                     <!-- Detail -->
-                                    <a href="{{ route('admin.berita.detail',  Crypt::encrypt($berita->id_berita)) }}"
+                                    <a href="<?php echo e(route('admin.ekstrakulikuler.detail', Crypt::encrypt($ekstrakurikuler->id_eskul))); ?>"
                                        class="btn btn-sm btn-outline-primary"
                                        title="Lihat Detail">
 
@@ -199,8 +203,9 @@
 
                                     </a>
 
+
                                     <!-- Edit -->
-                                    <a href="{{ route('admin.berita.edit', Crypt::encrypt($berita->id_berita)) }}"
+                                    <a href="<?php echo e(route('admin.ekstrakulikuler.edit',Crypt::encrypt($ekstrakurikuler->id_eskul))); ?>"
                                        class="btn btn-sm btn-outline-secondary"
                                        title="Edit">
 
@@ -208,15 +213,16 @@
 
                                     </a>
 
+
                                     <!-- Hapus -->
                                     <form
-                                        action="{{ route('admin.berita.destroy', Crypt::encrypt($berita->id_berita)) }}"
+                                        action="<?php echo e(route('admin.ekstrakulikuler.destroy', Crypt::encrypt($ekstrakurikuler->id_eskul))); ?>"
                                         method="POST"
                                         class="d-inline"
-                                        onsubmit="return confirm('Yakin ingin menghapus berita ini?');">
+                                        onsubmit="return confirm('Yakin ingin menghapus data ekstrakurikuler ini?');">
 
-                                        @csrf
-                                        @method('DELETE')
+                                        <?php echo csrf_field(); ?>
+                                        <?php echo method_field('DELETE'); ?>
 
                                         <button
                                             type="submit"
@@ -233,7 +239,7 @@
 
                             </tr>
 
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                     </tbody>
 
@@ -246,6 +252,7 @@
     </div>
 
 </div>
+
 
 <style>
     .table thead th {
@@ -277,4 +284,5 @@
     }
 </style>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/ekstrakulikuler/index.blade.php ENDPATH**/ ?>

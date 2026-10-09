@@ -1,12 +1,12 @@
-@php
+<?php
     use Illuminate\Support\Facades\Crypt;
-@endphp
+?>
 
-@extends('layout.admin')
 
-@section('title', $title)
 
-@section('content')
+<?php $__env->startSection('title', $title); ?>
+
+<?php $__env->startSection('content'); ?>
 
 <style>
     /* =========================================================
@@ -659,27 +659,24 @@
 <div class="container-fluid px-0 guru-page">
 
 
-    {{-- =====================================================
-         SUCCESS MESSAGE
-    ====================================================== --}}
-    @if(session('success'))
+    
+    <?php if(session('success')): ?>
 
         <div class="guru-success-alert">
 
             <i class="bi bi-check-circle-fill guru-success-icon"></i>
 
             <span>
-                {{ session('success') }}
+                <?php echo e(session('success')); ?>
+
             </span>
 
         </div>
 
-    @endif
+    <?php endif; ?>
 
 
-    {{-- =====================================================
-         PAGE HEADER
-    ====================================================== --}}
+    
     <div class="guru-page-header">
 
         <div class="guru-header-left">
@@ -701,7 +698,7 @@
         </div>
 
 
-        <a href="{{ route('admin.guru.create') }}"
+        <a href="<?php echo e(route('admin.guru.create')); ?>"
            class="btn guru-add-button">
 
             <i class="bi bi-plus-lg me-2"></i>
@@ -713,13 +710,11 @@
     </div>
 
 
-    {{-- =====================================================
-         DATA CARD
-    ====================================================== --}}
+    
     <div class="guru-card">
 
 
-        {{-- Card Header --}}
+        
         <div class="guru-card-header">
 
             <div class="guru-card-heading">
@@ -750,7 +745,7 @@
                 <i class="bi bi-people"></i>
 
                 <span>
-                    {{ $totalGuru }} Guru
+                    <?php echo e($totalGuru); ?> Guru
                 </span>
 
             </div>
@@ -758,9 +753,7 @@
         </div>
 
 
-        {{-- =================================================
-             TABLE
-        ================================================== --}}
+        
         <div class="guru-table-wrapper">
 
             <table class="table guru-table">
@@ -800,33 +793,34 @@
 
                 <tbody>
 
-                    @foreach($gurus as $i => $guru)
+                    <?php $__currentLoopData = $gurus; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $i => $guru): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                         <tr>
 
-                            {{-- NO --}}
+                            
                             <td class="col-no">
 
                                 <span class="guru-number">
-                                    {{ $i + 1 }}
+                                    <?php echo e($i + 1); ?>
+
                                 </span>
 
                             </td>
 
 
-                            {{-- FOTO --}}
+                            
                             <td class="col-foto">
 
                                 <div class="guru-photo-box">
 
-                                    @if($guru->foto)
+                                    <?php if($guru->foto): ?>
 
                                         <img
-                                            src="{{ asset('storage/'.$guru->foto) }}"
-                                            alt="{{ $guru->nama_guru }}"
+                                            src="<?php echo e(asset('storage/'.$guru->foto)); ?>"
+                                            alt="<?php echo e($guru->nama_guru); ?>"
                                             class="guru-photo">
 
-                                    @else
+                                    <?php else: ?>
 
                                         <div class="guru-photo-placeholder">
 
@@ -834,62 +828,65 @@
 
                                         </div>
 
-                                    @endif
+                                    <?php endif; ?>
 
                                 </div>
 
                             </td>
 
 
-                            {{-- NAMA --}}
+                            
                             <td class="col-nama">
 
                                 <span class="guru-name">
-                                    {{ $guru->nama_guru }}
+                                    <?php echo e($guru->nama_guru); ?>
+
                                 </span>
 
                             </td>
 
 
-                            {{-- NIP --}}
+                            
                             <td class="col-nip">
 
-                                @if($guru->nip)
+                                <?php if($guru->nip): ?>
 
                                     <span class="guru-data">
-                                        {{ $guru->nip }}
+                                        <?php echo e($guru->nip); ?>
+
                                     </span>
 
-                                @else
+                                <?php else: ?>
 
                                     <span class="guru-data guru-data-empty">
                                         Belum diisi
                                     </span>
 
-                                @endif
+                                <?php endif; ?>
 
                             </td>
 
 
-                            {{-- MAPEL --}}
+                            
                             <td class="col-mapel">
 
                                 <span class="guru-data">
-                                    {{ $guru->mapel }}
+                                    <?php echo e($guru->mapel); ?>
+
                                 </span>
 
                             </td>
 
 
-                            {{-- AKSI --}}
+                            
                             <td class="col-aksi">
 
                                 <div class="guru-action-wrapper">
 
 
-                                    {{-- DETAIL --}}
+                                    
                                     <a
-                                        href="{{ route('admin.guru.detail',Crypt::encrypt($guru->id_guru)) }}"
+                                        href="<?php echo e(route('admin.guru.detail',Crypt::encrypt($guru->id_guru))); ?>"
                                         class="btn btn-outline-primary guru-action"
                                         title="Lihat Detail">
 
@@ -898,9 +895,9 @@
                                     </a>
 
 
-                                    {{-- EDIT --}}
+                                    
                                     <a
-                                        href="{{ route('admin.guru.edit', Crypt::encrypt($guru->id_guru)) }}"
+                                        href="<?php echo e(route('admin.guru.edit', Crypt::encrypt($guru->id_guru))); ?>"
                                         class="btn btn-outline-secondary guru-action"
                                         title="Edit">
 
@@ -909,16 +906,16 @@
                                     </a>
 
 
-                                    {{-- HAPUS --}}
+                                    
                                     <form
-                                        action="{{ route('admin.guru.destroy', $guru->id_guru) }}"
+                                        action="<?php echo e(route('admin.guru.destroy', $guru->id_guru)); ?>"
                                         method="POST"
                                         class="d-inline"
                                         onsubmit="return confirm('Yakin ingin menghapus guru ini?')">
 
-                                        @csrf
+                                        <?php echo csrf_field(); ?>
 
-                                        @method('DELETE')
+                                        <?php echo method_field('DELETE'); ?>
 
                                         <button
                                             type="submit"
@@ -938,11 +935,11 @@
 
                         </tr>
 
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
 
-                    {{-- JIKA DATA KOSONG --}}
-                    @if($gurus->count() == 0)
+                    
+                    <?php if($gurus->count() == 0): ?>
 
                         <tr>
 
@@ -958,7 +955,7 @@
 
                         </tr>
 
-                    @endif
+                    <?php endif; ?>
 
                 </tbody>
 
@@ -970,4 +967,5 @@
 
 </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/guru/index.blade.php ENDPATH**/ ?>

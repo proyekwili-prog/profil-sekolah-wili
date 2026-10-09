@@ -13,8 +13,9 @@
         {{ $profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja' }}
     </title>
 
-    <link rel="icon"
-        href="{{ asset('assets/images/satap.png') }}">
+    @if($profile?->logo)
+        <link rel="icon" href="{{ asset('storage/' . $profile->logo) }}">
+    @endif
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
         rel="stylesheet">

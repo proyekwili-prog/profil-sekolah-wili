@@ -1,12 +1,12 @@
-@php
+<?php
     use Illuminate\Support\Facades\Crypt;
-@endphp
+?>
 
-@extends('layout.admin')
 
-@section('title', $title)
 
-@section('content')
+<?php $__env->startSection('title', $title); ?>
+
+<?php $__env->startSection('content'); ?>
 
 <div class="container-fluid px-0">
 
@@ -27,24 +27,25 @@
             </div>
         </div>
 
-        <a href="{{ route('admin.berita.tambah') }}" class="btn btn-primary">
+        <a href="<?php echo e(route('admin.berita.tambah')); ?>" class="btn btn-primary">
             <i class="bi bi-plus-circle me-1"></i>
             Tambah Berita
         </a>
     </div>
 
     <!-- Notifikasi -->
-    @if(session('success'))
+    <?php if(session('success')): ?>
         <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
             <i class="bi bi-check-circle me-2"></i>
-            {{ session('success') }}
+            <?php echo e(session('success')); ?>
+
 
             <button type="button"
                     class="btn-close"
                     data-bs-dismiss="alert">
             </button>
         </div>
-    @endif
+    <?php endif; ?>
 
     <!-- Card Data -->
     <div class="card border-0 shadow-sm">
@@ -73,7 +74,7 @@
                 </div>
 
                 <span class="badge bg-primary rounded-pill px-3 py-2">
-                    {{ $beritas->count() }} Data
+                    <?php echo e($beritas->count()); ?> Data
                 </span>
 
             </div>
@@ -117,29 +118,30 @@
 
                     <tbody>
 
-                        @foreach($beritas as $i => $berita)
+                        <?php $__currentLoopData = $beritas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $i => $berita): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                             <tr>
 
                                 <!-- No -->
                                 <td class="text-center">
-                                    {{ $i + 1 }}
+                                    <?php echo e($i + 1); ?>
+
                                 </td>
 
                                 <!-- Gambar -->
                                 <td class="text-center">
 
-                                    @if($berita->gambar)
+                                    <?php if($berita->gambar): ?>
 
                                         <img
-                                            src="{{ \Illuminate\Support\Facades\Storage::url($berita->gambar) }}"
+                                            src="<?php echo e(\Illuminate\Support\Facades\Storage::url($berita->gambar)); ?>"
                                             width="80"
                                             height="55"
                                             class="rounded border"
                                             style="object-fit: cover;"
-                                            alt="{{ $berita->judul }}">
+                                            alt="<?php echo e($berita->judul); ?>">
 
-                                    @else
+                                    <?php else: ?>
 
                                         <div class="bg-light border rounded d-inline-flex align-items-center justify-content-center"
                                              style="width:80px;height:55px;">
@@ -148,7 +150,7 @@
 
                                         </div>
 
-                                    @endif
+                                    <?php endif; ?>
 
                                 </td>
 
@@ -156,11 +158,13 @@
                                 <td>
 
                                     <div class="fw-semibold">
-                                        {{ $berita->judul }}
+                                        <?php echo e($berita->judul); ?>
+
                                     </div>
 
                                     <small class="text-muted">
-                                        {{ \Illuminate\Support\Str::limit(strip_tags($berita->isi), 70) }}
+                                        <?php echo e(\Illuminate\Support\Str::limit(strip_tags($berita->isi), 70)); ?>
+
                                     </small>
 
                                 </td>
@@ -168,22 +172,24 @@
                                 <!-- Tanggal -->
                                 <td>
 
-                                    {{ \Carbon\Carbon::parse($berita->tanggal)->translatedFormat('d F Y') }}
+                                    <?php echo e(\Carbon\Carbon::parse($berita->tanggal)->translatedFormat('d F Y')); ?>
+
 
                                 </td>
 
                                 <!-- Penulis -->
                                 <td>
 
-                                    @if($berita->user)
+                                    <?php if($berita->user): ?>
 
-                                        {{ $berita->user->username }}
+                                        <?php echo e($berita->user->username); ?>
 
-                                    @else
+
+                                    <?php else: ?>
 
                                         -
 
-                                    @endif
+                                    <?php endif; ?>
 
                                 </td>
 
@@ -191,7 +197,7 @@
                                 <td class="text-center">
 
                                     <!-- Detail -->
-                                    <a href="{{ route('admin.berita.detail',  Crypt::encrypt($berita->id_berita)) }}"
+                                    <a href="<?php echo e(route('admin.berita.detail',  Crypt::encrypt($berita->id_berita))); ?>"
                                        class="btn btn-sm btn-outline-primary"
                                        title="Lihat Detail">
 
@@ -200,7 +206,7 @@
                                     </a>
 
                                     <!-- Edit -->
-                                    <a href="{{ route('admin.berita.edit', Crypt::encrypt($berita->id_berita)) }}"
+                                    <a href="<?php echo e(route('admin.berita.edit', Crypt::encrypt($berita->id_berita))); ?>"
                                        class="btn btn-sm btn-outline-secondary"
                                        title="Edit">
 
@@ -210,13 +216,13 @@
 
                                     <!-- Hapus -->
                                     <form
-                                        action="{{ route('admin.berita.destroy', Crypt::encrypt($berita->id_berita)) }}"
+                                        action="<?php echo e(route('admin.berita.destroy', Crypt::encrypt($berita->id_berita))); ?>"
                                         method="POST"
                                         class="d-inline"
                                         onsubmit="return confirm('Yakin ingin menghapus berita ini?');">
 
-                                        @csrf
-                                        @method('DELETE')
+                                        <?php echo csrf_field(); ?>
+                                        <?php echo method_field('DELETE'); ?>
 
                                         <button
                                             type="submit"
@@ -233,7 +239,7 @@
 
                             </tr>
 
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                     </tbody>
 
@@ -277,4 +283,5 @@
     }
 </style>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/berita/index.blade.php ENDPATH**/ ?>

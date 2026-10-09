@@ -1,5 +1,5 @@
-```blade
-@extends('public.admin')
+
+@extends('layout.admin')
 
 @section('title', 'Tambah User')
 

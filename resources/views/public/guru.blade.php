@@ -1,36 +1,31 @@
-```blade
+
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
-        Guru & Staf -
-        {{ $profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja' }}
+        Guru - {{ $profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja' }}
     </title>
+    @if($profile?->logo)
+        <link rel="icon" href="{{ asset('storage/' . $profile->logo) }}">
+    @endif
 
-    <!-- Google Font -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
-          rel="stylesheet">
-
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        rel="stylesheet">
 
     <style>
-
-        /* =========================
-           GLOBAL
-        ========================== */
-
         * {
             margin: 0;
             padding: 0;
@@ -39,35 +34,29 @@
 
         html {
             scroll-behavior: smooth;
-            scroll-padding-top: 90px;
         }
 
         body {
             font-family: 'Montserrat', sans-serif;
             color: #1e293b;
-            background: #ffffff;
+            background: #fff;
         }
 
         a {
             text-decoration: none;
         }
 
-
-        /* =========================
-           NAVBAR
-        ========================== */
+        /* NAVBAR */
 
         .navbar-custom {
-            background: rgba(255, 255, 255, 0.98);
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
-            padding: 12px 0;
-
             position: fixed;
             top: 0;
             left: 0;
-
             width: 100%;
             z-index: 1050;
+            padding: 12px 0;
+            background: rgba(255, 255, 255, .98);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, .08);
         }
 
         .navbar-brand {
@@ -87,15 +76,9 @@
         }
 
         .brand-text .school-name {
+            color: #0f3d91;
             font-size: 14px;
             font-weight: 800;
-            color: #0f3d91;
-        }
-
-        .brand-text small {
-            font-size: 10px;
-            color: #64748b;
-            font-weight: 600;
         }
 
         .navbar-nav {
@@ -103,16 +86,12 @@
         }
 
         .navbar-nav .nav-link {
+            padding: 9px 13px !important;
+            border-radius: 7px;
             color: #334155;
             font-size: 13px;
             font-weight: 600;
-
-            padding: 9px 13px !important;
-
-            border-radius: 7px;
-
-            transition: 0.3s;
-            cursor: pointer;
+            transition: .3s;
         }
 
         .navbar-nav .nav-link:hover,
@@ -121,18 +100,13 @@
             background: #eff6ff;
         }
 
-
-        /* =========================
-           HEADER
-        ========================== */
+        /* HEADER — SAMA DENGAN EKSTRAKURIKULER */
 
         .page-header {
-               margin-top: 72px;
+            margin-top: 72px;
             min-height: 360px;
-
             display: flex;
             align-items: center;
-
             position: relative;
 
             background:
@@ -148,347 +122,325 @@
             background-position: center;
         }
 
-        .page-header h1 {
-            font-size: 34px;
+        .page-header-content {
+            color: #fff;
+        }
+
+        .badge-header {
+            display: inline-block;
+            padding: 8px 16px;
+            margin-bottom: 18px;
+            border: 1px solid rgba(255, 255, 255, .3);
+            border-radius: 30px;
+            background: rgba(255, 255, 255, .15);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .page-header-content h1 {
+            margin-bottom: 16px;
+            color: #fff;
+            font-size: clamp(32px, 5vw, 48px);
             font-weight: 800;
-
-            margin-bottom: 10px;
+            line-height: 1.15;
         }
 
-        .page-header p {
-            font-size: 15px;
-
-            margin-bottom: 0;
-
-            opacity: 0.95;
+        .page-header-content p {
+            max-width: 650px;
+            color: rgba(255, 255, 255, .88);
+            font-size: 14px;
+            line-height: 1.8;
         }
 
+        /* SECTION */
 
-        /* =========================
-           GURU SECTION
-        ========================== */
+        .section {
+            padding: 85px 0;
+        }
 
-        .guru-section {
-            padding: 75px 0;
-
+        .section-light {
             background: #f8fafc;
         }
 
         .section-title {
-            text-align: center;
-
             margin-bottom: 45px;
+            text-align: center;
+        }
+
+        .small-title {
+            margin-bottom: 8px;
+            color: #2563eb;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
         .section-title h2 {
-            color: #0f3d91;
-
-            font-size: 28px;
-
+            margin-bottom: 12px;
+            color: #0f172a;
+            font-size: 30px;
             font-weight: 800;
-
-            margin-bottom: 10px;
         }
 
         .section-title p {
+            max-width: 700px;
+            margin: auto;
             color: #64748b;
-
             font-size: 14px;
-
-            margin-bottom: 0;
+            line-height: 1.8;
         }
 
+        /* KARTU GURU */
 
-        /* =========================
-           GURU CARD
-        ========================== */
+        .school-card {
+            height: 100%;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            background: #fff;
+            transition: .3s;
+        }
+
+        .school-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(15, 23, 42, .10);
+        }
 
         .guru-card {
+            display: flex;
+            flex-direction: column;
             height: 100%;
-
-            background: #ffffff;
-
-            border-radius: 15px;
-
-            overflow: hidden;
-
-            border: 1px solid #e2e8f0;
-
-            box-shadow:
-                0 5px 20px rgba(15, 23, 42, 0.06);
-
-            transition: all 0.3s ease;
         }
-
-        .guru-card:hover {
-            transform: translateY(-7px);
-
-            box-shadow:
-                0 12px 30px rgba(15, 23, 42, 0.12);
-        }
-
-
-        /* =========================
-           FOTO GURU
-        ========================== */
 
         .guru-photo-wrapper {
             width: 100%;
-
-            height: 300px;
-
-            background: #f1f5f9;
-
+            height: 280px;
             overflow: hidden;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
+            background: #f8fafc;
         }
 
         .guru-photo {
+            display: block;
             width: 100%;
-
             height: 100%;
-
-            /*
-             * contain = foto ditampilkan utuh
-             * sehingga kepala/badan tidak terpotong.
-             */
             object-fit: contain;
-
-            object-position: center;
-
-            transition: transform 0.4s ease;
+            transition: transform .4s ease;
         }
 
         .guru-card:hover .guru-photo {
-            transform: scale(1.02);
+            transform: scale(1.03);
         }
 
         .guru-photo-empty {
             width: 100%;
-
             height: 100%;
-
             display: flex;
-
+            flex-direction: column;
             align-items: center;
-
             justify-content: center;
-
+            background: #eff6ff;
             color: #94a3b8;
-
-            font-size: 60px;
         }
 
-
-        /* =========================
-           GURU INFO
-        ========================== */
-
-        .guru-card-body {
-            padding: 25px 22px;
-
-            text-align: center;
+        .guru-photo-empty i {
+            font-size: 65px;
         }
 
-        .guru-name {
-            color: #0f3d91;
-
-            font-size: 18px;
-
-            font-weight: 800;
-
-            margin-bottom: 15px;
-        }
-
-        .guru-info {
-            color: #64748b;
-
-            font-size: 13px;
-
-            line-height: 1.9;
-
-            margin-bottom: 20px;
-        }
-
-        .guru-info div {
-            margin-bottom: 3px;
-        }
-
-        .guru-info i {
-            color: #0f3d91;
-        }
-
-
-        /* =========================
-           BUTTON DETAIL
-        ========================== */
-
-        .btn-detail {
-            background: #0f3d91;
-
-            border: none;
-
-            color: white;
-
-            font-size: 13px;
-
-            font-weight: 600;
-
-            padding: 10px 18px;
-
-            border-radius: 8px;
-
-            transition: 0.3s;
-        }
-
-        .btn-detail:hover {
-            background: #082c6b;
-
-            color: white;
-
-            transform: translateY(-2px);
-        }
-
-
-        /* =========================
-           EMPTY DATA
-        ========================== */
-
-        .empty-data {
-            background: #ffffff;
-
-            border: 1px solid #e2e8f0;
-
-            border-radius: 15px;
-
-            padding: 60px 20px;
-
-            text-align: center;
-        }
-
-        .empty-data i {
-            font-size: 55px;
-
-            color: #94a3b8;
-
-            margin-bottom: 15px;
-        }
-
-        .empty-data h5 {
-            color: #475569;
-
-            font-weight: 700;
-        }
-
-        .empty-data p {
-            color: #94a3b8;
-
-            font-size: 14px;
-
-            margin-bottom: 0;
-        }
-
-
-        /* =========================
-           FOOTER
-        ========================== */
-
-        footer {
-            background: #0f172a;
-
-            color: #cbd5e1;
-
-            padding: 65px 0 25px;
-        }
-
-        .footer-title {
-            color: #ffffff;
-
-            font-size: 16px;
-
-            font-weight: 800;
-
-            margin-bottom: 18px;
-        }
-
-        .footer-text {
-            color: #94a3b8;
-
-            font-size: 13px;
-
-            line-height: 1.8;
-        }
-
-        .footer-links {
-            list-style: none;
-
-            padding: 0;
-
-            margin: 0;
-        }
-
-        .footer-links li {
-            margin-bottom: 10px;
-        }
-
-        .footer-links a {
-            color: #94a3b8;
-
-            font-size: 13px;
-
-            transition: 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: #ffffff;
-
-            padding-left: 4px;
-        }
-
-        .footer-bottom {
-            border-top:
-                1px solid rgba(255,255,255,0.08);
-
-            margin-top: 45px;
-
-            padding-top: 20px;
-
-            color: #64748b;
-
+        .guru-photo-empty span {
+            margin-top: 8px;
             font-size: 12px;
         }
 
+        .school-card-body {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            padding: 20px;
+        }
 
-        /* =========================
-           RESPONSIVE
-        ========================== */
+        .school-card-body h5 {
+            margin-bottom: 14px;
+            color: #0f172a;
+            font-size: 16px;
+            font-weight: 800;
+            line-height: 1.5;
+        }
+
+        .card-meta {
+            margin-bottom: 10px;
+            color: #64748b;
+            font-size: 12px;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        .card-meta i {
+            margin-right: 7px;
+            color: #2563eb;
+        }
+
+        /* TOMBOL */
+
+        .btn-primary,
+        .guru-detail-btn {
+            background: #0f3d91 !important;
+            border-color: #0f3d91 !important;
+            color: #fff !important;
+            font-weight: 700;
+            transition: .3s;
+        }
+
+        .btn-primary:hover,
+        .guru-detail-btn:hover {
+            background: #082c6b !important;
+            border-color: #082c6b !important;
+            color: #fff !important;
+            transform: translateY(-2px);
+        }
+
+        .guru-detail-btn {
+            padding: 8px 15px;
+            border-radius: 7px;
+            font-size: 11px;
+        }
+
+        /* TOMBOL KEMBALI */
+
+        .back-button-wrapper {
+            margin-top: 45px;
+            text-align: center;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 11px 20px;
+            border: 1px solid #0f3d91;
+            border-radius: 8px;
+            background: #fff;
+            color: #0f3d91;
+            font-size: 12px;
+            font-weight: 700;
+            transition: .3s;
+        }
+
+        .back-button:hover {
+            background: #0f3d91;
+            color: #fff;
+        }
+
+        /* DATA KOSONG */
+
+        .empty-state {
+            padding: 60px 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            background: #fff;
+            text-align: center;
+        }
+
+        .empty-state i {
+            color: #94a3b8;
+            font-size: 55px;
+        }
+
+        .empty-state h4 {
+            margin-top: 15px;
+            color: #0f172a;
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .empty-state p {
+            margin-top: 8px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            padding-top: 55px;
+            background: #071b3d;
+            color: #fff;
+        }
+
+        .footer-title {
+            margin-bottom: 18px;
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .footer-text {
+            color: #cbd5e1;
+            font-size: 12px;
+            line-height: 1.9;
+        }
+
+        .footer-links {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 9px;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+            font-size: 12px;
+            transition: .3s;
+        }
+
+        .footer-links a:hover {
+            color: #fff;
+        }
+
+        .footer-bottom {
+            padding: 20px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, .1);
+            color: #94a3b8;
+            font-size: 11px;
+        }
+
+        /* RESPONSIVE — SAMA DENGAN EKSTRAKURIKULER */
 
         @media (max-width: 991px) {
-
             .navbar-nav {
                 padding-top: 15px;
             }
 
             .page-header {
-                min-height: 250px;
-            }
-
-            .guru-section {
-                padding: 60px 0;
+                min-height: 330px;
             }
         }
 
-
         @media (max-width: 767px) {
+            .page-header {
+                min-height: 300px;
+            }
 
+            .page-header-content h1 {
+                font-size: 32px;
+            }
+
+            .section {
+                padding: 65px 0;
+            }
+
+            .guru-photo-wrapper {
+                height: 260px;
+            }
+        }
+
+        @media (max-width: 576px) {
             .navbar-brand img {
                 width: 42px;
-
                 height: 42px;
             }
 
@@ -497,488 +449,332 @@
             }
 
             .page-header {
-                min-height: 230px;
-
-                padding: 40px 20px;
+                margin-top: 66px;
+                min-height: 280px;
             }
 
-            .page-header h1 {
-                font-size: 27px;
+            .page-header-content h1 {
+                font-size: 28px;
             }
 
-            .page-header p {
-                font-size: 13px;
+            .page-header-content p {
+                font-size: 12px;
             }
 
-            .guru-section {
-                padding: 50px 0;
-            }
+            /* Menghilangkan garis putih di antara navbar dan banner */
+.page-header {
+    margin-top: 0 !important;
+}
 
-            .section-title h2 {
-                font-size: 24px;
-            }
+/* Menjaga banner tetap berada tepat di bawah navbar */
+body {
+    padding-top: 120px;
+}
 
-            .guru-photo-wrapper {
-                height: 300px;
-            }
+.navbar-custom {
+    border-bottom: none;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, .08);
+}
         }
-
     </style>
 </head>
 
 <body>
 
-
-<!-- =========================
-     NAVBAR
-========================== -->
-
-<nav class="navbar navbar-expand-lg navbar-custom">
-
-    <div class="container">
-
-        <a class="navbar-brand"
-           href="{{ route('public.dashboard') }}">
-
-            @if($profile?->logo)
-
-                <img
-                    src="{{ asset('storage/' . $profile->logo) }}"
-                    alt="Logo Sekolah">
-
-            @else
-
-                <img
-                    src="{{ asset('assets/images/satap.png') }}"
-                    alt="Logo Sekolah">
-
-            @endif
-
-
-            <div class="brand-text">
-
-                <div class="school-name">
-
-                    {{ $profile?->nama_sekolah
-                        ?? 'SMPN Satu Atap 1 Mangunreja' }}
-
-                </div>
-
-            </div>
-
-        </a>
-
-
-        <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarMenu"
-            aria-controls="navbarMenu"
-            aria-expanded="false"
-            aria-label="Toggle navigation">
-
-            <span class="navbar-toggler-icon"></span>
-
-        </button>
-
-
-        <div
-            class="collapse navbar-collapse"
-            id="navbarMenu">
-
-            <ul class="navbar-nav ms-auto align-items-lg-center">
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="{{ route('public.dashboard') }}">
-
-                        Beranda
-
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="{{ route('public.profil') }}">
-
-                        Profil
-
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link active"
-                        href="{{ route('public.guru') }}">
-
-                        Guru
-
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="{{ route('public.ekstrakurikuler') }}">
-
-                        Ekstrakurikuler
-
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="{{ route('public.berita') }}">
-
-                        Berita
-
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="{{ route('public.galeri') }}">
-
-                        Galeri
-
-                    </a>
-
-                </li>
-
-            </ul>
-
-        </div>
-
-    </div>
-
-</nav>
-
-
-<!-- =========================
-     HEADER
-========================== -->
-
-
-
-    <section class="page-header">
+    {{-- NAVBAR --}}
+    <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container">
-            <div class="page-header-content">
-                <h1 class="text-white">
-                      Guru & Tenaga Kependidikan
-                </h1>
-                <p class="text-white">
-            {{ $profile?->nama_sekolah
-                ?? 'SMPN Satu Atap 1 Mangunreja' }}
-        </p>
-            </div>
-        </div>
-    </section>
 
-<!-- =========================
-     DATA GURU
-========================== -->
+            <a class="navbar-brand" href="{{ route('public.dashboard') }}">
 
-<section class="guru-section">
+                @if($profile?->logo)
+                    <img src="{{ asset('storage/' . $profile->logo) }}"
+                        alt="Logo Sekolah">
+                @else
+                    <img src="{{ asset('assets/images/satap.png') }}"
+                        alt="Logo Sekolah">
+                @endif
 
-    <div class="container">
-
-
-        <div class="section-title">
-
-            <h2>
-                Guru & Staf
-            </h2>
-
-            <p>
-                Berikut adalah daftar guru yang mengajar
-                di sekolah kami.
-            </p>
-
-        </div>
-
-
-        @if($guru->isEmpty())
-
-            <div class="empty-data">
-
-                <i class="bi bi-people"></i>
-
-                <h5>
-                    Data guru belum tersedia
-                </h5>
-
-                <p>
-                    Belum ada data guru yang ditambahkan.
-                </p>
-
-            </div>
-
-        @else
-
-            <div class="row g-4">
-
-                @foreach($guru as $item)
-
-                    <div class="col-lg-4 col-md-6">
-
-                        <div class="guru-card">
-
-
-                            <!-- FOTO -->
-
-                            <div class="guru-photo-wrapper">
-
-                                @if($item->foto)
-
-                                    <img
-                                        src="{{ asset('storage/' . $item->foto) }}"
-                                        class="guru-photo"
-                                        alt="{{ $item->nama_guru }}">
-
-                                @else
-
-                                    <div class="guru-photo-empty">
-
-                                        <i class="bi bi-person-circle"></i>
-
-                                    </div>
-
-                                @endif
-
-                            </div>
-
-
-                            <!-- INFORMASI -->
-
-                            <div class="guru-card-body">
-
-                                <div class="guru-name">
-
-                                    {{ $item->nama_guru }}
-
-                                </div>
-
-
-                                <div class="guru-info">
-
-                                    <div>
-
-                                        <i class="bi bi-book me-1"></i>
-
-                                        {{ $item->mapel ?? '-' }}
-
-                                    </div>
-
-
-                                    <div>
-
-                                        <i class="bi bi-person-vcard me-1"></i>
-
-                                        NIP:
-                                        {{ $item->nip ?? '-' }}
-
-                                    </div>
-
-                                </div>
-
-
-                                <a
-                                    href="{{ route('public.guru.detail', ['id' => $item->id_guru]) }}"
-                                    class="btn btn-detail">
-
-                                    <i class="bi bi-eye me-1"></i>
-
-                                    Lihat Detail
-
-                                </a>
-
-                            </div>
-
-                        </div>
-
+                <div class="brand-text">
+                    <div class="school-name">
+                        {{ $profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja' }}
                     </div>
-
-                @endforeach
-
-            </div>
-
-        @endif
-
-    </div>
-
-</section>
-
-
-<!-- =========================
-     FOOTER
-========================== -->
-
-<footer>
-
-    <div class="container">
-
-        <div class="row g-5">
-
-
-            <!-- SEKOLAH -->
-
-            <div class="col-lg-5">
-
-                <div class="footer-title">
-
-                    {{ $profile?->nama_sekolah
-                        ?? 'SMPN Satu Atap 1 Mangunreja' }}
-
                 </div>
 
+            </a>
 
-                <p class="footer-text">
+            <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarMenu"
+                aria-controls="navbarMenu"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
 
-                    {{ $profile?->deskripsi
-                        ?? 'Sekolah yang berkomitmen memberikan pendidikan berkualitas bagi generasi bangsa.' }}
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                </p>
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
 
-            </div>
-
-
-            <!-- NAVIGASI -->
-
-            <div class="col-lg-3">
-
-                <div class="footer-title">
-
-                    Navigasi
-
-                </div>
-
-
-                <ul class="footer-links">
-
-                    <li>
-                        <a href="{{ route('public.dashboard') }}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('public.dashboard') }}">
                             Beranda
                         </a>
                     </li>
 
-                    <li>
-                        <a href="{{ route('public.profil') }}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('public.profil') }}">
                             Profil
                         </a>
                     </li>
 
-                    <li>
-                        <a href="{{ route('public.guru') }}">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ route('public.guru') }}">
                             Guru
                         </a>
                     </li>
 
-                    <li>
-                        <a href="{{ route('public.ekstrakurikuler') }}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('public.ekstrakurikuler') }}">
                             Ekstrakurikuler
                         </a>
                     </li>
 
-                    <li>
-                        <a href="{{ route('public.berita') }}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('public.berita') }}">
                             Berita
                         </a>
                     </li>
 
-                    <li>
-                        <a href="{{ route('public.galeri') }}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('public.galeri') }}">
                             Galeri
                         </a>
                     </li>
 
                 </ul>
-
             </div>
 
+        </div>
+    </nav>
 
-            <!-- KONTAK -->
+    {{-- HEADER --}}
 
-            <div class="col-lg-4">
+    <section class="page-header">
+        <div class="container">
+            <div class="page-header-content">
 
-                <div class="footer-title">
+                <div class="badge-header">
+                    <i class="bi bi-people-fill me-2"></i>
+                    TENAGA PENDIDIK DAN KEPENDIDIKAN
+                </div>
 
-                    Kontak Sekolah
+                <h1>Guru &amp; Tenaga Kependidikan</h1>
+
+                <p>
+                    Mengenal tenaga pendidik dan kependidikan
+                    yang berperan dalam kegiatan belajar mengajar di sekolah.
+                </p>
+
+            </div>
+        </div>
+    </section>
+
+    {{-- CONTENT --}}
+
+    <section class="section section-light">
+        <div class="container">
+
+            <div class="section-title">
+                <div class="small-title">Tenaga Pendidik</div>
+
+                <h2>Guru &amp; Staf Sekolah</h2>
+
+                <p>
+                    Kenali para guru yang mendampingi siswa dalam proses
+                    pembelajaran dan pengembangan potensi di sekolah.
+                </p>
+            </div>
+
+            @if($guru->isEmpty())
+
+                <div class="empty-state">
+                    <i class="bi bi-people"></i>
+
+                    <h4>Belum Ada Data Guru</h4>
+
+                    <p>Data guru belum tersedia saat ini.</p>
+                </div>
+
+            @else
+
+                <div class="row g-4">
+
+                    @foreach($guru as $item)
+
+                        <div class="col-sm-6 col-lg-4">
+
+                            <div class="school-card guru-card">
+
+                                <div class="guru-photo-wrapper">
+
+                                    @if($item->foto)
+
+                                        <img
+                                            src="{{ asset('storage/' . $item->foto) }}"
+                                            class="guru-photo"
+                                            alt="{{ $item->nama_guru }}">
+
+                                    @else
+
+                                        <div class="guru-photo-empty">
+                                            <i class="bi bi-person-badge"></i>
+                                            <span>Foto belum tersedia</span>
+                                        </div>
+
+                                    @endif
+
+                                </div>
+
+                                <div class="school-card-body">
+
+                                    <h5>{{ $item->nama_guru }}</h5>
+
+                                    <div class="card-meta">
+                                        <i class="bi bi-book-fill"></i>
+                                        {{ $item->mapel ?? '-' }}
+                                    </div>
+
+                                    <div class="card-meta">
+                                        <i class="bi bi-person-vcard-fill"></i>
+                                        NIP: {{ $item->nip ?? '-' }}
+                                    </div>
+
+                                    <div class="mt-auto pt-3">
+
+                                        <a
+                                            href="{{ route('public.guru.detail', ['id' => $item->id_guru]) }}"
+                                            class="btn btn-primary btn-sm guru-detail-btn">
+
+                                            <i class="bi bi-eye me-1"></i>
+                                            Lihat Detail
+
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    @endforeach
 
                 </div>
 
+            @endif
 
-                <p class="footer-text mb-2">
-
-                    <i class="bi bi-geo-alt me-2"></i>
-
-                    {{ $profile?->alamat ?? '-' }}
-
-                </p>
-
-
-                <p class="footer-text mb-2">
-
-                    <i class="bi bi-telephone me-2"></i>
-
-                    {{ $profile?->kontak ?? '-' }}
-
-                </p>
-
-
-                <p class="footer-text">
-
-                    <i class="bi bi-building me-2"></i>
-
-                    NPSN:
-                    {{ $profile?->npsn ?? '-' }}
-
-                </p>
-
+            <div class="back-button-wrapper">
+                <a href="{{ route('public.dashboard') }}" class="back-button">
+                    <i class="bi bi-arrow-left"></i>
+                    Kembali ke Beranda
+                </a>
             </div>
 
         </div>
+    </section>
 
+    {{-- FOOTER --}}
 
-        <div class="footer-bottom text-center">
+    <footer>
+        <div class="container">
 
-            &copy; {{ date('Y') }}
+            <div class="row g-5">
 
-            {{ $profile?->nama_sekolah
-                ?? 'SMPN Satu Atap 1 Mangunreja' }}.
+                <div class="col-lg-5">
 
-            Semua Hak Dilindungi.
+                    <div class="footer-title">
+                        {{ $profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja' }}
+                    </div>
+
+                    <p class="footer-text">
+                        {{ $profile?->deskripsi
+                            ?? 'Sekolah yang berkomitmen memberikan pendidikan berkualitas bagi generasi bangsa.' }}
+                    </p>
+
+                </div>
+
+                <div class="col-lg-3">
+
+                    <div class="footer-title">Navigasi</div>
+
+                    <ul class="footer-links">
+
+                        <li>
+                            <a href="{{ route('public.dashboard') }}">Beranda</a>
+                        </li>
+
+                        <li>
+                            <a href="{{ route('public.profil') }}">Profil</a>
+                        </li>
+
+                        <li>
+                            <a href="{{ route('public.guru') }}">Guru</a>
+                        </li>
+
+                        <li>
+                            <a href="{{ route('public.ekstrakurikuler') }}">
+                                Ekstrakurikuler
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{{ route('public.berita') }}">Berita</a>
+                        </li>
+
+                        <li>
+                            <a href="{{ route('public.galeri') }}">Galeri</a>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <div class="col-lg-4">
+
+                    <div class="footer-title">Kontak Sekolah</div>
+
+                    <p class="footer-text mb-2">
+                        <i class="bi bi-geo-alt me-2"></i>
+                        {{ $profile?->alamat ?? '-' }}
+                    </p>
+
+                    <p class="footer-text mb-2">
+                        <i class="bi bi-telephone me-2"></i>
+                        {{ $profile?->kontak ?? '-' }}
+                    </p>
+
+                    <p class="footer-text">
+                        <i class="bi bi-building me-2"></i>
+                        NPSN: {{ $profile?->npsn ?? '-' }}
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="footer-bottom text-center">
+                &copy; {{ date('Y') }}
+                {{ $profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja' }}.
+                Semua Hak Dilindungi.
+            </div>
 
         </div>
+    </footer>
 
-    </div>
-
-</footer>
-
-
-<!-- Bootstrap JS -->
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

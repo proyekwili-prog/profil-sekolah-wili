@@ -1,4 +1,4 @@
-@extends('public.admin')
+@extends('layout.admin')
 
 @section('title', $title)
 

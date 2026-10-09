@@ -6,9 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Detail Guru - {{ $guru->nama_guru }}</title>
+    <title>Detail Guru - <?php echo e($guru->nama_guru); ?></title>
 
-    <link rel="icon" href="{{ asset('assets/images/satap.png') }}">
+    <link rel="icon" href="<?php echo e(asset('assets/images/satap.png')); ?>">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -113,7 +113,7 @@
                     rgba(5, 25, 70, .65) 45%,
                     rgba(5, 25, 70, .35) 100%
                 ),
-                url('{{ asset('assets/school-template/img/background.jpg') }}');
+                url('<?php echo e(asset('assets/school-template/img/background.jpg')); ?>');
             background-size: cover;
             background-position: center;
             color: #fff;
@@ -485,20 +485,21 @@
 
 <body>
 
-    {{-- NAVBAR --}}
+    
     <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container">
 
-            <a class="navbar-brand" href="{{ route('public.dashboard') }}">
-                @if($profile?->logo)
-                    <img src="{{ asset('storage/' . $profile->logo) }}" alt="Logo Sekolah">
-                @else
-                    <img src="{{ asset('assets/images/satap.png') }}" alt="Logo Sekolah">
-                @endif
+            <a class="navbar-brand" href="<?php echo e(route('public.dashboard')); ?>">
+                <?php if($profile?->logo): ?>
+                    <img src="<?php echo e(asset('storage/' . $profile->logo)); ?>" alt="Logo Sekolah">
+                <?php else: ?>
+                    <img src="<?php echo e(asset('assets/images/satap.png')); ?>" alt="Logo Sekolah">
+                <?php endif; ?>
 
                 <div class="brand-text">
                     <div class="school-name">
-                        {{ $profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja' }}
+                        <?php echo e($profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja'); ?>
+
                     </div>
                 </div>
             </a>
@@ -516,22 +517,22 @@
             <div class="collapse navbar-collapse" id="navbarMenu">
                 <ul class="navbar-nav ms-auto align-items-lg-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('public.dashboard') }}">Beranda</a>
+                        <a class="nav-link" href="<?php echo e(route('public.dashboard')); ?>">Beranda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('public.profil') }}">Profil</a>
+                        <a class="nav-link" href="<?php echo e(route('public.profil')); ?>">Profil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ route('public.guru') }}">Guru</a>
+                        <a class="nav-link active" href="<?php echo e(route('public.guru')); ?>">Guru</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('public.ekstrakurikuler') }}">Ekstrakurikuler</a>
+                        <a class="nav-link" href="<?php echo e(route('public.ekstrakurikuler')); ?>">Ekstrakurikuler</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('public.berita') }}">Berita</a>
+                        <a class="nav-link" href="<?php echo e(route('public.berita')); ?>">Berita</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('public.galeri') }}">Galeri</a>
+                        <a class="nav-link" href="<?php echo e(route('public.galeri')); ?>">Galeri</a>
                     </li>
                 </ul>
             </div>
@@ -541,7 +542,7 @@
 
     <main>
 
-        {{-- HEADER DETAIL --}}
+        
         <section class="detail-header">
             <div class="container">
                 <div class="detail-header-content">
@@ -555,19 +556,19 @@
 
                     <p>
                         Informasi mengenai guru dan tenaga pendidik
-                        {{ $profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja' }}.
+                        <?php echo e($profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja'); ?>.
                     </p>
 
                 </div>
             </div>
         </section>
 
-        {{-- DETAIL GURU --}}
+        
         <section class="detail-section">
             <div class="container">
 
                 <div class="mb-4">
-                    <a href="{{ route('public.guru') }}" class="btn-outline-school">
+                    <a href="<?php echo e(route('public.guru')); ?>" class="btn-outline-school">
                         <i class="bi bi-arrow-left me-2"></i>
                         Kembali ke Daftar Guru
                     </a>
@@ -576,37 +577,39 @@
                 <div class="detail-card">
                     <div class="row g-0">
 
-                        {{-- FOTO --}}
+                        
                         <div class="col-lg-5">
                             <div class="detail-photo-wrapper">
 
-                                @if($guru->foto)
+                                <?php if($guru->foto): ?>
                                     <img
-                                        src="{{ asset('storage/' . $guru->foto) }}"
+                                        src="<?php echo e(asset('storage/' . $guru->foto)); ?>"
                                         class="detail-photo"
-                                        alt="{{ $guru->nama_guru }}">
-                                @else
+                                        alt="<?php echo e($guru->nama_guru); ?>">
+                                <?php else: ?>
                                     <div class="detail-photo-empty">
                                         <i class="bi bi-person-circle"></i>
                                     </div>
-                                @endif
+                                <?php endif; ?>
 
                             </div>
                         </div>
 
-                        {{-- INFORMASI --}}
+                        
                         <div class="col-lg-7">
                             <div class="detail-content">
 
                                 <div class="detail-label">Data Guru</div>
 
                                 <h2 class="detail-name">
-                                    {{ $guru->nama_guru }}
+                                    <?php echo e($guru->nama_guru); ?>
+
                                 </h2>
 
                                 <div class="detail-mapel">
                                     <i class="bi bi-book me-1"></i>
-                                    {{ $guru->mapel ?? '-' }}
+                                    <?php echo e($guru->mapel ?? '-'); ?>
+
                                 </div>
 
                                 <div class="detail-info">
@@ -617,7 +620,7 @@
                                         </div>
                                         <div class="detail-info-text">
                                             <small>Nama Guru</small>
-                                            <span>{{ $guru->nama_guru }}</span>
+                                            <span><?php echo e($guru->nama_guru); ?></span>
                                         </div>
                                     </div>
 
@@ -627,7 +630,7 @@
                                         </div>
                                         <div class="detail-info-text">
                                             <small>NIP</small>
-                                            <span>{{ $guru->nip ?? '-' }}</span>
+                                            <span><?php echo e($guru->nip ?? '-'); ?></span>
                                         </div>
                                     </div>
 
@@ -637,21 +640,21 @@
                                         </div>
                                         <div class="detail-info-text">
                                             <small>Mata Pelajaran</small>
-                                            <span>{{ $guru->mapel ?? '-' }}</span>
+                                            <span><?php echo e($guru->mapel ?? '-'); ?></span>
                                         </div>
                                     </div>
 
                                 </div>
 
-                                {{-- TOMBOL --}}
+                                
                                 <div class="mt-4 d-flex gap-2 flex-wrap">
 
-                                    <a href="{{ route('public.guru') }}" class="btn-primary-school">
+                                    <a href="<?php echo e(route('public.guru')); ?>" class="btn-primary-school">
                                         <i class="bi bi-people-fill me-1"></i>
                                         Lihat Semua Guru
                                     </a>
 
-                                    <a href="{{ route('public.dashboard') }}#guru" class="btn-outline-school">
+                                    <a href="<?php echo e(route('public.dashboard')); ?>#guru" class="btn-outline-school">
                                         <i class="bi bi-house me-1"></i>
                                         Kembali ke Beranda
                                     </a>
@@ -669,7 +672,7 @@
 
     </main>
 
-    {{-- FOOTER --}}
+    
     <footer>
         <div class="container">
 
@@ -677,11 +680,13 @@
 
                 <div class="col-lg-5">
                     <div class="footer-title">
-                        {{ $profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja' }}
+                        <?php echo e($profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja'); ?>
+
                     </div>
 
                     <p class="footer-text">
-                        {{ $profile?->deskripsi ?? 'Sekolah yang berkomitmen memberikan pendidikan berkualitas bagi generasi bangsa.' }}
+                        <?php echo e($profile?->deskripsi ?? 'Sekolah yang berkomitmen memberikan pendidikan berkualitas bagi generasi bangsa.'); ?>
+
                     </p>
                 </div>
 
@@ -689,12 +694,12 @@
                     <div class="footer-title">Navigasi</div>
 
                     <ul class="footer-links">
-                        <li><a href="{{ route('public.dashboard') }}">Beranda</a></li>
-                        <li><a href="{{ route('public.profil') }}">Profil</a></li>
-                        <li><a href="{{ route('public.guru') }}">Guru</a></li>
-                        <li><a href="{{ route('public.ekstrakurikuler') }}">Ekstrakurikuler</a></li>
-                        <li><a href="{{ route('public.berita') }}">Berita</a></li>
-                        <li><a href="{{ route('public.galeri') }}">Galeri</a></li>
+                        <li><a href="<?php echo e(route('public.dashboard')); ?>">Beranda</a></li>
+                        <li><a href="<?php echo e(route('public.profil')); ?>">Profil</a></li>
+                        <li><a href="<?php echo e(route('public.guru')); ?>">Guru</a></li>
+                        <li><a href="<?php echo e(route('public.ekstrakurikuler')); ?>">Ekstrakurikuler</a></li>
+                        <li><a href="<?php echo e(route('public.berita')); ?>">Berita</a></li>
+                        <li><a href="<?php echo e(route('public.galeri')); ?>">Galeri</a></li>
                     </ul>
                 </div>
 
@@ -703,25 +708,29 @@
 
                     <p class="footer-text mb-2">
                         <i class="bi bi-geo-alt me-2"></i>
-                        {{ $profile?->alamat ?? '-' }}
+                        <?php echo e($profile?->alamat ?? '-'); ?>
+
                     </p>
 
                     <p class="footer-text mb-2">
                         <i class="bi bi-telephone me-2"></i>
-                        {{ $profile?->kontak ?? '-' }}
+                        <?php echo e($profile?->kontak ?? '-'); ?>
+
                     </p>
 
                     <p class="footer-text">
                         <i class="bi bi-building me-2"></i>
-                        NPSN: {{ $profile?->npsn ?? '-' }}
+                        NPSN: <?php echo e($profile?->npsn ?? '-'); ?>
+
                     </p>
                 </div>
 
             </div>
 
             <div class="footer-bottom text-center">
-                &copy; {{ date('Y') }}
-                {{ $profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja' }}.
+                &copy; <?php echo e(date('Y')); ?>
+
+                <?php echo e($profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja'); ?>.
                 Semua Hak Dilindungi.
             </div>
 
@@ -732,3 +741,4 @@
 
 </body>
 </html>
+<?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/public/guru-detail.blade.php ENDPATH**/ ?>

@@ -1,9 +1,6 @@
+<?php $__env->startSection('title', 'Profil Sekolah'); ?>
 
-@extends('layout.admin')
-
-@section('title', 'Profil Sekolah')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 <style>
     :root {
@@ -349,7 +346,7 @@
 
 <div class="profile-page">
 
-    {{-- HEADER --}}
+    
     <div class="page-heading">
 
         <div>
@@ -362,7 +359,7 @@
             </p>
         </div>
 
-        <a href="{{ route('admin.edit_profile') }}"
+        <a href="<?php echo e(route('admin.edit_profile')); ?>"
            class="btn-edit-profile">
 
             <i class="bi bi-pencil-square"></i>
@@ -373,18 +370,19 @@
     </div>
 
 
-    {{-- SUCCESS --}}
-    @if(session('success'))
+    
+    <?php if(session('success')): ?>
 
         <div class="alert alert-success border-0 rounded-3 mb-4">
             <i class="bi bi-check-circle-fill me-2"></i>
-            {{ session('success') }}
+            <?php echo e(session('success')); ?>
+
         </div>
 
-    @endif
+    <?php endif; ?>
 
 
-    {{-- PROFIL UTAMA --}}
+    
     <div class="profile-card">
 
         <div class="profile-card-body">
@@ -402,18 +400,18 @@
 
             <div class="row g-4 align-items-center">
 
-                {{-- FOTO PROFIL --}}
+                
                 <div class="col-lg-4 col-md-5">
 
-                    @if($profile?->foto)
+                    <?php if($profile?->foto): ?>
 
                         <div class="school-photo-frame">
-                            <img src="{{ asset('storage/' . $profile->foto) }}"
-                                 alt="{{ $profile?->nama_sekolah }}"
+                            <img src="<?php echo e(asset('storage/' . $profile->foto)); ?>"
+                                 alt="<?php echo e($profile?->nama_sekolah); ?>"
                                  class="school-photo">
                         </div>
 
-                    @else
+                    <?php else: ?>
 
                         <div class="school-photo-frame">
                             <div class="school-placeholder">
@@ -421,16 +419,17 @@
                             </div>
                         </div>
 
-                    @endif
+                    <?php endif; ?>
 
                 </div>
 
 
-                {{-- DATA SEKOLAH --}}
+                
                 <div class="col-lg-8 col-md-7">
 
                     <h2 class="school-name">
-                        {{ $profile?->nama_sekolah ?? '-' }}
+                        <?php echo e($profile?->nama_sekolah ?? '-'); ?>
+
                     </h2>
 
                     <div class="info-grid">
@@ -442,7 +441,8 @@
                             </div>
 
                             <p class="info-value">
-                                {{ $profile?->npsn ?? '-' }}
+                                <?php echo e($profile?->npsn ?? '-'); ?>
+
                             </p>
                         </div>
 
@@ -453,7 +453,8 @@
                             </div>
 
                             <p class="info-value">
-                                {{ $profile?->kepala_sekolah ?? '-' }}
+                                <?php echo e($profile?->kepala_sekolah ?? '-'); ?>
+
                             </p>
                         </div>
 
@@ -464,7 +465,8 @@
                             </div>
 
                             <p class="info-value">
-                                {{ $profile?->tahun_berdiri ?? '-' }}
+                                <?php echo e($profile?->tahun_berdiri ?? '-'); ?>
+
                             </p>
                         </div>
 
@@ -475,7 +477,8 @@
                             </div>
 
                             <p class="info-value">
-                                {{ $profile?->kontak ?? '-' }}
+                                <?php echo e($profile?->kontak ?? '-'); ?>
+
                             </p>
                         </div>
 
@@ -486,7 +489,8 @@
                             </div>
 
                             <p class="info-value">
-                                {{ $profile?->alamat ?? '-' }}
+                                <?php echo e($profile?->alamat ?? '-'); ?>
+
                             </p>
                         </div>
 
@@ -501,7 +505,7 @@
     </div>
 
 
-    {{-- SAMBUTAN KEPALA SEKOLAH --}}
+    
     <div class="profile-card">
 
         <div class="profile-card-body">
@@ -519,29 +523,30 @@
 
             <div class="row g-4 align-items-center">
 
-                {{-- FOTO KEPALA SEKOLAH --}}
+                
                 <div class="col-lg-4 col-md-5 text-center">
 
                     <div class="principal-photo-frame">
 
-                        @if($profile?->foto_kepala_sekolah)
+                        <?php if($profile?->foto_kepala_sekolah): ?>
 
-                            <img src="{{ asset('storage/' . $profile->foto_kepala_sekolah) }}"
-                                 alt="{{ $profile?->kepala_sekolah }}"
+                            <img src="<?php echo e(asset('storage/' . $profile->foto_kepala_sekolah)); ?>"
+                                 alt="<?php echo e($profile?->kepala_sekolah); ?>"
                                  class="principal-photo">
 
-                        @else
+                        <?php else: ?>
 
                             <div class="principal-placeholder">
                                 <i class="bi bi-person-fill"></i>
                             </div>
 
-                        @endif
+                        <?php endif; ?>
 
                     </div>
 
                     <h5 class="principal-name">
-                        {{ $profile?->kepala_sekolah ?? 'Kepala Sekolah' }}
+                        <?php echo e($profile?->kepala_sekolah ?? 'Kepala Sekolah'); ?>
+
                     </h5>
 
                     <p class="principal-role">
@@ -551,7 +556,7 @@
                 </div>
 
 
-                {{-- SAMBUTAN --}}
+                
                 <div class="col-lg-8 col-md-7">
 
                     <span class="welcome-badge">
@@ -563,13 +568,14 @@
                         Pesan Kepala Sekolah
                     </h4>
 
-                    @if($profile?->sambutan_kepala_sekolah)
+                    <?php if($profile?->sambutan_kepala_sekolah): ?>
 
                         <div class="welcome-text">
-                            {!! nl2br(e($profile->sambutan_kepala_sekolah)) !!}
+                            <?php echo nl2br(e($profile->sambutan_kepala_sekolah)); ?>
+
                         </div>
 
-                    @else
+                    <?php else: ?>
 
                         <div class="empty-state">
                             <i class="bi bi-info-circle"></i>
@@ -578,7 +584,7 @@
                             </span>
                         </div>
 
-                    @endif
+                    <?php endif; ?>
 
                 </div>
 
@@ -589,7 +595,7 @@
     </div>
 
 
-    {{-- VISI & MISI --}}
+    
     <div class="profile-card">
 
         <div class="profile-card-body">
@@ -605,11 +611,11 @@
                 </div>
             </div>
 
-            @if($profile?->visi_misi)
+            <?php if($profile?->visi_misi): ?>
 
-                <p class="content-text">{{ $profile->visi_misi }}</p>
+                <p class="content-text"><?php echo e($profile->visi_misi); ?></p>
 
-            @else
+            <?php else: ?>
 
                 <div class="empty-state">
                     <i class="bi bi-info-circle"></i>
@@ -618,14 +624,14 @@
                     </span>
                 </div>
 
-            @endif
+            <?php endif; ?>
 
         </div>
 
     </div>
 
 
-    {{-- DESKRIPSI SEKOLAH --}}
+    
     <div class="profile-card">
 
         <div class="profile-card-body">
@@ -641,11 +647,11 @@
                 </div>
             </div>
 
-            @if($profile?->deskripsi)
+            <?php if($profile?->deskripsi): ?>
 
-                <p class="content-text">{{ $profile->deskripsi }}</p>
+                <p class="content-text"><?php echo e($profile->deskripsi); ?></p>
 
-            @else
+            <?php else: ?>
 
                 <div class="empty-state">
                     <i class="bi bi-info-circle"></i>
@@ -654,14 +660,14 @@
                     </span>
                 </div>
 
-            @endif
+            <?php endif; ?>
 
         </div>
 
     </div>
 
 
-    {{-- LOGO SEKOLAH --}}
+    
     <div class="profile-card">
 
         <div class="profile-card-body">
@@ -677,15 +683,15 @@
                 </div>
             </div>
 
-            @if($profile?->logo)
+            <?php if($profile?->logo): ?>
 
                 <div class="school-logo-frame">
-                    <img src="{{ asset('storage/' . $profile->logo) }}"
-                         alt="Logo {{ $profile?->nama_sekolah }}"
+                    <img src="<?php echo e(asset('storage/' . $profile->logo)); ?>"
+                         alt="Logo <?php echo e($profile?->nama_sekolah); ?>"
                          class="school-logo">
                 </div>
 
-            @else
+            <?php else: ?>
 
                 <div class="empty-state">
                     <i class="bi bi-info-circle"></i>
@@ -694,7 +700,7 @@
                     </span>
                 </div>
 
-            @endif
+            <?php endif; ?>
 
         </div>
 
@@ -702,5 +708,7 @@
 
 </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 ```
+
+<?php echo $__env->make('layout.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/admin/profil.blade.php ENDPATH**/ ?>
