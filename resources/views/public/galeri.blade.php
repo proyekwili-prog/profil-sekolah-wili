@@ -556,20 +556,28 @@
 
                             <div class="gallery-card">
 
-                                @if($item->kategori === 'Video')
-    <video
-        controls
-        preload="metadata"
-        style="width: 100%; height: 100%; object-fit: cover;">
-        <source src="{{ \Illuminate\Support\Facades\Storage::url($item->file) }}">
-        Browser tidak mendukung video.
-    </video>
-@else
-    <img
-        src="{{ \Illuminate\Support\Facades\Storage::url($item->file) }}"
-        alt="{{ $item->judul }}"
-        style="width: 100%; height: 100%; object-fit: cover;">
-@endif      
+                                @if($item->file)
+                                    <img
+                                        src="{{ asset('storage/' . $item->file) }}"
+                                        class="gallery-image"
+                                        alt="{{ $item->judul }}"
+                                        loading="lazy">
+                                @else
+                                    <img
+                                        src="{{ asset('assets/school-template/img/acara.webp') }}"
+                                        class="gallery-image"
+                                        alt="{{ $item->judul }}"
+                                        loading="lazy">
+                                @endif
+
+                                <div class="gallery-overlay">
+
+                                    @if($item->tanggal)
+                                        <div class="gallery-date">
+                                            <i class="bi bi-calendar3"></i>
+                                            {{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('d F Y') }}
+                                        </div>
+                                    @endif
 
                                     <h5>{{ $item->judul }}</h5>
 

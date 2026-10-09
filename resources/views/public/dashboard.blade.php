@@ -1285,16 +1285,10 @@
         </div>
     </div>
 </section>
-    {{-- =========================
-       VISI MISI
-    ========================= --}}
 
     <section class="section section-light">
         <div class="container">
             <div class="section-title">
-                <div class="small-title">
-                    Visi & Misi
-                </div>
             </div>
             <div class="row g-4 justify-content-center">
                 <div class="col-lg-8 col-md-10">
