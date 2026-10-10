@@ -100,7 +100,7 @@ class KelolaGaleriController extends Controller
     public function update(Request $request, $id)
     {
         $galeri = KelolaGaleri::findOrFail(
-            Crypt::decrypt($id)
+           $id
         );
 
         $data = $request->validate([

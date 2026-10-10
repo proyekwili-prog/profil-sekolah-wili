@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ $profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja' }}</title>
+    <title><?php echo e($profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja'); ?></title>
 
-    {{-- Logo favicon dari database --}}
-    @if($profile?->logo)
-        <link rel="icon" href="{{ asset('storage/' . $profile->logo) }}">
-    @endif
+    
+    <?php if($profile?->logo): ?>
+        <link rel="icon" href="<?php echo e(asset('storage/' . $profile->logo)); ?>">
+    <?php endif; ?>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet"href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -822,21 +822,20 @@
 
 <body>
 
-    {{-- =========================
-       NAVBAR
-    ========================= --}}
+    
 
     <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container">
             <a class="navbar-brand menu-link" href="#beranda">
-                {{-- LOGO DARI DATABASE --}}
-                @if($profile?->logo)
-                    <img src="{{ asset('storage/' . $profile->logo) }}"
-                        alt="Logo {{ $profile->nama_sekolah ?? 'Sekolah' }}">
-                @endif
+                
+                <?php if($profile?->logo): ?>
+                    <img src="<?php echo e(asset('storage/' . $profile->logo)); ?>"
+                        alt="Logo <?php echo e($profile->nama_sekolah ?? 'Sekolah'); ?>">
+                <?php endif; ?>
                 <div class="brand-text">
                     <div class="school-name">
-                        {{ $profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja' }}
+                        <?php echo e($profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja'); ?>
+
                     </div>
                 </div>
             </a>
@@ -887,7 +886,7 @@
     </nav>
 
 <section id="beranda" class="hero">
-    @php
+    <?php
         $heroSlides = collect();
         if ($profile?->foto) {
             $heroSlides->push([
@@ -954,13 +953,13 @@
                 'fallback_icon' => 'bi-images',
             ]);
         }
-        @endphp
+        ?>
     <div id="heroCarousel"
         class="carousel slide carousel-fade"
         data-bs-ride="carousel"
         data-bs-interval="5000">
         <div class="carousel-inner">
-            @if($heroSlides->isEmpty())
+            <?php if($heroSlides->isEmpty()): ?>
                 <div class="carousel-item active">
                     <div class="hero-slide hero-slide-empty">
                         <div class="hero-fallback-background">
@@ -975,7 +974,8 @@
                                         PROFIL SEKOLAH
                                     </div>
                                     <h1 class="hero-title">
-                                        {{ $profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja' }}
+                                        <?php echo e($profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja'); ?>
+
                                     </h1>
                                     <p class="hero-description">
                                         Selamat datang di website resmi
@@ -998,38 +998,42 @@
                         </div>
                     </div>
                 </div>
-            @else
-                @foreach($heroSlides as $index => $slide)
-                    <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+            <?php else: ?>
+                <?php $__currentLoopData = $heroSlides; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $slide): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <div class="carousel-item <?php echo e($index === 0 ? 'active' : ''); ?>">
                         <div class="hero-slide">
-                            {{-- GAMBAR --}}
-                            @if($slide['image'])
-                                <img src="{{ $slide['image'] }}"
-                                    alt="{{ $slide['title'] }}">
-                            @else
+                            
+                            <?php if($slide['image']): ?>
+                                <img src="<?php echo e($slide['image']); ?>"
+                                    alt="<?php echo e($slide['title']); ?>">
+                            <?php else: ?>
                                 <div class="hero-fallback-background">
-                                    <i class="bi {{ $slide['fallback_icon'] ?? $slide['icon'] }}"></i>
+                                    <i class="bi <?php echo e($slide['fallback_icon'] ?? $slide['icon']); ?>"></i>
                                 </div>
-                            @endif
+                            <?php endif; ?>
                             <div class="hero-overlay"></div>
                             <div class="hero-content">
                                 <div class="container">
                                     <div class="hero-content-inner">
                                         <div class="hero-badge">
-                                            <i class="bi {{ $slide['icon'] }}"></i>
-                                            {{ $slide['type'] }}
+                                            <i class="bi <?php echo e($slide['icon']); ?>"></i>
+                                            <?php echo e($slide['type']); ?>
+
                                         </div>
                                         <h1 class="hero-title">
-                                            {{ $slide['title'] }}
+                                            <?php echo e($slide['title']); ?>
+
                                         </h1>
                                         <p class="hero-description">
-                                            {{ $slide['description'] }}
+                                            <?php echo e($slide['description']); ?>
+
                                         </p>
                                         <div class="hero-buttons">
-                                            <a href="{{ $slide['button_href'] }}"
+                                            <a href="<?php echo e($slide['button_href']); ?>"
                                                 class="btn-primary-school menu-link">
                                                 <i class="bi bi-arrow-right-circle me-1"></i>
-                                                {{ $slide['button_text'] }}
+                                                <?php echo e($slide['button_text']); ?>
+
                                             </a>
                                             <a href="#profil"
                                                 class="btn-outline-school menu-link">
@@ -1042,20 +1046,20 @@
                             </div>
                         </div>
                     </div>
-                @endforeach
-            @endif
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            <?php endif; ?>
         </div>
-        @if($heroSlides->count() > 1)
+        <?php if($heroSlides->count() > 1): ?>
             <div class="carousel-indicators hero-indicators">
-                @foreach($heroSlides as $index => $slide)
+                <?php $__currentLoopData = $heroSlides; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $slide): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <button type="button"
                         data-bs-target="#heroCarousel"
-                        data-bs-slide-to="{{ $index }}"
-                        class="{{ $index === 0 ? 'active' : '' }}"
-                        aria-current="{{ $index === 0 ? 'true' : 'false' }}"
-                        aria-label="Slide {{ $index + 1 }}">
+                        data-bs-slide-to="<?php echo e($index); ?>"
+                        class="<?php echo e($index === 0 ? 'active' : ''); ?>"
+                        aria-current="<?php echo e($index === 0 ? 'true' : 'false'); ?>"
+                        aria-label="Slide <?php echo e($index + 1); ?>">
                     </button>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
             <button class="carousel-control-prev hero-control"
                 type="button"
@@ -1079,7 +1083,7 @@
                     Berikutnya
                 </span>
             </button>
-        @endif
+        <?php endif; ?>
     </div>
 </section>
     <section class="statistics">
@@ -1091,7 +1095,8 @@
                             <i class="bi bi-mortarboard-fill"></i>
                         </div>
                         <div class="stat-number">
-                            {{ $totalSiswa }}
+                            <?php echo e($totalSiswa); ?>
+
                         </div>
                         <div class="stat-label">
                             Siswa
@@ -1104,7 +1109,8 @@
                             <i class="bi bi-people-fill"></i>
                         </div>
                         <div class="stat-number">
-                            {{ $totalGuru }}
+                            <?php echo e($totalGuru); ?>
+
                         </div>
                         <div class="stat-label">
                             Guru & Staf
@@ -1117,7 +1123,8 @@
                             <i class="bi bi-newspaper"></i>
                         </div>
                         <div class="stat-number">
-                            {{ $totalBerita }}
+                            <?php echo e($totalBerita); ?>
+
                         </div>
                         <div class="stat-label">
                             Berita
@@ -1130,7 +1137,8 @@
                             <i class="bi bi-trophy-fill"></i>
                         </div>
                         <div class="stat-number">
-                            {{ $totalEkstrakurikuler }}
+                            <?php echo e($totalEkstrakurikuler); ?>
+
                         </div>
                         <div class="stat-label">
                             Ekstrakurikuler
@@ -1151,38 +1159,40 @@
                 </h2>
                 <p>
                     Informasi mengenai profil dan identitas
-                    sekolah {{ $profile?->nama_sekolah ?? '' }}.
+                    sekolah <?php echo e($profile?->nama_sekolah ?? ''); ?>.
                 </p>
             </div>
             <div class="row g-5 align-items-center">
                 <div class="col-lg-5">
                     <div class="profile-image-wrapper">
-                        @if($profile?->foto)
-                            <img src="{{ asset('storage/' . $profile->foto) }}"
+                        <?php if($profile?->foto): ?>
+                            <img src="<?php echo e(asset('storage/' . $profile->foto)); ?>"
                                 class="profile-image"
-                                alt="Foto {{ $profile->nama_sekolah ?? 'Sekolah' }}">
-                        @else
+                                alt="Foto <?php echo e($profile->nama_sekolah ?? 'Sekolah'); ?>">
+                        <?php else: ?>
                             <div class="d-flex align-items-center justify-content-center bg-light profile-image">
                                 <i class="bi bi-building text-secondary"
                                     style="font-size:80px;"></i>
                             </div>
-                        @endif
+                        <?php endif; ?>
                     </div>
                 </div>
                 <div class="col-lg-7">
                     <div class="profile-content">
                         <h2>
-                            {{ $profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja' }}
+                            <?php echo e($profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja'); ?>
+
                         </h2>
                         <p>
-                            @if(!empty($profile?->deskripsi))
+                            <?php if(!empty($profile?->deskripsi)): ?>
 
-                                {!! nl2br(e($profile->deskripsi)) !!}
-                            @else
+                                <?php echo nl2br(e($profile->deskripsi)); ?>
+
+                            <?php else: ?>
                                 Deskripsi sekolah belum diisi.
-                            @endif
+                            <?php endif; ?>
                         </p>
-                        <a href="{{ route('public.profil') }}"
+                        <a href="<?php echo e(route('public.profil')); ?>"
                             class="btn btn-primary mt-4">
                             <i class="bi bi-eye me-1"></i>
                             Lihat Selengkapnya
@@ -1197,7 +1207,8 @@
                                         Kepala Sekolah
                                     </small>
                                     <span>
-                                        {{ $profile?->kepala_sekolah ?? '-' }}
+                                        <?php echo e($profile?->kepala_sekolah ?? '-'); ?>
+
                                     </span>
                                 </div>
                             </div>
@@ -1210,7 +1221,8 @@
                                         NPSN
                                     </small>
                                     <span>
-                                        {{ $profile?->npsn ?? '-' }}
+                                        <?php echo e($profile?->npsn ?? '-'); ?>
+
                                     </span>
                                 </div>
                             </div>
@@ -1223,7 +1235,8 @@
                                         Tahun Berdiri
                                     </small>
                                     <span>
-                                        {{ $profile?->tahun_berdiri ?? '-' }}
+                                        <?php echo e($profile?->tahun_berdiri ?? '-'); ?>
+
                                     </span>
                                 </div>
                             </div>
@@ -1236,7 +1249,8 @@
                                         Alamat
                                     </small>
                                     <span>
-                                        {{ $profile?->alamat ?? '-' }}
+                                        <?php echo e($profile?->alamat ?? '-'); ?>
+
                                     </span>
                                 </div>
                             </div>
@@ -1251,19 +1265,19 @@
     <div class="container">
         <div class="row align-items-center g-5">
             <div class="col-lg-4 text-center">
-                @if($profile?->foto_kepala_sekolah)
+                <?php if($profile?->foto_kepala_sekolah): ?>
                     <img
-                        src="{{ asset('storage/' . $profile->foto_kepala_sekolah) }}"
-                        alt="{{ $profile?->kepala_sekolah ?? 'Kepala Sekolah' }}"
+                        src="<?php echo e(asset('storage/' . $profile->foto_kepala_sekolah)); ?>"
+                        alt="<?php echo e($profile?->kepala_sekolah ?? 'Kepala Sekolah'); ?>"
                         class="sambutan-foto"
                     >
-                @else
+                <?php else: ?>
                     <div class="sambutan-foto-placeholder">
                         <i class="bi bi-person"></i>
                     </div>
-                @endif
+                <?php endif; ?>
             </div>
-            {{-- TEKS SAMBUTAN --}}
+            
             <div class="col-lg-8">
                 <div class="sambutan-label">
                     KOMITMEN KAMI UNTUK PENDIDIKAN
@@ -1272,15 +1286,16 @@
                     Sambutan Kepala Sekolah
                 </h2>
                 <div class="sambutan-line"></div>
-                @if($profile?->sambutan_kepala_sekolah)
+                <?php if($profile?->sambutan_kepala_sekolah): ?>
                     <div class="sambutan-text">
-                        {!! nl2br(e($profile->sambutan_kepala_sekolah)) !!}
+                        <?php echo nl2br(e($profile->sambutan_kepala_sekolah)); ?>
+
                     </div>
-                @else
+                <?php else: ?>
                     <p class="text-muted">
                         Sambutan kepala sekolah belum tersedia.
                     </p>
-                @endif
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -1298,7 +1313,8 @@
                             Visi & Misi
                         </h3>
                         <p>
-                            {{ $profile?->visi_misi ?? 'Visi dan misi sekolah belum tersedia.' }}
+                            <?php echo e($profile?->visi_misi ?? 'Visi dan misi sekolah belum tersedia.'); ?>
+
                         </p>
                     </div>
                 </div>
@@ -1306,9 +1322,7 @@
         </div>
     </section>
 
-    {{-- =========================
-       GURU
-    ========================= --}}
+    
     <section id="guru" class="section">
         <div class="container">
             <div class="section-title">
@@ -1327,7 +1341,7 @@
                 class="carousel slide section-carousel"
                 data-bs-interval="false">
                 <div class="carousel-inner">
-                    @if($guru->isEmpty())
+                    <?php if($guru->isEmpty()): ?>
                         <div class="carousel-item active">
                             <div class="text-center py-5">
                                 <i class="bi bi-people fs-1 text-secondary"></i>
@@ -1336,44 +1350,47 @@
                                 </p>
                             </div>
                         </div>
-                    @else
-                        @foreach($guru->chunk(3) as $index => $group)
-                            <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                    <?php else: ?>
+                        <?php $__currentLoopData = $guru->chunk(3); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $group): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="carousel-item <?php echo e($index == 0 ? 'active' : ''); ?>">
                                 <div class="row g-4">
-                                    @foreach($group as $item)
+                                    <?php $__currentLoopData = $group; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="col-md-4">
                                             <div class="school-card">
                                                 <div class="guru-photo-wrapper">
-                                                    @if($item->foto)
-                                                        <img src="{{ asset('storage/' . $item->foto) }}"
+                                                    <?php if($item->foto): ?>
+                                                        <img src="<?php echo e(asset('storage/' . $item->foto)); ?>"
                                                             class="guru-photo"
-                                                            alt="{{ $item->nama_guru }}">
-                                                    @else
+                                                            alt="<?php echo e($item->nama_guru); ?>">
+                                                    <?php else: ?>
                                                         <div class="d-flex align-items-center justify-content-center bg-light"
                                                             style="width:100%;height:100%;">
                                                             <i class="bi bi-person-circle text-secondary"
                                                                 style="font-size:80px;"></i>
                                                         </div>
-                                                    @endif
+                                                    <?php endif; ?>
                                                 </div>
                                                 <div class="school-card-body text-center">
                                                     <div class="guru-name">
-                                                        {{ $item->nama_guru }}
+                                                        <?php echo e($item->nama_guru); ?>
+
                                                     </div>
                                                     <div class="guru-info mb-3">
                                                         <div>
                                                             <i class="bi bi-book me-1"></i>
-                                                            {{ $item->mapel ?? '-' }}
+                                                            <?php echo e($item->mapel ?? '-'); ?>
+
                                                         </div>
                                                         <div>
                                                             <i class="bi bi-person-vcard me-1"></i>
-                                                            NIP: {{ $item->nip ?? '-' }}
+                                                            NIP: <?php echo e($item->nip ?? '-'); ?>
+
                                                         </div>
                                                     </div>
                                             
-<a href="{{ route('public.guru.detail', [
+<a href="<?php echo e(route('public.guru.detail', [
     'id' => \Illuminate\Support\Facades\Crypt::encryptString((string) $item->id_guru)
-]) }}"
+])); ?>"
    class="btn btn-primary btn-sm">
     <i class="bi bi-eye me-1"></i>
     Lihat Detail Guru
@@ -1382,13 +1399,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
                             </div>
-                        @endforeach
-                    @endif
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    <?php endif; ?>
                 </div>
-                @if($guru->count() > 3)
+                <?php if($guru->count() > 3): ?>
                     <button class="carousel-control-prev"
                         type="button"
                         data-bs-target="#guruCarousel"
@@ -1401,10 +1418,10 @@
                         data-bs-slide="next">
                         <span class="carousel-control-next-icon"></span>
                     </button>
-                @endif
+                <?php endif; ?>
             </div>
             <div class="text-center mt-5">
-                <a href="{{ route('public.guru') }}"
+                <a href="<?php echo e(route('public.guru')); ?>"
                     class="btn btn-primary px-4 py-2">
                     <i class="bi bi-people-fill me-2"></i>
                     Lihat Semua Guru
@@ -1414,9 +1431,7 @@
     </section>
 
 
-    {{-- =========================
-       EKSTRAKURIKULER
-    ========================= --}}
+    
 
     <section id="ekstrakurikuler" class="section section-light">
         <div class="container">
@@ -1436,7 +1451,7 @@
                 class="carousel slide section-carousel"
                 data-bs-interval="false">
                 <div class="carousel-inner">
-                    @if($ekstrakurikuler->isEmpty())
+                    <?php if($ekstrakurikuler->isEmpty()): ?>
                         <div class="carousel-item active">
                             <div class="text-center py-5">
                                 <i class="bi bi-trophy fs-1 text-secondary"></i>
@@ -1445,48 +1460,52 @@
                                 </p>
                             </div>
                         </div>
-                    @else
-                        @foreach($ekstrakurikuler->chunk(3) as $index => $group)
-                            <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                    <?php else: ?>
+                        <?php $__currentLoopData = $ekstrakurikuler->chunk(3); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $group): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="carousel-item <?php echo e($index == 0 ? 'active' : ''); ?>">
                                 <div class="row g-4">
-                                    @foreach($group as $item)
+                                    <?php $__currentLoopData = $group; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="col-md-4">
                                             <div class="school-card eskul-card">
                                                 <div class="eskul-image-wrapper">
-                                                    @if($item->gambar)
-                                                        <img src="{{ asset('storage/' . $item->gambar) }}"
+                                                    <?php if($item->gambar): ?>
+                                                        <img src="<?php echo e(asset('storage/' . $item->gambar)); ?>"
                                                             class="eskul-image"
-                                                            alt="{{ $item->nama_eskul }}">
-                                                    @else
+                                                            alt="<?php echo e($item->nama_eskul); ?>">
+                                                    <?php else: ?>
                                                         <div class="d-flex align-items-center justify-content-center"
                                                             style="width:100%;height:100%;background:#f8fafc;">
                                                             <i class="bi bi-trophy text-secondary"
                                                                 style="font-size:70px;"></i>
                                                         </div>
-                                                    @endif
+                                                    <?php endif; ?>
                                                 </div>
                                                 <div class="school-card-body">
                                                     <h5>
-                                                        {{ $item->nama_eskul }}
+                                                        <?php echo e($item->nama_eskul); ?>
+
                                                     </h5>
                                                     <div class="card-meta">
                                                         <i class="bi bi-person-fill eskul-icon"></i>
-                                                        {{ $item->pembina ?? '-' }}
+                                                        <?php echo e($item->pembina ?? '-'); ?>
+
                                                     </div>
                                                     <div class="card-meta">
                                                         <i class="bi bi-calendar-event eskul-icon"></i>
-                                                        {{ $item->jadwal_latihan ?? '-' }}
+                                                        <?php echo e($item->jadwal_latihan ?? '-'); ?>
+
                                                     </div>
                                                     
 <p class="eskul-description">
-    {{ \Illuminate\Support\Str::limit(
+    <?php echo e(\Illuminate\Support\Str::limit(
         strip_tags($item->deskripsi ?? ''),
         105
-    ) }}
+    )); ?>
+
 </p>
 
 <div class="mt-auto pt-3">
-    <a href="{{ route('public.ekstrakurikuler.detail', ['id' => $item->id_eskul]) }}"
+    <a href="<?php echo e(route('public.ekstrakurikuler.detail', ['id' => $item->id_eskul])); ?>"
        class="btn btn-primary btn-sm eskul-detail-btn">
         <i class="bi bi-eye me-1"></i>
         Lihat Detail
@@ -1496,13 +1515,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
                             </div>
-                        @endforeach
-                    @endif
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    <?php endif; ?>
                 </div>
-                @if($ekstrakurikuler->count() > 3)
+                <?php if($ekstrakurikuler->count() > 3): ?>
                     <button class="carousel-control-prev"
                         type="button"
                         data-bs-target="#eskulCarousel"
@@ -1515,24 +1534,22 @@
                         data-bs-slide="next">
                         <span class="carousel-control-next-icon"></span>
                     </button>
-                @endif
+                <?php endif; ?>
             </div>
-            @if($ekstrakurikuler->count() > 0)
+            <?php if($ekstrakurikuler->count() > 0): ?>
                 <div class="text-center mt-5">
-                    <a href="{{ route('public.ekstrakurikuler') }}"
+                    <a href="<?php echo e(route('public.ekstrakurikuler')); ?>"
                         class="btn btn-primary eskul-all-btn">
                         <i class="bi bi-grid-3x3-gap-fill me-2"></i>
                         Lihat Semua Ekstrakurikuler
                         <i class="bi bi-arrow-right ms-2"></i>
                     </a>
                 </div>
-            @endif
+            <?php endif; ?>
         </div>
     </section>
 
-    {{-- =========================
-       BERITA
-    ========================= --}}
+    
     <section id="berita" class="section">
         <div class="container">
             <div class="section-title">
@@ -1550,7 +1567,7 @@
                 class="carousel slide section-carousel"
                 data-bs-interval="false">
                 <div class="carousel-inner">
-                    @if($beritaTerbaru->isEmpty())
+                    <?php if($beritaTerbaru->isEmpty()): ?>
                         <div class="carousel-item active">
                             <div class="text-center py-5">
                                 <i class="bi bi-newspaper fs-1 text-secondary"></i>
@@ -1559,53 +1576,50 @@
                                 </p>
                             </div>
                         </div>
-                    @else
-                        @foreach($beritaTerbaru->chunk(3) as $index => $group)
-                            <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                    <?php else: ?>
+                        <?php $__currentLoopData = $beritaTerbaru->chunk(3); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $group): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="carousel-item <?php echo e($index == 0 ? 'active' : ''); ?>">
                                 <div class="row g-4">
-                                    @foreach($group as $item)
+                                    <?php $__currentLoopData = $group; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="col-md-4">
                                             <div class="school-card">
-                                                @if($item->gambar)
-                                                    <img src="{{ \Illuminate\Support\Facades\Storage::url($item->gambar) }}"
+                                                <?php if($item->gambar): ?>
+                                                    <img src="<?php echo e(\Illuminate\Support\Facades\Storage::url($item->gambar)); ?>"
                                                         class="school-card-image"
-                                                        alt="{{ $item->judul }}">
-                                                @else
+                                                        alt="<?php echo e($item->judul); ?>">
+                                                <?php else: ?>
                                                     <div class="d-flex align-items-center justify-content-center"
                                                         style="width:100%;height:220px;background:#f8fafc;">
                                                         <i class="bi bi-newspaper text-secondary"
                                                             style="font-size:70px;"></i>
                                                     </div>
-                                                @endif
+                                                <?php endif; ?>
                                                 <div class="school-card-body">
                                                     <div class="news-date">
                                                         <i class="bi bi-calendar3"></i>
-                                                        {{ $item->tanggal
+                                                        <?php echo e($item->tanggal
                                                             ? \Carbon\Carbon::parse($item->tanggal)->translatedFormat('d F Y')
-                                                            : '-' }}
+                                                            : '-'); ?>
+
                                                     </div>
                                                     <div class="news-title">
-                                                        {{ $item->judul }}
+                                                        <?php echo e($item->judul); ?>
+
                                                     </div>
                                                     
 <p class="mt-2">
-    {{ \Illuminate\Support\Str::limit(
+    <?php echo e(\Illuminate\Support\Str::limit(
         strip_tags($item->isi ?? ''),
         100
-    ) }}
+    )); ?>
+
 </p>
-{{-- <a href="{{ route('public.berita.detail', [
-    'id' => \Illuminate\Support\Facades\Crypt::encryptString((string) $item->id_berita)
-]) }}"
-   class="btn btn-primary btn-sm">
-    <i class="bi bi-eye me-1"></i>
-    Lihat Detail Guru
-</a> --}}
+
 
 <div class="mt-auto pt-3">
-    <a href="{{ route('public.berita.detail', [
+    <a href="<?php echo e(route('public.berita.detail', [
     'id' => \Illuminate\Support\Facades\Crypt::encryptString((string) $item->id_berita)
-]) }}"
+])); ?>"
        class="btn btn-primary btn-sm">
         <i class="bi bi-book-half me-1"></i>
         Baca Selengkapnya
@@ -1615,13 +1629,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
                             </div>
-                        @endforeach
-                    @endif
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    <?php endif; ?>
                 </div>
-                @if($beritaTerbaru->count() > 3)
+                <?php if($beritaTerbaru->count() > 3): ?>
                     <button class="carousel-control-prev"
                         type="button"
                         data-bs-target="#beritaCarousel"
@@ -1634,25 +1648,23 @@
                         data-bs-slide="next">
                         <span class="carousel-control-next-icon"></span>
                     </button>
-                @endif
+                <?php endif; ?>
             </div>
-            @if($beritaTerbaru->count() > 0)
+            <?php if($beritaTerbaru->count() > 0): ?>
                 <div class="text-center mt-5">
-                    <a href="{{ route('public.berita') }}"
+                    <a href="<?php echo e(route('public.berita')); ?>"
                         class="btn btn-primary berita-all-btn">
                         <i class="bi bi-newspaper me-2"></i>
                         Lihat Semua Berita
                         <i class="bi bi-arrow-right ms-2"></i>
                     </a>
                 </div>
-            @endif
+            <?php endif; ?>
         </div>
     </section>
 
 
-    {{-- =========================
-       GALERI
-    ========================= --}}
+    
 
     <section id="galeri" class="section section-light">
         <div class="container">
@@ -1669,7 +1681,7 @@
                 </p>
             </div>
             <div class="row g-4">
-                @if($galeri->isEmpty())
+                <?php if($galeri->isEmpty()): ?>
                     <div class="col-12">
                         <div class="text-center py-5">
                             <i class="bi bi-images fs-1 text-secondary"></i>
@@ -1678,65 +1690,67 @@
                             </p>
                         </div>
                     </div>
-                @else
-                    @foreach($galeri as $item)
+                <?php else: ?>
+                    <?php $__currentLoopData = $galeri; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <div class="col-md-6 col-lg-4">
                             <div class="gallery-card">
-                                @if($item->file)
-                                    <img src="{{ asset('storage/' . $item->file) }}"
+                                <?php if($item->file): ?>
+                                    <img src="<?php echo e(asset('storage/' . $item->file)); ?>"
                                         class="gallery-image"
-                                        alt="{{ $item->judul }}"
+                                        alt="<?php echo e($item->judul); ?>"
                                         loading="lazy">
-                                @else
+                                <?php else: ?>
                                     <div class="d-flex align-items-center justify-content-center"
                                         style="width:100%;height:100%;background:#e2e8f0;">
                                         <i class="bi bi-images text-secondary"
                                             style="font-size:70px;"></i>
                                     </div>
-                                @endif
+                                <?php endif; ?>
                                 <div class="gallery-overlay">
                                     <h5>
-                                        {{ $item->judul }}
+                                        <?php echo e($item->judul); ?>
+
                                     </h5>
-                                    @if($item->keterangan)
+                                    <?php if($item->keterangan): ?>
                                         <p>
-                                            {{ $item->keterangan }}
+                                            <?php echo e($item->keterangan); ?>
+
                                         </p>
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
-                    @endforeach
-                @endif
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <?php endif; ?>
             </div>
-            @if($galeri->count() > 0)
+            <?php if($galeri->count() > 0): ?>
                 <div class="text-center mt-5">
-                    <a href="{{ route('public.galeri') }}"
+                    <a href="<?php echo e(route('public.galeri')); ?>"
                         class="btn btn-primary galeri-all-btn">
                         <i class="bi bi-images me-2"></i>
                         Lihat Semua Galeri
                         <i class="bi bi-arrow-right ms-2"></i>
                     </a>
                 </div>
-            @endif
+            <?php endif; ?>
         </div>
     </section>
 
 
-    {{-- =========================
-       FOOTER
-    ========================= --}}
+    
 
     <footer>
         <div class="container">
             <div class="row g-5">
                 <div class="col-lg-5">
                     <div class="footer-title">
-                        {{ $profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja' }}
+                        <?php echo e($profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja'); ?>
+
                     </div>
                     <p class="footer-text">
-                        {!! nl2br(e($profile?->deskripsi
-                            ?? 'Sekolah yang berkomitmen memberikan pendidikan berkualitas bagi generasi bangsa.')) !!}
+                        <?php echo nl2br(e($profile?->deskripsi
+                            ?? 'Sekolah yang berkomitmen memberikan pendidikan berkualitas bagi generasi bangsa.')); ?>
+
                     </p>
                 </div>
                 <div class="col-lg-3">
@@ -1782,30 +1796,32 @@
                     </div>
                     <p class="footer-text mb-2">
                         <i class="bi bi-geo-alt me-2"></i>
-                        {{ $profile?->alamat ?? '-' }}
+                        <?php echo e($profile?->alamat ?? '-'); ?>
+
                     </p>
                     <p class="footer-text mb-2">
                         <i class="bi bi-telephone me-2"></i>
-                        {{ $profile?->kontak ?? '-' }}
+                        <?php echo e($profile?->kontak ?? '-'); ?>
+
                     </p>
                     <p class="footer-text">
                         <i class="bi bi-building me-2"></i>
-                        NPSN: {{ $profile?->npsn ?? '-' }}
+                        NPSN: <?php echo e($profile?->npsn ?? '-'); ?>
+
                     </p>
                 </div>
             </div>
             <div class="footer-bottom text-center">
-                &copy; {{ date('Y') }}
-                {{ $profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja' }}.
+                &copy; <?php echo e(date('Y')); ?>
+
+                <?php echo e($profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja'); ?>.
                 Semua Hak Dilindungi.
             </div>
         </div>
     </footer>
 
 
-    {{-- =========================
-       JAVASCRIPT
-    ========================= --}}
+    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -1873,4 +1889,4 @@
         });
     </script>
 </body>
-</html>
+</html><?php /**PATH D:\web_sekolah_wili\profil-sekolah-wili\resources\views/public/dashboard.blade.php ENDPATH**/ ?>

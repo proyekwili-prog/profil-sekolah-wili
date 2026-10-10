@@ -98,9 +98,7 @@ class KelolaBeritaController extends Controller
 
     public function update(Request $request, $id)
     {
-        $berita = KelolaBerita::findOrFail(
-            Crypt::decrypt($id)
-        );
+        $berita = KelolaBerita::findOrFail($id);
 
         $data = $request->validate([
             'judul' => 'required|string|max:50',

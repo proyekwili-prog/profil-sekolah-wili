@@ -1,8 +1,6 @@
-@extends('layout.admin')
+<?php $__env->startSection('title', $title); ?>
 
-@section('title', $title)
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 <div class="container-fluid px-0">
 
@@ -28,7 +26,7 @@
             </div>
         </div>
 
-        <a href="{{ route('admin.ekstrakulikuler.tambah') }}"
+        <a href="<?php echo e(route('admin.ekstrakulikuler.tambah')); ?>"
            class="btn btn-primary">
 
             <i class="bi bi-plus-circle me-1"></i>
@@ -39,13 +37,14 @@
 
 
     <!-- Notifikasi -->
-    @if(session('success'))
+    <?php if(session('success')): ?>
 
         <div class="alert alert-success alert-dismissible fade show shadow-sm"
              role="alert">
 
             <i class="bi bi-check-circle me-2"></i>
-            {{ session('success') }}
+            <?php echo e(session('success')); ?>
+
 
             <button type="button"
                     class="btn-close"
@@ -54,7 +53,7 @@
 
         </div>
 
-    @endif
+    <?php endif; ?>
 
 
     <!-- Card Data -->
@@ -84,7 +83,7 @@
                 </div>
 
                 <span class="badge bg-primary rounded-pill px-3 py-2">
-                    {{ $ekstrakurikulers->count() }} Data
+                    <?php echo e($ekstrakurikulers->count()); ?> Data
                 </span>
 
             </div>
@@ -133,30 +132,31 @@
 
                     <tbody>
 
-                        @foreach($ekstrakurikulers as $i => $ekstrakurikuler)
+                        <?php $__currentLoopData = $ekstrakurikulers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $i => $ekstrakurikuler): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                             <tr>
 
                                 <!-- No -->
                                 <td class="text-center">
-                                    {{ $i + 1 }}
+                                    <?php echo e($i + 1); ?>
+
                                 </td>
 
 
                                 <!-- Gambar -->
                                 <td class="text-center">
 
-                                    @if($ekstrakurikuler->gambar)
+                                    <?php if($ekstrakurikuler->gambar): ?>
 
                                         <img
-                                            src="{{ \Illuminate\Support\Facades\Storage::url($ekstrakurikuler->gambar) }}"
-                                            alt="{{ $ekstrakurikuler->nama_eskul }}"
+                                            src="<?php echo e(\Illuminate\Support\Facades\Storage::url($ekstrakurikuler->gambar)); ?>"
+                                            alt="<?php echo e($ekstrakurikuler->nama_eskul); ?>"
                                             width="75"
                                             height="55"
                                             class="rounded border"
                                             style="object-fit:cover;">
 
-                                    @else
+                                    <?php else: ?>
 
                                         <div class="bg-light border rounded d-inline-flex align-items-center justify-content-center"
                                              style="width:75px;height:55px;">
@@ -165,26 +165,29 @@
 
                                         </div>
 
-                                    @endif
+                                    <?php endif; ?>
 
                                 </td>
 
 
                                 <!-- Nama -->
                                 <td class="fw-semibold">
-                                    {{ $ekstrakurikuler->nama_eskul }}
+                                    <?php echo e($ekstrakurikuler->nama_eskul); ?>
+
                                 </td>
 
 
                                 <!-- Pembina -->
                                 <td>
-                                    {{ $ekstrakurikuler->pembina }}
+                                    <?php echo e($ekstrakurikuler->pembina); ?>
+
                                 </td>
 
 
                                 <!-- Jadwal -->
                                 <td>
-                                    {{ $ekstrakurikuler->jadwal_latihan }}
+                                    <?php echo e($ekstrakurikuler->jadwal_latihan); ?>
+
                                 </td>
 
 
@@ -192,7 +195,7 @@
                                 <td class="text-center">
 
                                     <!-- Detail -->
-                                    <a href="{{ route('admin.ekstrakulikuler.detail', Crypt::encrypt($ekstrakurikuler->id_eskul)) }}"
+                                    <a href="<?php echo e(route('admin.ekstrakulikuler.detail', Crypt::encrypt($ekstrakurikuler->id_eskul))); ?>"
                                        class="btn btn-sm btn-outline-primary"
                                        title="Lihat Detail">
 
@@ -202,7 +205,7 @@
 
 
                                     <!-- Edit -->
-                                    <a href="{{ route('admin.ekstrakulikuler.edit',Crypt::encrypt($ekstrakurikuler->id_eskul)) }}"
+                                    <a href="<?php echo e(route('admin.ekstrakulikuler.edit',Crypt::encrypt($ekstrakurikuler->id_eskul))); ?>"
                                        class="btn btn-sm btn-outline-secondary"
                                        title="Edit">
 
@@ -213,13 +216,13 @@
 
                                     <!-- Hapus -->
                                     <form
-                                        action="{{ route('admin.ekstrakulikuler.destroy', $ekstrakurikuler->id_eskul) }}"
+                                        action="<?php echo e(route('admin.ekstrakulikuler.destroy', $ekstrakurikuler->id_eskul)); ?>"
                                         method="POST"
                                         class="d-inline"
                                         onsubmit="return confirm('Yakin ingin menghapus data ekstrakurikuler ini?');">
 
-                                        @csrf
-                                        @method('DELETE')
+                                        <?php echo csrf_field(); ?>
+                                        <?php echo method_field('DELETE'); ?>
 
                                         <button
                                             type="submit"
@@ -236,7 +239,7 @@
 
                             </tr>
 
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                     </tbody>
 
@@ -281,4 +284,5 @@
     }
 </style>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\web_sekolah_wili\profil-sekolah-wili\resources\views/ekstrakulikuler/index.blade.php ENDPATH**/ ?>

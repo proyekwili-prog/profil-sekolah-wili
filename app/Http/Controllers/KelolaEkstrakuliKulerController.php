@@ -91,7 +91,7 @@ class KelolaEkstraKuliKulerController extends Controller
 
     public function update(Request $request, $id)
     {
-        $eskul = KelolaEkstrakuliKuler::findOrFail(Crypt::decrypt($id));
+        $eskul = KelolaEkstrakuliKuler::findOrFail($id);
 
         $data = $request->validate([
             'nama_eskul' => 'required|string|max:40',
