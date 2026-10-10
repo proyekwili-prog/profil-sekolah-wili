@@ -216,7 +216,7 @@
 
                                     <!-- Hapus -->
                                     <form
-                                        action="<?php echo e(route('admin.ekstrakulikuler.destroy', Crypt::encrypt($ekstrakurikuler->id_eskul))); ?>"
+                                        action="<?php echo e(route('admin.ekstrakulikuler.destroy', $ekstrakurikuler->id_eskul)); ?>"
                                         method="POST"
                                         class="d-inline"
                                         onsubmit="return confirm('Yakin ingin menghapus data ekstrakurikuler ini?');">

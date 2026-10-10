@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\KelolaGaleri;
 use Illuminate\Http\Request;
+use Exception;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\ValidationException;
@@ -31,14 +32,20 @@ class KelolaGaleriController extends Controller
 
     public function detail($id)
     {
-        $galeri = KelolaGaleri::findOrFail(
-            Crypt::decrypt($id)
-        );
+        try {
 
-        return view('galeri.detail', [
-            'title' => 'Detail Galeri',
-            'galeri' => $galeri,
-        ]);
+            $galeri = KelolaGaleri::findOrFail(
+                Crypt::decrypt($id)
+            );
+    
+            return view('galeri.detail', [
+                'title' => 'Detail Galeri',
+                'galeri' => $galeri,
+            ]);
+        }
+         catch(Exception $e) {
+            return redirect()->route('admin.galeri.index');
+        }
     }
 
     public function store(Request $request)
@@ -76,12 +83,18 @@ class KelolaGaleriController extends Controller
 
     public function edit($id)
     {
-        return view('galeri.edit', [
-            'title' => 'Edit Galeri',
-            'galeri' => KelolaGaleri::findOrFail(
-                Crypt::decrypt($id)
-            ),
-        ]);
+        try {
+
+            return view('galeri.edit', [
+                'title' => 'Edit Galeri',
+                'galeri' => KelolaGaleri::findOrFail(
+                    Crypt::decrypt($id)
+                ),
+            ]);
+        }
+         catch(Exception $e) {
+            return redirect()->route('admin.galeri.index');
+        }
     }
 
     public function update(Request $request, $id)

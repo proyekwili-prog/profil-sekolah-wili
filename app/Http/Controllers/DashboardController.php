@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProfileSekolah;
+use Exception;
 use App\Models\KelolaSiswa;
 use App\Models\KelolaGuru;
+use Illuminate\Support\Facades\Crypt;
 use App\Models\KelolaBerita;
 use App\Models\KelolaGaleri;
 use App\Models\KelolaEkstrakuliKuler;
+
 
 class DashboardController extends Controller
 {
@@ -123,18 +126,34 @@ class DashboardController extends Controller
     // =========================================================
     // DETAIL GURU
     // =========================================================
-    public function guruDetail($id)
-    {
+
+public function guruDetail($id)
+{
+    try {
+
         $profile = ProfileSekolah::first();
-
-        $guru = KelolaGuru::findOrFail($id);
-
+    
+        try {
+            $idGuru = Crypt::decryptString($id);
+        } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+            abort(404, 'ID guru tidak valid.');
+        }
+    
+        $guru = KelolaGuru::find($idGuru);
+    
+        if (!$guru) {
+            abort(404, 'Data guru tidak ditemukan.');
+        }
+    
         return view('public.guru-detail', [
             'profile' => $profile,
             'guru' => $guru,
         ]);
     }
-
+    catch(Exception $e) {
+            return redirect()->route('public.guru');
+        }
+}
 
     // =========================================================
     // HALAMAN EKSTRAKURIKULER PUBLIC
@@ -149,6 +168,27 @@ class DashboardController extends Controller
             'profile' => $profile,
             'ekstrakurikuler' => $ekstrakurikuler,
         ]);
+    }
+
+    // =========================================================
+// DETAIL EKSTRAKURIKULER PUBLIC
+// =========================================================
+public function ekstrakurikulerDetail($id)
+{
+    try {
+
+        $profile = ProfileSekolah::first();
+    
+        $ekstrakurikuler = KelolaEkstrakuliKuler::findOrFail($id);
+    
+        return view('public.ekstrakurikuler-detail', [
+            'profile' => $profile,
+            'ekstrakurikuler' => $ekstrakurikuler,
+        ]);
+    }
+    catch(Exception $e) {
+            return redirect()->route('public.ekstrakurikuler');
+        }
     }
 
 
@@ -168,6 +208,35 @@ class DashboardController extends Controller
             'beritaTerbaru' => $beritaTerbaru,
         ]);
     }
+
+    // =========================================================
+// DETAIL BERITA PUBLIC
+// =========================================================
+
+public function beritaDetail($id)
+{
+    try {
+
+        $profile = ProfileSekolah::first();
+    
+        try {
+            $idBerita = \Illuminate\Support\Facades\Crypt::decryptString($id);
+        } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+            abort(404, 'ID berita tidak valid.');
+        }
+    
+        $berita = KelolaBerita::findOrFail($idBerita);
+    
+        return view('public.berita-detail', [
+            'profile' => $profile,
+            'berita' => $berita,
+        ]);
+    }
+     catch(Exception $e) {
+            return redirect()->route('public.berita');
+        }
+}
+
 
 
     // =========================================================

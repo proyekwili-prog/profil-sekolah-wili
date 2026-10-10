@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\KelolaEkstrakuliKuler;
 use App\Models\KelolaGuru;
 use Illuminate\Http\Request;
+use Exception;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 
@@ -32,12 +33,19 @@ class KelolaEkstraKuliKulerController extends Controller
 
     public function detail($id)
 {
-    $ekstrakurikuler = KelolaEkstrakuliKuler::findOrFail(Crypt::decrypt($id));
+    try {
 
-    return view('ekstrakulikuler.detail', [
-        'title' => 'Detail Ekstrakurikuler',
-        'ekstrakurikuler' => $ekstrakurikuler,
-    ]);
+        $ekstrakurikuler = KelolaEkstrakuliKuler::findOrFail(Crypt::decrypt($id));
+    
+        return view('ekstrakulikuler.detail', [
+            'title' => 'Detail Ekstrakurikuler',
+            'ekstrakurikuler' => $ekstrakurikuler,
+        ]);
+    }
+    catch(Exception $e) {
+            return redirect()->route('admin.ekstrakulikuler.index');
+        }
+
 }
 
     public function store(Request $request)
@@ -68,11 +76,17 @@ class KelolaEkstraKuliKulerController extends Controller
 
    public function edit($id)
 {
-    return view('ekstrakulikuler.edit', [
-        'title' => 'Edit Ekstrakurikuler',
-        'ekstrakurikuler' => KelolaEkstrakuliKuler::findOrFail(Crypt::decrypt($id)),
-        'gurus' => KelolaGuru::orderBy('nama_guru')->get(),
-    ]);
+    try {
+
+        return view('ekstrakulikuler.edit', [
+            'title' => 'Edit Ekstrakurikuler',
+            'ekstrakurikuler' => KelolaEkstrakuliKuler::findOrFail(Crypt::decrypt($id)),
+            'gurus' => KelolaGuru::orderBy('nama_guru')->get(),
+        ]);
+    }
+     catch(Exception $e) {
+            return redirect()->route('admin.ekstrakulikuler.index');
+        }
 }
 
     public function update(Request $request, $id)

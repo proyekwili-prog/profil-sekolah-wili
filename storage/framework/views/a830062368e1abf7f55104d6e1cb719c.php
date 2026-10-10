@@ -891,158 +891,87 @@
 
                                     
 
-                                    <p class="eskul-description">
+<p class="eskul-description">
+    <?php echo e(\Illuminate\Support\Str::limit(
+        strip_tags($item->deskripsi ?? ''),
+        105
+    )); ?>
 
-                                        <?php echo e(\Illuminate\Support\Str::limit(
-                                            strip_tags($item->deskripsi ?? ''),
-                                            105
-                                        )); ?>
+</p>
 
+<div class="mt-3">
+    <a href="<?php echo e(route('public.ekstrakurikuler.detail', ['id' => $item->id_eskul])); ?>"
+       class="btn btn-primary btn-sm">
+        <i class="bi bi-eye me-1"></i>
+        Lihat Detail
+    </a>
+</div>
 
                                     </p>
-
-
                                     
-
-                                    <div class="mt-auto">
-
-                                        <a href="<?php echo e(route(
-                                            'public.ekstrakurikuler.detail',
-                                            ['id' => $item->id_eskul]
-                                        )); ?>"
-                                            class="btn btn-primary btn-sm eskul-detail-btn">
-
-                                            <i class="bi bi-eye me-1"></i>
-
-                                            Lihat Detail
-
-                                        </a>
-
-                                    </div>
-
-
                                 </div>
-
-
                             </div>
-
-
                         </div>
-
-
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
-
                 </div>
-
-
             <?php endif; ?>
 
-
-
             
-
             <div class="back-button-wrapper">
-
                 <a href="<?php echo e(route('public.dashboard')); ?>"
                     class="back-button">
-
                     <i class="bi bi-arrow-left"></i>
-
                     Kembali ke Beranda
-
                 </a>
-
             </div>
-
-
         </div>
-
     </section>
-
-
 
     
 
     <footer>
-
         <div class="container">
-
             <div class="row g-5">
-
-
                 
-
                 <div class="col-lg-5">
-
                     <div class="footer-title">
-
                         <?php echo e($profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja'); ?>
 
-
                     </div>
-
-
                     <p class="footer-text">
-
                         <?php echo e($profile?->deskripsi
                             ?? 'Sekolah yang berkomitmen memberikan pendidikan berkualitas bagi generasi bangsa.'); ?>
 
-
                     </p>
-
                 </div>
-
-
 
                 
 
                 <div class="col-lg-3">
-
                     <div class="footer-title">
                         Navigasi
                     </div>
-
-
                     <ul class="footer-links">
-
-
                         <li>
-
                             <a href="<?php echo e(route('public.dashboard')); ?>">
                                 Beranda
                             </a>
-
                         </li>
-
-
                         <li>
-
                             <a href="<?php echo e(route('public.profil')); ?>">
                                 Profil
-                            </a>
-
+                        </a>
                         </li>
-
-
                         <li>
-
                             <a href="<?php echo e(route('public.guru')); ?>">
                                 Guru
                             </a>
-
                         </li>
-
-
                         <li>
-
                             <a href="<?php echo e(route('public.ekstrakurikuler')); ?>">
                                 Ekstrakurikuler
                             </a>
-
                         </li>
-
-
                         <li>
 
                             <a href="<?php echo e(route('public.berita')); ?>">

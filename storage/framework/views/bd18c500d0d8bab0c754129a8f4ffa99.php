@@ -1,32 +1,22 @@
-<?php
-    use Illuminate\Support\Facades\Crypt;
-?>
-
-
-
 <?php $__env->startSection('title', $title); ?>
 
 <?php $__env->startSection('content'); ?>
 
 <style>
     /* =========================================================
-       EDIT GURU - CONSISTENT ADMIN DESIGN
+       GURU FORM PAGE
     ========================================================= */
 
-    .guru-edit-page {
+    .guru-form-page {
         width: 100%;
     }
 
-    /* =========================================================
-       HEADER HALAMAN
-    ========================================================= */
-
+    /* HEADER */
     .guru-page-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 20px;
-
         margin-bottom: 22px;
     }
 
@@ -44,7 +34,6 @@
         color: #172033;
         font-size: 24px;
         font-weight: 700;
-        line-height: 1.3;
         letter-spacing: -0.3px;
     }
 
@@ -62,7 +51,6 @@
         border-radius: 10px;
 
         font-size: 18px;
-        flex-shrink: 0;
     }
 
     .guru-header-description {
@@ -74,11 +62,8 @@
         line-height: 1.5;
     }
 
-    /* =========================================================
-       CARD
-    ========================================================= */
-
-    .guru-edit-card {
+    /* CARD */
+    .guru-form-card {
         background: #ffffff;
 
         border: 1px solid #e2e8f0;
@@ -89,10 +74,7 @@
         box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04);
     }
 
-    /* =========================================================
-       CARD HEADER
-    ========================================================= */
-
+    /* CARD HEADER */
     .guru-card-header {
         display: flex;
         align-items: center;
@@ -102,8 +84,6 @@
         padding: 15px 20px;
 
         border-bottom: 1px solid #e2e8f0;
-
-        background: #ffffff;
     }
 
     .guru-card-icon {
@@ -143,16 +123,17 @@
         font-size: 11px;
     }
 
-    /* =========================================================
-       FORM BODY
-    ========================================================= */
-
+    /* FORM */
     .guru-form-body {
-        padding: 24px;
+        padding: 25px 25px 24px;
     }
 
     .guru-form-group {
-        margin-bottom: 19px;
+        margin-bottom: 20px;
+    }
+
+    .guru-form-group:last-child {
+        margin-bottom: 0;
     }
 
     .guru-form-label {
@@ -188,9 +169,7 @@
 
         outline: none;
 
-        transition:
-            border-color 0.15s ease,
-            box-shadow 0.15s ease;
+        transition: 0.15s ease;
     }
 
     .guru-form-control:focus {
@@ -203,88 +182,10 @@
         color: #94a3b8;
     }
 
-    /* =========================================================
-       FOTO SAAT INI
-    ========================================================= */
-
-    .guru-current-photo-box {
-        display: flex;
-        align-items: center;
-
-        gap: 14px;
-
-        padding: 12px;
-
-        background: #f8fafc;
-
-        border: 1px solid #e2e8f0;
-        border-radius: 8px;
-    }
-
-    .guru-current-photo {
-        width: 64px;
-        height: 64px;
-
-        object-fit: cover;
-        object-position: center;
-
-        border-radius: 50%;
-
-        border: 2px solid #e2e8f0;
-
-        background: #ffffff;
-
-        flex-shrink: 0;
-    }
-
-    .guru-current-photo-placeholder {
-        width: 64px;
-        height: 64px;
-
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-
-        border-radius: 50%;
-
-        background: #ffffff;
-
-        border: 1px solid #e2e8f0;
-
-        flex-shrink: 0;
-    }
-
-    .guru-current-photo-placeholder i {
-        color: #94a3b8;
-
-        font-size: 23px;
-    }
-
-    .guru-current-photo-info {
-        color: #64748b;
-
-        font-size: 11px;
-
-        line-height: 1.6;
-    }
-
-    .guru-current-photo-info strong {
-        display: block;
-
-        color: #475569;
-
-        font-size: 12px;
-        font-weight: 600;
-
-        margin-bottom: 2px;
-    }
-
-    /* =========================================================
-       FILE INPUT
-    ========================================================= */
-
     .guru-file {
         padding: 7px 10px;
+
+        background: #ffffff;
 
         cursor: pointer;
     }
@@ -299,10 +200,7 @@
         font-size: 11px;
     }
 
-    /* =========================================================
-       ERROR
-    ========================================================= */
-
+    /* ERROR */
     .guru-error-box {
         margin-bottom: 20px;
 
@@ -318,32 +216,24 @@
         font-size: 12px;
     }
 
-    .guru-error-item {
-        display: flex;
-        align-items: flex-start;
-
-        gap: 6px;
-
-        margin-bottom: 4px;
+    .guru-error-box div {
+        margin-bottom: 3px;
     }
 
-    .guru-error-item:last-child {
+    .guru-error-box div:last-child {
         margin-bottom: 0;
     }
 
-    /* =========================================================
-       BUTTON AREA
-    ========================================================= */
-
+    /* BUTTON AREA */
     .guru-form-actions {
         display: flex;
         align-items: center;
 
         gap: 8px;
 
-        padding-top: 20px;
+        padding-top: 22px;
 
-        margin-top: 5px;
+        margin-top: 4px;
 
         border-top: 1px solid #e2e8f0;
     }
@@ -357,48 +247,33 @@
 
         font-size: 12px;
         font-weight: 600;
-
-        transition: 0.15s ease;
-    }
-
-    .guru-btn-back {
-        background: #ffffff;
-
-        border: 1px solid #cbd5e1;
-
-        color: #475569;
-    }
-
-    .guru-btn-back:hover {
-        background: #f8fafc;
-
-        border-color: #94a3b8;
-
-        color: #334155;
     }
 
     .guru-btn-save {
         background: #1e40af;
-
-        border: 1px solid #1e40af;
-
+        border-color: #1e40af;
         color: #ffffff;
     }
 
     .guru-btn-save:hover {
         background: #1d4ed8;
-
         border-color: #1d4ed8;
-
         color: #ffffff;
-
-        transform: translateY(-1px);
     }
 
-    /* =========================================================
-       RESPONSIVE
-    ========================================================= */
+    .guru-btn-back {
+        background: #ffffff;
+        border-color: #cbd5e1;
+        color: #475569;
+    }
 
+    .guru-btn-back:hover {
+        background: #f8fafc;
+        border-color: #94a3b8;
+        color: #334155;
+    }
+
+    /* RESPONSIVE */
     @media (max-width: 768px) {
 
         .guru-page-header {
@@ -415,7 +290,7 @@
         }
 
         .guru-form-body {
-            padding: 18px 16px;
+            padding: 20px 16px;
         }
 
         .guru-form-actions {
@@ -430,7 +305,7 @@
 </style>
 
 
-<div class="container-fluid px-0 guru-edit-page">
+<div class="container-fluid px-0 guru-form-page">
 
 
     
@@ -441,15 +316,15 @@
             <h3 class="guru-header-title">
 
                 <span class="guru-title-icon">
-                    <i class="bi bi-pencil-square"></i>
+                    <i class="bi bi-person-plus-fill"></i>
                 </span>
 
-                Edit Data Guru
+                Tambah Data Guru
 
             </h3>
 
             <p class="guru-header-description">
-                Perbarui informasi data guru yang dipilih.
+                Tambahkan data guru baru ke dalam sistem.
             </p>
 
         </div>
@@ -464,14 +339,9 @@
 
             <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
-                <div class="guru-error-item">
-
-                    <i class="bi bi-exclamation-circle"></i>
-
-                    <span>
-                        <?php echo e($error); ?>
-
-                    </span>
+                <div>
+                    <i class="bi bi-exclamation-circle me-1"></i>
+                    <?php echo e($error); ?>
 
                 </div>
 
@@ -483,16 +353,14 @@
 
 
     
-    <div class="guru-edit-card">
+    <div class="guru-form-card">
 
 
         
         <div class="guru-card-header">
 
             <div class="guru-card-icon">
-
                 <i class="bi bi-person-vcard"></i>
-
             </div>
 
             <div>
@@ -502,7 +370,7 @@
                 </h5>
 
                 <p class="guru-card-description">
-                    Perbarui data guru sesuai informasi terbaru.
+                    Lengkapi informasi guru yang akan ditambahkan.
                 </p>
 
             </div>
@@ -514,31 +382,26 @@
         <div class="guru-form-body">
 
             <form
-                action="<?php echo e(route('admin.guru.update', Crypt::encrypt($guru->id_guru))); ?>"
+                action="<?php echo e(route('admin.guru.store')); ?>"
                 method="POST"
                 enctype="multipart/form-data">
 
                 <?php echo csrf_field(); ?>
-
-                <?php echo method_field('PUT'); ?>
 
 
                 
                 <div class="guru-form-group">
 
                     <label class="guru-form-label">
-
                         Nama Guru
-
                         <span class="guru-required">*</span>
-
                     </label>
 
                     <input
                         type="text"
                         name="nama_guru"
                         class="form-control guru-form-control"
-                        value="<?php echo e(old('nama_guru', $guru->nama_guru)); ?>"
+                        value="<?php echo e(old('nama_guru')); ?>"
                         placeholder="Masukkan nama guru"
                         required>
 
@@ -556,7 +419,7 @@
                         type="text"
                         name="nip"
                         class="form-control guru-form-control"
-                        value="<?php echo e(old('nip', $guru->nip)); ?>"
+                        value="<?php echo e(old('nip')); ?>"
                         placeholder="Masukkan NIP jika ada">
 
                 </div>
@@ -566,18 +429,15 @@
                 <div class="guru-form-group">
 
                     <label class="guru-form-label">
-
                         Mata Pelajaran
-
                         <span class="guru-required">*</span>
-
                     </label>
 
                     <input
                         type="text"
                         name="mapel"
                         class="form-control guru-form-control"
-                        value="<?php echo e(old('mapel', $guru->mapel)); ?>"
+                        value="<?php echo e(old('mapel')); ?>"
                         placeholder="Contoh: Matematika"
                         required>
 
@@ -588,58 +448,7 @@
                 <div class="guru-form-group">
 
                     <label class="guru-form-label">
-                        Foto Saat Ini
-                    </label>
-
-
-                    <div class="guru-current-photo-box">
-
-                        <?php if($guru->foto): ?>
-
-                            <img
-                                src="<?php echo e(asset('storage/'.$guru->foto)); ?>"
-                                alt="<?php echo e($guru->nama_guru); ?>"
-                                class="guru-current-photo">
-
-                        <?php else: ?>
-
-                            <div class="guru-current-photo-placeholder">
-
-                                <i class="bi bi-person"></i>
-
-                            </div>
-
-                        <?php endif; ?>
-
-
-                        <div class="guru-current-photo-info">
-
-                            <strong>
-                                Foto Guru
-                            </strong>
-
-                            <?php if($guru->foto): ?>
-
-                                Foto yang saat ini tersimpan.
-
-                            <?php else: ?>
-
-                                Guru belum memiliki foto.
-
-                            <?php endif; ?>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                
-                <div class="guru-form-group">
-
-                    <label class="guru-form-label">
-                        Ganti Foto
+                        Foto Guru
                     </label>
 
                     <input
@@ -649,7 +458,6 @@
                         accept=".jpg,.jpeg,.png,.webp">
 
                     <span class="guru-help-text">
-                        Kosongkan jika tidak ingin mengganti foto.
                         Format JPG, JPEG, PNG, atau WEBP. Maksimal 2 MB.
                     </span>
 
@@ -676,7 +484,7 @@
 
                         <i class="bi bi-check-lg me-1"></i>
 
-                        Simpan Perubahan
+                        Simpan Data
 
                     </button>
 
@@ -692,4 +500,4 @@
 </div>
 
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('layout.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/guru/edit.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layout.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/guru/tambah.blade.php ENDPATH**/ ?>

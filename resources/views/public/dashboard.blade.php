@@ -1185,7 +1185,7 @@
                         <a href="{{ route('public.profil') }}"
                             class="btn btn-primary mt-4">
                             <i class="bi bi-eye me-1"></i>
-                            Lihat Detail Profil
+                            Lihat Selengkapnya
                         </a>
                         <div class="profile-info">
                             <div class="profile-info-item">
@@ -1370,11 +1370,15 @@
                                                             NIP: {{ $item->nip ?? '-' }}
                                                         </div>
                                                     </div>
-                                                    <a href="{{ route('public.guru.detail', ['id' => $item->id_guru]) }}"
-                                                        class="btn btn-primary btn-sm">
-                                                        <i class="bi bi-eye me-1"></i>
-                                                        Lihat Detail
-                                                    </a>
+                                            
+<a href="{{ route('public.guru.detail', [
+    'id' => \Illuminate\Support\Facades\Crypt::encryptString((string) $item->id_guru)
+]) }}"
+   class="btn btn-primary btn-sm">
+    <i class="bi bi-eye me-1"></i>
+    Lihat Detail Guru
+</a>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -1473,12 +1477,22 @@
                                                         <i class="bi bi-calendar-event eskul-icon"></i>
                                                         {{ $item->jadwal_latihan ?? '-' }}
                                                     </div>
-                                                    <p class="eskul-description">
-                                                        {{ \Illuminate\Support\Str::limit(
-                                                            strip_tags($item->deskripsi ?? ''),
-                                                            105
-                                                        ) }}
-                                                    </p>
+                                                    
+<p class="eskul-description">
+    {{ \Illuminate\Support\Str::limit(
+        strip_tags($item->deskripsi ?? ''),
+        105
+    ) }}
+</p>
+
+<div class="mt-auto pt-3">
+    <a href="{{ route('public.ekstrakurikuler.detail', ['id' => $item->id_eskul]) }}"
+       class="btn btn-primary btn-sm eskul-detail-btn">
+        <i class="bi bi-eye me-1"></i>
+        Lihat Detail
+    </a>
+</div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -1573,12 +1587,31 @@
                                                     <div class="news-title">
                                                         {{ $item->judul }}
                                                     </div>
-                                                    <p class="mt-2">
-                                                        {{ \Illuminate\Support\Str::limit(
-                                                            strip_tags($item->isi),
-                                                            100
-                                                        ) }}
-                                                    </p>
+                                                    
+<p class="mt-2">
+    {{ \Illuminate\Support\Str::limit(
+        strip_tags($item->isi ?? ''),
+        100
+    ) }}
+</p>
+{{-- <a href="{{ route('public.berita.detail', [
+    'id' => \Illuminate\Support\Facades\Crypt::encryptString((string) $item->id_berita)
+]) }}"
+   class="btn btn-primary btn-sm">
+    <i class="bi bi-eye me-1"></i>
+    Lihat Detail Guru
+</a> --}}
+
+<div class="mt-auto pt-3">
+    <a href="{{ route('public.berita.detail', [
+    'id' => \Illuminate\Support\Facades\Crypt::encryptString((string) $item->id_berita)
+]) }}"
+       class="btn btn-primary btn-sm">
+        <i class="bi bi-book-half me-1"></i>
+        Baca Selengkapnya
+    </a>
+</div>
+
                                                 </div>
                                             </div>
                                         </div>

@@ -670,16 +670,26 @@
 
 
                                     </div>
+<p class="news-description">
+    <?php echo e(\Illuminate\Support\Str::limit(
+        strip_tags($berita->isi ?? ''),
+        120
+    )); ?>
 
-                                    <p class="news-description">
-
-                                        <?php echo e(\Illuminate\Support\Str::limit(
-                                            strip_tags($berita->isi),
-                                            120
-                                        )); ?>
+</p>
 
 
-                                    </p>
+<div class="mt-3">
+    <a href="<?php echo e(route('public.berita.detail', [
+        'id' => \Illuminate\Support\Facades\Crypt::encryptString((string) $berita->id_berita)
+    ])); ?>"
+       class="btn btn-primary btn-sm">
+        <i class="bi bi-book-half me-1"></i>
+        Baca Selengkapnya
+    </a>
+</div>
+
+
 
                                 </div>
 

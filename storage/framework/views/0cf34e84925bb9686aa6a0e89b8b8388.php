@@ -893,143 +893,97 @@
 
     <section class="vision-section">
         <div class="container">
-
-            <div class="section-title">
-                <div class="small-title">Arah Pendidikan</div>
-
-                <h2>Visi &amp; Misi</h2>
-
-                <p>
-                    Landasan dan arah pendidikan sekolah dalam membentuk generasi berkarakter.
-                </p>
-            </div>
-
             <div class="vision-card text-center">
-
                 <div class="vision-icon">
                     <i class="bi bi-bullseye"></i>
                 </div>
-
                 <h4 class="fw-bold mt-4 mb-3" style="color:#0f2f67;">
                     Visi dan Misi Sekolah
                 </h4>
-
                 <p class="vision-text">
                     <?php echo e($profile?->visi_misi ?? 'Visi dan misi sekolah belum tersedia.'); ?>
 
                 </p>
-
             </div>
-
             <div class="back-button-wrapper">
                 <a href="<?php echo e(route('public.dashboard')); ?>" class="back-button">
                     <i class="bi bi-arrow-left"></i>
                     Kembali ke Beranda
                 </a>
             </div>
-
         </div>
     </section>
-
     
-
     <footer>
         <div class="container">
-
             <div class="row g-5">
-
                 
                 <div class="col-lg-5">
-
                     <div class="footer-title">
                         <?php echo e($profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja'); ?>
 
                     </div>
-
                     <p class="footer-text">
                         <?php echo e($profile?->deskripsi
                             ?? 'Sekolah yang berkomitmen memberikan pendidikan berkualitas bagi generasi bangsa.'); ?>
 
                     </p>
-
                 </div>
-
                 
                 <div class="col-lg-3">
-
                     <div class="footer-title">Navigasi</div>
-
                     <ul class="footer-links">
-
                         <li>
                             <a href="<?php echo e(route('public.dashboard')); ?>">Beranda</a>
                         </li>
-
                         <li>
                             <a href="<?php echo e(route('public.profil')); ?>">Profil</a>
                         </li>
-
                         <li>
                             <a href="<?php echo e(route('public.guru')); ?>">Guru</a>
                         </li>
-
                         <li>
                             <a href="<?php echo e(route('public.ekstrakurikuler')); ?>">Ekstrakurikuler</a>
                         </li>
-
                         <li>
                             <a href="<?php echo e(route('public.berita')); ?>">Berita</a>
                         </li>
-
                         <li>
                             <a href="<?php echo e(route('public.galeri')); ?>">Galeri</a>
                         </li>
-
                     </ul>
-
                 </div>
-
                 
                 <div class="col-lg-4">
-
                     <div class="footer-title">Kontak Sekolah</div>
-
                     <p class="footer-text mb-2">
                         <i class="bi bi-geo-alt me-2"></i>
                         <?php echo e($profile?->alamat ?? '-'); ?>
 
                     </p>
-
                     <p class="footer-text mb-2">
                         <i class="bi bi-telephone me-2"></i>
                         <?php echo e($profile?->kontak ?? '-'); ?>
 
                     </p>
-
                     <p class="footer-text">
                         <i class="bi bi-building me-2"></i>
                         NPSN: <?php echo e($profile?->npsn ?? '-'); ?>
 
                     </p>
-
                 </div>
-
             </div>
-
             <div class="footer-bottom text-center">
                 &copy; <?php echo e(date('Y')); ?>
 
                 <?php echo e($profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja'); ?>.
                 Semua Hak Dilindungi.
             </div>
-
         </div>
     </footer>
-
     
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const revealElements = document.querySelectorAll(

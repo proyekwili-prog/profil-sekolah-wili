@@ -6,10 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Detail Guru - <?php echo e($guru->nama_guru); ?></title>
+    <title>Detail Berita - {{ $berita->judul }}</title>
 
-    <link rel="icon" href="<?php echo e(asset('assets/images/satap.png')); ?>">
-
+    <link rel="icon" href="{{ asset('assets/images/satap.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
@@ -38,7 +37,7 @@
             text-decoration: none;
         }
 
-        /* NAVBAR */
+        /* NAVBAR PUBLIK */
         .navbar-custom {
             position: fixed;
             top: 0;
@@ -47,7 +46,6 @@
             z-index: 1050;
             padding: 12px 0;
             background: rgba(255, 255, 255, .98);
-            border: none;
             box-shadow: 0 2px 15px rgba(0, 0, 0, .08);
         }
 
@@ -62,10 +60,6 @@
             width: 48px;
             height: 48px;
             object-fit: contain;
-        }
-
-        .brand-text {
-            line-height: 1.15;
         }
 
         .school-name {
@@ -98,14 +92,12 @@
             box-shadow: none !important;
         }
 
-        /* BANNER DETAIL GURU — SAMA DENGAN EKSTRAKURIKULER */
+        /* BANNER DETAIL */
         .detail-header {
             margin-top: 72px;
             min-height: 360px;
             display: flex;
             align-items: center;
-            position: relative;
-            border: none;
             background:
                 linear-gradient(
                     90deg,
@@ -113,7 +105,7 @@
                     rgba(5, 25, 70, .65) 45%,
                     rgba(5, 25, 70, .35) 100%
                 ),
-                url('<?php echo e(asset('assets/school-template/img/background.jpg')); ?>');
+                url('{{ asset('assets/school-template/img/background.jpg') }}');
             background-size: cover;
             background-position: center;
             color: #fff;
@@ -152,7 +144,7 @@
             line-height: 1.8;
         }
 
-        /* DETAIL SECTION */
+        /* DETAIL BERITA */
         .detail-section {
             padding: 75px 0;
             background: #f8fafc;
@@ -166,47 +158,32 @@
             box-shadow: 0 8px 30px rgba(15, 23, 42, .08);
         }
 
-        /* FOTO GURU */
-        .detail-photo-wrapper {
-            height: 100%;
-            min-height: 430px;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f8fafc;
-        }
-
-        .detail-photo {
+        .detail-image {
             display: block;
             width: 100%;
-            height: 390px;
-            object-fit: contain;
+            max-height: 500px;
+            object-fit: cover;
             object-position: center;
-            border-radius: 12px;
-            background: #fff;
+            background: #f1f5f9;
         }
 
-        .detail-photo-empty {
+        .detail-image-empty {
             width: 100%;
-            min-height: 390px;
+            min-height: 280px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 12px;
             background: #eff6ff;
             color: #2563eb;
-            font-size: 90px;
+            font-size: 80px;
         }
 
-        /* INFORMASI GURU */
         .detail-content {
-            height: 100%;
             padding: 40px;
         }
 
         .detail-label {
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             color: #2563eb;
             font-size: 11px;
             font-weight: 800;
@@ -214,64 +191,27 @@
             text-transform: uppercase;
         }
 
-        .detail-name {
-            margin-bottom: 8px;
+        .detail-title {
+            margin-bottom: 18px;
             color: #0f172a;
-            font-size: 30px;
+            font-size: clamp(25px, 3vw, 34px);
             font-weight: 800;
             line-height: 1.3;
             overflow-wrap: anywhere;
         }
 
-        .detail-mapel {
-            margin-bottom: 30px;
+        .detail-date {
+            margin-bottom: 28px;
             color: #64748b;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .detail-info {
-            border-top: 1px solid #e2e8f0;
-        }
-
-        .detail-info-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 18px 0;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .detail-info-icon {
-            width: 42px;
-            height: 42px;
-            min-width: 42px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-            background: #eff6ff;
-            color: #2563eb;
-            font-size: 19px;
-        }
-
-        .detail-info-text {
-            min-width: 0;
-        }
-
-        .detail-info-text small {
-            display: block;
-            margin-bottom: 4px;
-            color: #94a3b8;
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .detail-info-text span {
-            color: #334155;
             font-size: 13px;
             font-weight: 600;
+        }
+
+        .detail-text {
+            color: #334155;
+            font-size: 14px;
+            line-height: 1.95;
+            white-space: pre-line;
             overflow-wrap: anywhere;
         }
 
@@ -375,18 +315,6 @@
                 min-height: 330px;
             }
 
-            .detail-photo-wrapper {
-                min-height: 350px;
-            }
-
-            .detail-photo {
-                height: 310px;
-            }
-
-            .detail-photo-empty {
-                min-height: 310px;
-            }
-
             .detail-content {
                 padding: 30px;
             }
@@ -401,32 +329,12 @@
                 font-size: 32px;
             }
 
-            .detail-header p {
-                font-size: 13px;
-            }
-
             .detail-section {
                 padding: 50px 0;
             }
 
-            .detail-photo-wrapper {
-                min-height: 300px;
-            }
-
-            .detail-photo {
-                height: 280px;
-            }
-
-            .detail-photo-empty {
-                min-height: 260px;
-            }
-
             .detail-content {
                 padding: 25px;
-            }
-
-            .detail-name {
-                font-size: 25px;
             }
         }
 
@@ -471,10 +379,6 @@
                 padding: 22px;
             }
 
-            .detail-info-item {
-                gap: 12px;
-            }
-
             .btn-primary-school,
             .btn-outline-school {
                 width: 100%;
@@ -485,21 +389,20 @@
 
 <body>
 
-    
+    {{-- NAVBAR PUBLIK --}}
     <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container">
 
-            <a class="navbar-brand" href="<?php echo e(route('public.dashboard')); ?>">
-                <?php if($profile?->logo): ?>
-                    <img src="<?php echo e(asset('storage/' . $profile->logo)); ?>" alt="Logo Sekolah">
-                <?php else: ?>
-                     <img src="<?php echo e(asset('storage/' . $profile->logo)); ?>" alt="Logo Sekolah">
-                <?php endif; ?>
+            <a class="navbar-brand" href="{{ route('public.dashboard') }}">
+                @if($profile?->logo)
+                    <img src="{{ asset('storage/' . $profile->logo) }}" alt="Logo Sekolah">
+                @else
+                    <img src="{{ asset('assets/images/satap.png') }}" alt="Logo Sekolah">
+                @endif
 
                 <div class="brand-text">
                     <div class="school-name">
-                        <?php echo e($profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja'); ?>
-
+                        {{ $profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja' }}
                     </div>
                 </div>
             </a>
@@ -510,29 +413,29 @@
                 data-bs-target="#navbarMenu"
                 aria-controls="navbarMenu"
                 aria-expanded="false"
-                aria-label="Toggle navigation">
+                aria-label="Buka navigasi">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarMenu">
                 <ul class="navbar-nav ms-auto align-items-lg-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo e(route('public.dashboard')); ?>">Beranda</a>
+                        <a class="nav-link" href="{{ route('public.dashboard') }}">Beranda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo e(route('public.profil')); ?>">Profil</a>
+                        <a class="nav-link" href="{{ route('public.profil') }}">Profil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="<?php echo e(route('public.guru')); ?>">Guru</a>
+                        <a class="nav-link" href="{{ route('public.guru') }}">Guru</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo e(route('public.ekstrakurikuler')); ?>">Ekstrakurikuler</a>
+                        <a class="nav-link" href="{{ route('public.ekstrakurikuler') }}">Ekstrakurikuler</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo e(route('public.berita')); ?>">Berita</a>
+                        <a class="nav-link active" href="{{ route('public.berita') }}">Berita</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo e(route('public.galeri')); ?>">Galeri</a>
+                        <a class="nav-link" href="{{ route('public.galeri') }}">Galeri</a>
                     </li>
                 </ul>
             </div>
@@ -542,137 +445,93 @@
 
     <main>
 
-        
+        {{-- HEADER DETAIL BERITA --}}
         <section class="detail-header">
             <div class="container">
                 <div class="detail-header-content">
 
                     <div class="badge-header">
-                        <i class="bi bi-people-fill me-2"></i>
-                        GURU DAN TENAGA KEPENDIDIKAN
+                        <i class="bi bi-newspaper me-2"></i>
+                        INFORMASI DAN BERITA SEKOLAH
                     </div>
 
-                    <h1>Detail Guru</h1>
+                    <h1>Detail Berita</h1>
 
                     <p>
-                        Informasi mengenai guru dan tenaga pendidik
-                        <?php echo e($profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja'); ?>.
+                        Informasi dan berita dari
+                        {{ $profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja' }}.
                     </p>
 
                 </div>
             </div>
         </section>
 
-        
+        {{-- KONTEN DETAIL BERITA --}}
         <section class="detail-section">
             <div class="container">
 
                 <div class="mb-4">
-                    <a href="<?php echo e(route('public.guru')); ?>" class="btn-outline-school">
+                    <a href="{{ route('public.berita') }}" class="btn-outline-school">
                         <i class="bi bi-arrow-left me-2"></i>
-                        Kembali ke Daftar Guru
+                        Kembali ke Daftar Berita
                     </a>
                 </div>
 
-                <div class="detail-card">
-                    <div class="row g-0">
+                <article class="detail-card">
 
-                        
-                        <div class="col-lg-5">
-                            <div class="detail-photo-wrapper">
+                    {{-- GAMBAR BERITA --}}
+                    @if($berita->gambar)
+                        <img
+                            src="{{ asset('storage/' . $berita->gambar) }}"
+                            class="detail-image"
+                            alt="{{ $berita->judul }}">
+                    @else
+                        <div class="detail-image-empty">
+                            <i class="bi bi-newspaper"></i>
+                        </div>
+                    @endif
 
-                                <?php if($guru->foto): ?>
-                                    <img
-                                        src="<?php echo e(asset('storage/' . $guru->foto)); ?>"
-                                        class="detail-photo"
-                                        alt="<?php echo e($guru->nama_guru); ?>">
-                                <?php else: ?>
-                                    <div class="detail-photo-empty">
-                                        <i class="bi bi-person-circle"></i>
-                                    </div>
-                                <?php endif; ?>
+                    {{-- INFORMASI BERITA --}}
+                    <div class="detail-content">
 
-                            </div>
+                        <div class="detail-label">Berita Sekolah</div>
+
+                        <h2 class="detail-title">
+                            {{ $berita->judul }}
+                        </h2>
+
+                        <div class="detail-date">
+                            <i class="bi bi-calendar-event me-2"></i>
+                            {{ $berita->tanggal ?? '-' }}
                         </div>
 
-                        
-                        <div class="col-lg-7">
-                            <div class="detail-content">
+                        <div class="detail-text">{{ $berita->isi ?? 'Isi berita belum tersedia.' }}</div>
 
-                                <div class="detail-label">Data Guru</div>
+                        <hr class="my-4">
 
-                                <h2 class="detail-name">
-                                    <?php echo e($guru->nama_guru); ?>
+                        <div class="d-flex gap-2 flex-wrap">
 
-                                </h2>
+                            <a href="{{ route('public.berita') }}" class="btn-primary-school">
+                                <i class="bi bi-newspaper me-2"></i>
+                                Lihat Berita Lainnya
+                            </a>
 
-                                <div class="detail-mapel">
-                                    <i class="bi bi-book me-1"></i>
-                                    <?php echo e($guru->mapel ?? '-'); ?>
+                            <a href="{{ route('public.dashboard') }}#berita" class="btn-outline-school">
+                                <i class="bi bi-house me-2"></i>
+                                Kembali ke Beranda
+                            </a>
 
-                                </div>
-
-                                <div class="detail-info">
-
-                                    <div class="detail-info-item">
-                                        <div class="detail-info-icon">
-                                            <i class="bi bi-person"></i>
-                                        </div>
-                                        <div class="detail-info-text">
-                                            <small>Nama Guru</small>
-                                            <span><?php echo e($guru->nama_guru); ?></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="detail-info-item">
-                                        <div class="detail-info-icon">
-                                            <i class="bi bi-person-vcard"></i>
-                                        </div>
-                                        <div class="detail-info-text">
-                                            <small>NIP</small>
-                                            <span><?php echo e($guru->nip ?? '-'); ?></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="detail-info-item">
-                                        <div class="detail-info-icon">
-                                            <i class="bi bi-book"></i>
-                                        </div>
-                                        <div class="detail-info-text">
-                                            <small>Mata Pelajaran</small>
-                                            <span><?php echo e($guru->mapel ?? '-'); ?></span>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                
-                                <div class="mt-4 d-flex gap-2 flex-wrap">
-
-                                    <a href="<?php echo e(route('public.guru')); ?>" class="btn-primary-school">
-                                        <i class="bi bi-people-fill me-1"></i>
-                                        Lihat Semua Guru
-                                    </a>
-
-                                    <a href="<?php echo e(route('public.dashboard')); ?>#guru" class="btn-outline-school">
-                                        <i class="bi bi-house me-1"></i>
-                                        Kembali ke Beranda
-                                    </a>
-
-                                </div>
-
-                            </div>
                         </div>
 
                     </div>
-                </div>
+                </article>
 
             </div>
         </section>
 
     </main>
 
-    
+    {{-- FOOTER PUBLIK --}}
     <footer>
         <div class="container">
 
@@ -680,13 +539,11 @@
 
                 <div class="col-lg-5">
                     <div class="footer-title">
-                        <?php echo e($profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja'); ?>
-
+                        {{ $profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja' }}
                     </div>
 
                     <p class="footer-text">
-                        <?php echo e($profile?->deskripsi ?? 'Sekolah yang berkomitmen memberikan pendidikan berkualitas bagi generasi bangsa.'); ?>
-
+                        {{ $profile?->deskripsi ?? 'Sekolah yang berkomitmen memberikan pendidikan berkualitas bagi generasi bangsa.' }}
                     </p>
                 </div>
 
@@ -694,12 +551,12 @@
                     <div class="footer-title">Navigasi</div>
 
                     <ul class="footer-links">
-                        <li><a href="<?php echo e(route('public.dashboard')); ?>">Beranda</a></li>
-                        <li><a href="<?php echo e(route('public.profil')); ?>">Profil</a></li>
-                        <li><a href="<?php echo e(route('public.guru')); ?>">Guru</a></li>
-                        <li><a href="<?php echo e(route('public.ekstrakurikuler')); ?>">Ekstrakurikuler</a></li>
-                        <li><a href="<?php echo e(route('public.berita')); ?>">Berita</a></li>
-                        <li><a href="<?php echo e(route('public.galeri')); ?>">Galeri</a></li>
+                        <li><a href="{{ route('public.dashboard') }}">Beranda</a></li>
+                        <li><a href="{{ route('public.profil') }}">Profil</a></li>
+                        <li><a href="{{ route('public.guru') }}">Guru</a></li>
+                        <li><a href="{{ route('public.ekstrakurikuler') }}">Ekstrakurikuler</a></li>
+                        <li><a href="{{ route('public.berita') }}">Berita</a></li>
+                        <li><a href="{{ route('public.galeri') }}">Galeri</a></li>
                     </ul>
                 </div>
 
@@ -708,29 +565,25 @@
 
                     <p class="footer-text mb-2">
                         <i class="bi bi-geo-alt me-2"></i>
-                        <?php echo e($profile?->alamat ?? '-'); ?>
-
+                        {{ $profile?->alamat ?? '-' }}
                     </p>
 
                     <p class="footer-text mb-2">
                         <i class="bi bi-telephone me-2"></i>
-                        <?php echo e($profile?->kontak ?? '-'); ?>
-
+                        {{ $profile?->kontak ?? '-' }}
                     </p>
 
                     <p class="footer-text">
                         <i class="bi bi-building me-2"></i>
-                        NPSN: <?php echo e($profile?->npsn ?? '-'); ?>
-
+                        NPSN: {{ $profile?->npsn ?? '-' }}
                     </p>
                 </div>
 
             </div>
 
             <div class="footer-bottom text-center">
-                &copy; <?php echo e(date('Y')); ?>
-
-                <?php echo e($profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja'); ?>.
+                &copy; {{ date('Y') }}
+                {{ $profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja' }}.
                 Semua Hak Dilindungi.
             </div>
 
@@ -741,4 +594,3 @@
 
 </body>
 </html>
-<?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/public/guru-detail.blade.php ENDPATH**/ ?>

@@ -672,15 +672,25 @@
                                         {{ $berita->judul }}
 
                                     </div>
+<p class="news-description">
+    {{ \Illuminate\Support\Str::limit(
+        strip_tags($berita->isi ?? ''),
+        120
+    ) }}
+</p>
 
-                                    <p class="news-description">
 
-                                        {{ \Illuminate\Support\Str::limit(
-                                            strip_tags($berita->isi),
-                                            120
-                                        ) }}
+<div class="mt-3">
+    <a href="{{ route('public.berita.detail', [
+        'id' => \Illuminate\Support\Facades\Crypt::encryptString((string) $berita->id_berita)
+    ]) }}"
+       class="btn btn-primary btn-sm">
+        <i class="bi bi-book-half me-1"></i>
+        Baca Selengkapnya
+    </a>
+</div>
 
-                                    </p>
+
 
                                 </div>
 

@@ -1,17 +1,11 @@
-<?php
-    use Illuminate\Support\Facades\Crypt;
-?>
-
-
-
 <?php $__env->startSection('title', $title); ?>
 
 <?php $__env->startSection('content'); ?>
 
 <style>
     /* =========================================================
-       EDIT DATA SISWA
-       KONSISTEN DENGAN HALAMAN EDIT DATA GURU
+       TAMBAH DATA SISWA
+       KONSISTEN DENGAN HALAMAN TAMBAH DATA GURU
     ========================================================= */
 
     .siswa-form-page {
@@ -25,6 +19,7 @@
     .siswa-form-header {
         display: flex;
         align-items: flex-start;
+
         margin-bottom: 22px;
     }
 
@@ -74,7 +69,7 @@
     }
 
     /* =========================
-       CARD
+       CARD FORM
     ========================= */
 
     .siswa-form-card {
@@ -212,6 +207,10 @@
             0 0 0 2px rgba(37, 99, 235, 0.08);
     }
 
+    /* =========================
+       SELECT
+    ========================= */
+
     .siswa-form-select {
         cursor: pointer;
     }
@@ -244,7 +243,7 @@
     }
 
     /* =========================
-       FORM FOOTER
+       FOOTER FORM
     ========================= */
 
     .siswa-form-footer {
@@ -283,6 +282,8 @@
         transition: 0.15s ease;
     }
 
+    /* KEMBALI */
+
     .siswa-btn-back {
         background: #ffffff;
 
@@ -298,6 +299,8 @@
 
         color: #1e293b;
     }
+
+    /* SIMPAN */
 
     .siswa-btn-save {
         background: #2446b8;
@@ -332,6 +335,10 @@
         .siswa-form-footer {
             flex-wrap: wrap;
         }
+
+        .siswa-btn {
+            width: auto;
+        }
     }
 </style>
 
@@ -345,18 +352,18 @@
 
         <div class="siswa-form-title-icon">
 
-            <i class="bi bi-person-fill-gear"></i>
+            <i class="bi bi-person-plus-fill"></i>
 
         </div>
 
         <div class="siswa-form-title-wrapper">
 
             <h3 class="siswa-form-title">
-                Edit Data Siswa
+                Tambah Data Siswa
             </h3>
 
             <p class="siswa-form-description">
-                Perbarui informasi data siswa yang sudah terdaftar.
+                Tambahkan data siswa baru ke dalam sistem.
             </p>
 
         </div>
@@ -415,7 +422,7 @@
                 </h5>
 
                 <p class="siswa-form-card-subtitle">
-                    Perbarui informasi siswa yang sudah terdaftar.
+                    Lengkapi informasi siswa yang akan ditambahkan.
                 </p>
 
             </div>
@@ -428,11 +435,10 @@
         <div class="siswa-form-body">
 
             <form
-                action="<?php echo e(route('admin.siswa.update', Crypt::encrypt($siswa->id_siswa))); ?>"
+                action="<?php echo e(route('admin.siswa.store')); ?>"
                 method="POST">
 
                 <?php echo csrf_field(); ?>
-                <?php echo method_field('PUT'); ?>
 
 
                 
@@ -453,7 +459,7 @@
                         id="nisn"
                         name="nisn"
                         class="siswa-form-control"
-                        value="<?php echo e(old('nisn', $siswa->nisn)); ?>"
+                        value="<?php echo e(old('nisn')); ?>"
                         placeholder="Masukkan NISN siswa"
                         maxlength="10"
                         required>
@@ -495,7 +501,7 @@ unset($__errorArgs, $__bag); ?>
                         id="nama_siswa"
                         name="nama_siswa"
                         class="siswa-form-control"
-                        value="<?php echo e(old('nama_siswa', $siswa->nama_siswa)); ?>"
+                        value="<?php echo e(old('nama_siswa')); ?>"
                         placeholder="Masukkan nama siswa"
                         maxlength="40"
                         required>
@@ -544,7 +550,7 @@ unset($__errorArgs, $__bag); ?>
 
                         <option
                             value="Laki-laki"
-                            <?php if(old('jenis_kelamin', $siswa->jenis_kelamin) === 'Laki-laki'): echo 'selected'; endif; ?>>
+                            <?php if(old('jenis_kelamin') === 'Laki-laki'): echo 'selected'; endif; ?>>
 
                             Laki-laki
 
@@ -552,7 +558,7 @@ unset($__errorArgs, $__bag); ?>
 
                         <option
                             value="Perempuan"
-                            <?php if(old('jenis_kelamin', $siswa->jenis_kelamin) === 'Perempuan'): echo 'selected'; endif; ?>>
+                            <?php if(old('jenis_kelamin') === 'Perempuan'): echo 'selected'; endif; ?>>
 
                             Perempuan
 
@@ -597,7 +603,7 @@ unset($__errorArgs, $__bag); ?>
                         id="tahun_masuk"
                         name="tahun_masuk"
                         class="siswa-form-control"
-                        value="<?php echo e(old('tahun_masuk', $siswa->tahun_masuk)); ?>"
+                        value="<?php echo e(old('tahun_masuk')); ?>"
                         placeholder="Contoh: 2025"
                         min="2000"
                         max="2100"
@@ -643,7 +649,7 @@ unset($__errorArgs, $__bag); ?>
 
                         <i class="bi bi-check-lg me-1"></i>
 
-                        Simpan Perubahan
+                        Simpan Data
 
                     </button>
 
@@ -659,4 +665,4 @@ unset($__errorArgs, $__bag); ?>
 </div>
 
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('layout.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/siswa/edit.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layout.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/siswa/tambah.blade.php ENDPATH**/ ?>

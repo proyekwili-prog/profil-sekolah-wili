@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\KelolaSiswa;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 class KelolaSiswaController extends Controller
@@ -25,12 +26,18 @@ class KelolaSiswaController extends Controller
 
     public function detail($id)
 {
-    $siswa = KelolaSiswa::findOrFail(Crypt::decrypt($id));
+    try {
 
-    return view('siswa.detail', [
-        'title' => 'Detail Data Siswa',
-        'siswa' => $siswa,
-    ]);
+        $siswa = KelolaSiswa::findOrFail(Crypt::decrypt($id));
+    
+        return view('siswa.detail', [
+            'title' => 'Detail Data Siswa',
+            'siswa' => $siswa,
+        ]);
+    }
+    catch(Exception $e) {
+            return redirect()->route('admin.siswa.index');
+        }
 }
 
     public function store(Request $request)
@@ -50,10 +57,17 @@ class KelolaSiswaController extends Controller
 
     public function edit($id)
     {
-        return view('siswa.edit', [
-            'title' => 'Edit Data Siswa',
-            'siswa' => KelolaSiswa::findOrFail(Crypt::decrypt($id)),
-        ]);
+        try {
+
+            return view('siswa.edit', [
+                'title' => 'Edit Data Siswa',
+                'siswa' => KelolaSiswa::findOrFail(Crypt::decrypt($id)),
+            ]);
+        }
+        catch(Exception $e) {
+            return redirect()->route('admin.siswa.index');
+        }
+        
     }
 
     public function update(Request $request , $id)

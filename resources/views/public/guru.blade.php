@@ -651,18 +651,17 @@ body {
                                         NIP: {{ $item->nip ?? '-' }}
                                     </div>
 
-                                    <div class="mt-auto pt-3">
+                                
+<div class="mt-auto pt-3">
+    <a href="{{ route('public.guru.detail', [
+        'id' => \Illuminate\Support\Facades\Crypt::encryptString((string) $item->id_guru)
+    ]) }}"
+       class="btn guru-detail-btn">
+        <i class="bi bi-eye me-1"></i>
+        Lihat Detail
+    </a>
+</div>
 
-                                        <a
-                                            href="{{ route('public.guru.detail', ['id' => $item->id_guru]) }}"
-                                            class="btn btn-primary btn-sm guru-detail-btn">
-
-                                            <i class="bi bi-eye me-1"></i>
-                                            Lihat Detail
-
-                                        </a>
-
-                                    </div>
 
                                 </div>
 

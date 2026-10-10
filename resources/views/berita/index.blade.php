@@ -210,7 +210,7 @@
 
                                     <!-- Hapus -->
                                     <form
-                                        action="{{ route('admin.berita.destroy', Crypt::encrypt($berita->id_berita)) }}"
+                                        action="{{ route('admin.berita.destroy', $berita->id_berita) }}"
                                         method="POST"
                                         class="d-inline"
                                         onsubmit="return confirm('Yakin ingin menghapus berita ini?');">

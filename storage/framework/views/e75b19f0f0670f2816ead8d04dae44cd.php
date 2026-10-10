@@ -1195,7 +1195,7 @@
                         <a href="<?php echo e(route('public.profil')); ?>"
                             class="btn btn-primary mt-4">
                             <i class="bi bi-eye me-1"></i>
-                            Lihat Detail Profil
+                            Lihat Selengkapnya
                         </a>
                         <div class="profile-info">
                             <div class="profile-info-item">
@@ -1387,11 +1387,15 @@
 
                                                         </div>
                                                     </div>
-                                                    <a href="<?php echo e(route('public.guru.detail', ['id' => $item->id_guru])); ?>"
-                                                        class="btn btn-primary btn-sm">
-                                                        <i class="bi bi-eye me-1"></i>
-                                                        Lihat Detail
-                                                    </a>
+                                            
+<a href="<?php echo e(route('public.guru.detail', [
+    'id' => \Illuminate\Support\Facades\Crypt::encryptString((string) $item->id_guru)
+])); ?>"
+   class="btn btn-primary btn-sm">
+    <i class="bi bi-eye me-1"></i>
+    Lihat Detail Guru
+</a>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -1491,13 +1495,23 @@
                                                         <?php echo e($item->jadwal_latihan ?? '-'); ?>
 
                                                     </div>
-                                                    <p class="eskul-description">
-                                                        <?php echo e(\Illuminate\Support\Str::limit(
-                                                            strip_tags($item->deskripsi ?? ''),
-                                                            105
-                                                        )); ?>
+                                                    
+<p class="eskul-description">
+    <?php echo e(\Illuminate\Support\Str::limit(
+        strip_tags($item->deskripsi ?? ''),
+        105
+    )); ?>
 
-                                                    </p>
+</p>
+
+<div class="mt-auto pt-3">
+    <a href="<?php echo e(route('public.ekstrakurikuler.detail', ['id' => $item->id_eskul])); ?>"
+       class="btn btn-primary btn-sm eskul-detail-btn">
+        <i class="bi bi-eye me-1"></i>
+        Lihat Detail
+    </a>
+</div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -1592,13 +1606,26 @@
                                                         <?php echo e($item->judul); ?>
 
                                                     </div>
-                                                    <p class="mt-2">
-                                                        <?php echo e(\Illuminate\Support\Str::limit(
-                                                            strip_tags($item->isi),
-                                                            100
-                                                        )); ?>
+                                                    
+<p class="mt-2">
+    <?php echo e(\Illuminate\Support\Str::limit(
+        strip_tags($item->isi ?? ''),
+        100
+    )); ?>
 
-                                                    </p>
+</p>
+
+
+<div class="mt-auto pt-3">
+    <a href="<?php echo e(route('public.berita.detail', [
+    'id' => \Illuminate\Support\Facades\Crypt::encryptString((string) $item->id_berita)
+])); ?>"
+       class="btn btn-primary btn-sm">
+        <i class="bi bi-book-half me-1"></i>
+        Baca Selengkapnya
+    </a>
+</div>
+
                                                 </div>
                                             </div>
                                         </div>

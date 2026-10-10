@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Exception;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
 
@@ -51,11 +52,17 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $idUser = $this->decryptUserId($id);
+        try {
 
-        $user = User::where('id_user', $idUser)->firstOrFail();
-
-        return view('admin.user.edit', compact('user'));
+            $idUser = $this->decryptUserId($id);
+    
+            $user = User::where('id_user', $idUser)->firstOrFail();
+    
+            return view('admin.user.edit', compact('user'));
+        }
+         catch(Exception $e) {
+            return redirect()->route('admin.user.index');
+        }
     }
 
     /**

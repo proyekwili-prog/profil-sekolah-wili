@@ -213,7 +213,7 @@
 
                                     <!-- Hapus -->
                                     <form
-                                        action="{{ route('admin.ekstrakulikuler.destroy', Crypt::encrypt($ekstrakurikuler->id_eskul)) }}"
+                                        action="{{ route('admin.ekstrakulikuler.destroy', $ekstrakurikuler->id_eskulz) }}"
                                         method="POST"
                                         class="d-inline"
                                         onsubmit="return confirm('Yakin ingin menghapus data ekstrakurikuler ini?');">

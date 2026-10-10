@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\KelolaGuru;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Crypt;
@@ -46,10 +47,16 @@ class KelolaGuruController extends Controller
 
     public function edit($id)
     {
-        return view('guru.edit', [
-            'title' => 'Edit Data Guru',
-            'guru' => KelolaGuru::findOrFail(Crypt::decrypt($id)),
-        ]);
+        try{
+
+            return view('guru.edit', [
+                'title' => 'Edit Data Guru',
+                'guru' => KelolaGuru::findOrFail(Crypt::decrypt($id)),
+            ]);
+        }
+        catch(Exception $e) {
+            return redirect()->route('admin.guru.index');
+        }
     }
 
     public function update(Request $request, $id)
@@ -94,11 +101,17 @@ class KelolaGuruController extends Controller
 
     public function detail($id)
 {
-    $guru = KelolaGuru::findOrFail(Crypt::decrypt($id));
-
-    return view('guru.detail', [
-        'title' => 'Detail Data Guru',
-        'guru' => $guru,
-    ]);
+    
+    try {
+        $guru = KelolaGuru::findOrFail(Crypt::decrypt($id));
+    
+        return view('guru.detail', [
+            'title' => 'Detail Data Guru',
+            'guru' => $guru,
+        ]);
+    }
+    catch(Exception $e) {
+            return redirect()->route('admin.guru.index');
+        }
 }
 }

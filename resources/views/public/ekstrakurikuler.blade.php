@@ -892,157 +892,86 @@
 
                                     {{-- DESKRIPSI --}}
 
-                                    <p class="eskul-description">
+<p class="eskul-description">
+    {{ \Illuminate\Support\Str::limit(
+        strip_tags($item->deskripsi ?? ''),
+        105
+    ) }}
+</p>
 
-                                        {{ \Illuminate\Support\Str::limit(
-                                            strip_tags($item->deskripsi ?? ''),
-                                            105
-                                        ) }}
+<div class="mt-3">
+    <a href="{{ route('public.ekstrakurikuler.detail', ['id' => $item->id_eskul]) }}"
+       class="btn btn-primary btn-sm">
+        <i class="bi bi-eye me-1"></i>
+        Lihat Detail
+    </a>
+</div>
 
                                     </p>
-
-
                                     {{-- DETAIL --}}
-
-                                    <div class="mt-auto">
-
-                                        <a href="{{ route(
-                                            'public.ekstrakurikuler.detail',
-                                            ['id' => $item->id_eskul]
-                                        ) }}"
-                                            class="btn btn-primary btn-sm eskul-detail-btn">
-
-                                            <i class="bi bi-eye me-1"></i>
-
-                                            Lihat Detail
-
-                                        </a>
-
-                                    </div>
-
-
                                 </div>
-
-
                             </div>
-
-
                         </div>
-
-
                     @endforeach
-
-
                 </div>
-
-
             @endif
 
-
-
             {{-- KEMBALI --}}
-
             <div class="back-button-wrapper">
-
                 <a href="{{ route('public.dashboard') }}"
                     class="back-button">
-
                     <i class="bi bi-arrow-left"></i>
-
                     Kembali ke Beranda
-
                 </a>
-
             </div>
-
-
         </div>
-
     </section>
-
-
 
     {{-- =====================================================
          FOOTER
     ====================================================== --}}
 
     <footer>
-
         <div class="container">
-
             <div class="row g-5">
-
-
                 {{-- SEKOLAH --}}
-
                 <div class="col-lg-5">
-
                     <div class="footer-title">
-
                         {{ $profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja' }}
-
                     </div>
-
-
                     <p class="footer-text">
-
                         {{ $profile?->deskripsi
                             ?? 'Sekolah yang berkomitmen memberikan pendidikan berkualitas bagi generasi bangsa.' }}
-
                     </p>
-
                 </div>
-
-
 
                 {{-- NAVIGASI --}}
 
                 <div class="col-lg-3">
-
                     <div class="footer-title">
                         Navigasi
                     </div>
-
-
                     <ul class="footer-links">
-
-
                         <li>
-
                             <a href="{{ route('public.dashboard') }}">
                                 Beranda
                             </a>
-
                         </li>
-
-
                         <li>
-
                             <a href="{{ route('public.profil') }}">
                                 Profil
-                            </a>
-
+                        </a>
                         </li>
-
-
                         <li>
-
                             <a href="{{ route('public.guru') }}">
                                 Guru
                             </a>
-
                         </li>
-
-
                         <li>
-
                             <a href="{{ route('public.ekstrakurikuler') }}">
                                 Ekstrakurikuler
                             </a>
-
                         </li>
-
-
                         <li>
 
                             <a href="{{ route('public.berita') }}">

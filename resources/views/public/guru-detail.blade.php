@@ -493,7 +493,7 @@
                 @if($profile?->logo)
                     <img src="{{ asset('storage/' . $profile->logo) }}" alt="Logo Sekolah">
                 @else
-                    <img src="{{ asset('assets/images/satap.png') }}" alt="Logo Sekolah">
+                     <img src="{{ asset('storage/' . $profile->logo) }}" alt="Logo Sekolah">
                 @endif
 
                 <div class="brand-text">

@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Detail Guru - <?php echo e($guru->nama_guru); ?></title>
+    <title>Detail Ekstrakurikuler - <?php echo e($ekstrakurikuler->nama_eskul); ?></title>
 
     <link rel="icon" href="<?php echo e(asset('assets/images/satap.png')); ?>">
 
@@ -24,10 +24,6 @@
             box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
             font-family: 'Montserrat', sans-serif;
             color: #1e293b;
@@ -38,7 +34,6 @@
             text-decoration: none;
         }
 
-        /* NAVBAR */
         .navbar-custom {
             position: fixed;
             top: 0;
@@ -47,7 +42,6 @@
             z-index: 1050;
             padding: 12px 0;
             background: rgba(255, 255, 255, .98);
-            border: none;
             box-shadow: 0 2px 15px rgba(0, 0, 0, .08);
         }
 
@@ -55,17 +49,12 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-right: 15px;
         }
 
         .navbar-brand img {
             width: 48px;
             height: 48px;
             object-fit: contain;
-        }
-
-        .brand-text {
-            line-height: 1.15;
         }
 
         .school-name {
@@ -93,19 +82,11 @@
             background: #eff6ff;
         }
 
-        .navbar-toggler {
-            border: 1px solid #dbeafe;
-            box-shadow: none !important;
-        }
-
-        /* BANNER DETAIL GURU — SAMA DENGAN EKSTRAKURIKULER */
         .detail-header {
             margin-top: 72px;
             min-height: 360px;
             display: flex;
             align-items: center;
-            position: relative;
-            border: none;
             background:
                 linear-gradient(
                     90deg,
@@ -141,7 +122,8 @@
             color: #fff;
             font-size: clamp(32px, 5vw, 48px);
             font-weight: 800;
-            line-height: 1.15;
+            line-height: 1.2;
+            overflow-wrap: anywhere;
         }
 
         .detail-header p {
@@ -152,7 +134,6 @@
             line-height: 1.8;
         }
 
-        /* DETAIL SECTION */
         .detail-section {
             padding: 75px 0;
             background: #f8fafc;
@@ -166,7 +147,6 @@
             box-shadow: 0 8px 30px rgba(15, 23, 42, .08);
         }
 
-        /* FOTO GURU */
         .detail-photo-wrapper {
             height: 100%;
             min-height: 430px;
@@ -199,7 +179,6 @@
             font-size: 90px;
         }
 
-        /* INFORMASI GURU */
         .detail-content {
             height: 100%;
             padding: 40px;
@@ -215,19 +194,12 @@
         }
 
         .detail-name {
-            margin-bottom: 8px;
+            margin-bottom: 18px;
             color: #0f172a;
             font-size: 30px;
             font-weight: 800;
             line-height: 1.3;
             overflow-wrap: anywhere;
-        }
-
-        .detail-mapel {
-            margin-bottom: 30px;
-            color: #64748b;
-            font-size: 14px;
-            font-weight: 600;
         }
 
         .detail-info {
@@ -236,7 +208,7 @@
 
         .detail-info-item {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 15px;
             padding: 18px 0;
             border-bottom: 1px solid #e2e8f0;
@@ -269,25 +241,30 @@
         }
 
         .detail-info-text span {
+            display: block;
             color: #334155;
             font-size: 13px;
             font-weight: 600;
+            line-height: 1.8;
             overflow-wrap: anywhere;
         }
 
-        /* TOMBOL */
-        .btn-primary-school {
+        .btn-primary-school,
+        .btn-outline-school {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             padding: 12px 20px;
-            border: 1px solid #0f3d91;
             border-radius: 8px;
-            background: #0f3d91;
-            color: #fff;
             font-size: 12px;
             font-weight: 700;
             transition: .3s;
+        }
+
+        .btn-primary-school {
+            border: 1px solid #0f3d91;
+            background: #0f3d91;
+            color: #fff;
         }
 
         .btn-primary-school:hover {
@@ -298,17 +275,9 @@
         }
 
         .btn-outline-school {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 11px 20px;
             border: 1px solid #cbd5e1;
-            border-radius: 8px;
             background: #fff;
             color: #334155;
-            font-size: 12px;
-            font-weight: 700;
-            transition: .3s;
         }
 
         .btn-outline-school:hover {
@@ -317,7 +286,6 @@
             color: #0f3d91;
         }
 
-        /* FOOTER */
         footer {
             padding-top: 55px;
             background: #071b3d;
@@ -350,7 +318,6 @@
         .footer-links a {
             color: #cbd5e1;
             font-size: 12px;
-            transition: .3s;
         }
 
         .footer-links a:hover {
@@ -365,7 +332,6 @@
             font-size: 11px;
         }
 
-        /* RESPONSIVE */
         @media (max-width: 991px) {
             .navbar-nav {
                 padding-top: 15px;
@@ -399,10 +365,6 @@
 
             .detail-header h1 {
                 font-size: 32px;
-            }
-
-            .detail-header p {
-                font-size: 13px;
             }
 
             .detail-section {
@@ -493,7 +455,7 @@
                 <?php if($profile?->logo): ?>
                     <img src="<?php echo e(asset('storage/' . $profile->logo)); ?>" alt="Logo Sekolah">
                 <?php else: ?>
-                     <img src="<?php echo e(asset('storage/' . $profile->logo)); ?>" alt="Logo Sekolah">
+                    <img src="<?php echo e(asset('assets/images/satap.png')); ?>" alt="Logo Sekolah">
                 <?php endif; ?>
 
                 <div class="brand-text">
@@ -510,7 +472,7 @@
                 data-bs-target="#navbarMenu"
                 aria-controls="navbarMenu"
                 aria-expanded="false"
-                aria-label="Toggle navigation">
+                aria-label="Buka navigasi">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -523,10 +485,10 @@
                         <a class="nav-link" href="<?php echo e(route('public.profil')); ?>">Profil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="<?php echo e(route('public.guru')); ?>">Guru</a>
+                        <a class="nav-link" href="<?php echo e(route('public.guru')); ?>">Guru</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo e(route('public.ekstrakurikuler')); ?>">Ekstrakurikuler</a>
+                        <a class="nav-link active" href="<?php echo e(route('public.ekstrakurikuler')); ?>">Ekstrakurikuler</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo e(route('public.berita')); ?>">Berita</a>
@@ -549,13 +511,13 @@
 
                     <div class="badge-header">
                         <i class="bi bi-people-fill me-2"></i>
-                        GURU DAN TENAGA KEPENDIDIKAN
+                        KEGIATAN EKSTRAKURIKULER
                     </div>
 
-                    <h1>Detail Guru</h1>
+                    <h1><?php echo e($ekstrakurikuler->nama_eskul); ?></h1>
 
                     <p>
-                        Informasi mengenai guru dan tenaga pendidik
+                        Kenali kegiatan, jadwal latihan, dan pembina ekstrakurikuler
                         <?php echo e($profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja'); ?>.
                     </p>
 
@@ -568,27 +530,27 @@
             <div class="container">
 
                 <div class="mb-4">
-                    <a href="<?php echo e(route('public.guru')); ?>" class="btn-outline-school">
+                    <a href="<?php echo e(route('public.ekstrakurikuler')); ?>" class="btn-outline-school">
                         <i class="bi bi-arrow-left me-2"></i>
-                        Kembali ke Daftar Guru
+                        Kembali ke Daftar Ekstrakurikuler
                     </a>
                 </div>
 
-                <div class="detail-card">
+                <article class="detail-card">
                     <div class="row g-0">
 
                         
                         <div class="col-lg-5">
                             <div class="detail-photo-wrapper">
 
-                                <?php if($guru->foto): ?>
+                                <?php if($ekstrakurikuler->gambar): ?>
                                     <img
-                                        src="<?php echo e(asset('storage/' . $guru->foto)); ?>"
+                                        src="<?php echo e(\Illuminate\Support\Facades\Storage::url($ekstrakurikuler->gambar)); ?>"
                                         class="detail-photo"
-                                        alt="<?php echo e($guru->nama_guru); ?>">
+                                        alt="<?php echo e($ekstrakurikuler->nama_eskul); ?>">
                                 <?php else: ?>
                                     <div class="detail-photo-empty">
-                                        <i class="bi bi-person-circle"></i>
+                                        <i class="bi bi-people-fill"></i>
                                     </div>
                                 <?php endif; ?>
 
@@ -599,73 +561,64 @@
                         <div class="col-lg-7">
                             <div class="detail-content">
 
-                                <div class="detail-label">Data Guru</div>
+                                <div class="detail-label">Informasi Ekstrakurikuler</div>
 
                                 <h2 class="detail-name">
-                                    <?php echo e($guru->nama_guru); ?>
+                                    <?php echo e($ekstrakurikuler->nama_eskul); ?>
 
                                 </h2>
-
-                                <div class="detail-mapel">
-                                    <i class="bi bi-book me-1"></i>
-                                    <?php echo e($guru->mapel ?? '-'); ?>
-
-                                </div>
 
                                 <div class="detail-info">
 
                                     <div class="detail-info-item">
                                         <div class="detail-info-icon">
-                                            <i class="bi bi-person"></i>
+                                            <i class="bi bi-person-badge"></i>
                                         </div>
                                         <div class="detail-info-text">
-                                            <small>Nama Guru</small>
-                                            <span><?php echo e($guru->nama_guru); ?></span>
+                                            <small>Pembina</small>
+                                            <span><?php echo e($ekstrakurikuler->pembina ?: '-'); ?></span>
                                         </div>
                                     </div>
 
                                     <div class="detail-info-item">
                                         <div class="detail-info-icon">
-                                            <i class="bi bi-person-vcard"></i>
+                                            <i class="bi bi-calendar-week"></i>
                                         </div>
                                         <div class="detail-info-text">
-                                            <small>NIP</small>
-                                            <span><?php echo e($guru->nip ?? '-'); ?></span>
+                                            <small>Jadwal Latihan</small>
+                                            <span><?php echo e($ekstrakurikuler->jadwal_latihan ?: '-'); ?></span>
                                         </div>
                                     </div>
 
                                     <div class="detail-info-item">
                                         <div class="detail-info-icon">
-                                            <i class="bi bi-book"></i>
+                                            <i class="bi bi-card-text"></i>
                                         </div>
                                         <div class="detail-info-text">
-                                            <small>Mata Pelajaran</small>
-                                            <span><?php echo e($guru->mapel ?? '-'); ?></span>
+                                            <small>Deskripsi Kegiatan</small>
+                                            <span><?php echo e($ekstrakurikuler->deskripsi ?: 'Deskripsi kegiatan belum tersedia.'); ?></span>
                                         </div>
                                     </div>
 
                                 </div>
 
-                                
                                 <div class="mt-4 d-flex gap-2 flex-wrap">
-
-                                    <a href="<?php echo e(route('public.guru')); ?>" class="btn-primary-school">
+                                    <a href="<?php echo e(route('public.ekstrakurikuler')); ?>" class="btn-primary-school">
                                         <i class="bi bi-people-fill me-1"></i>
-                                        Lihat Semua Guru
+                                        Lihat Semua Ekstrakurikuler
                                     </a>
 
-                                    <a href="<?php echo e(route('public.dashboard')); ?>#guru" class="btn-outline-school">
+                                    <a href="<?php echo e(route('public.dashboard')); ?>#ekstrakurikuler" class="btn-outline-school">
                                         <i class="bi bi-house me-1"></i>
                                         Kembali ke Beranda
                                     </a>
-
                                 </div>
 
                             </div>
                         </div>
 
                     </div>
-                </div>
+                </article>
 
             </div>
         </section>
@@ -692,7 +645,6 @@
 
                 <div class="col-lg-3">
                     <div class="footer-title">Navigasi</div>
-
                     <ul class="footer-links">
                         <li><a href="<?php echo e(route('public.dashboard')); ?>">Beranda</a></li>
                         <li><a href="<?php echo e(route('public.profil')); ?>">Profil</a></li>
@@ -741,4 +693,4 @@
 
 </body>
 </html>
-<?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/public/guru-detail.blade.php ENDPATH**/ ?>
+<?php /**PATH D:\celkom_wili\profil-sekolah-wili\resources\views/public/ekstrakurikuler-detail.blade.php ENDPATH**/ ?>
