@@ -1,3 +1,4 @@
+
 @php
     use Illuminate\Support\Facades\Crypt;
 @endphp
@@ -10,7 +11,7 @@
 
 <div class="container-fluid px-0">
 
-    <!-- Header -->
+    {{-- HEADER --}}
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <div class="d-flex align-items-center gap-2 mb-1">
@@ -27,35 +28,52 @@
             </div>
         </div>
 
-        <a href="{{ route('admin.berita.tambah') }}" class="btn btn-primary">
-            <i class="bi bi-plus-circle me-1"></i>
-            Tambah Berita
-        </a>
+        {{-- TAMBAH BERITA: ADMIN DAN OPERATOR --}}
+        @if(auth()->check() && in_array(strtolower(auth()->user()->role), ['admin', 'operator1', 'operator2'], true))
+            <a href="{{ route('admin.berita.tambah') }}" class="btn btn-primary">
+                <i class="bi bi-plus-circle me-1"></i>
+                Tambah Berita
+            </a>
+        @endif
     </div>
 
-    <!-- Notifikasi -->
+    {{-- NOTIFIKASI --}}
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
             <i class="bi bi-check-circle me-2"></i>
             {{ session('success') }}
 
-            <button type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert">
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close">
             </button>
         </div>
     @endif
 
-    <!-- Card Data -->
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+            <i class="bi bi-exclamation-circle me-2"></i>
+            {{ session('error') }}
+
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close">
+            </button>
+        </div>
+    @endif
+
+    {{-- CARD DATA --}}
     <div class="card border-0 shadow-sm">
 
-        <!-- Card Header -->
+        {{-- CARD HEADER --}}
         <div class="card-header bg-white border-bottom py-3">
-
             <div class="d-flex justify-content-between align-items-center">
 
                 <div class="d-flex align-items-center">
-
                     <div class="bg-primary bg-opacity-10 text-primary rounded-3 p-2 me-3">
                         <i class="bi bi-list-ul fs-5"></i>
                     </div>
@@ -69,7 +87,6 @@
                             Daftar berita dan informasi sekolah
                         </small>
                     </div>
-
                 </div>
 
                 <span class="badge bg-primary rounded-pill px-3 py-2">
@@ -77,12 +94,10 @@
                 </span>
 
             </div>
-
         </div>
 
-        <!-- Card Body -->
+        {{-- CARD BODY --}}
         <div class="card-body p-0">
-
             <div class="table-responsive">
 
                 <table class="table table-bordered table-hover align-middle mb-0">
@@ -116,21 +131,17 @@
                     </thead>
 
                     <tbody>
-
-                        @foreach($beritas as $i => $berita)
-
+                        @forelse($beritas as $i => $berita)
                             <tr>
 
-                                <!-- No -->
+                                {{-- NOMOR --}}
                                 <td class="text-center">
                                     {{ $i + 1 }}
                                 </td>
 
-                                <!-- Gambar -->
+                                {{-- GAMBAR --}}
                                 <td class="text-center">
-
                                     @if($berita->gambar)
-
                                         <img
                                             src="{{ \Illuminate\Support\Facades\Storage::url($berita->gambar) }}"
                                             width="80"
@@ -138,23 +149,18 @@
                                             class="rounded border"
                                             style="object-fit: cover;"
                                             alt="{{ $berita->judul }}">
-
                                     @else
-
-                                        <div class="bg-light border rounded d-inline-flex align-items-center justify-content-center"
-                                             style="width:80px;height:55px;">
+                                        <div
+                                            class="bg-light border rounded d-inline-flex align-items-center justify-content-center"
+                                            style="width:80px;height:55px;">
 
                                             <i class="bi bi-image text-muted"></i>
-
                                         </div>
-
                                     @endif
-
                                 </td>
 
-                                <!-- Judul -->
+                                {{-- JUDUL --}}
                                 <td>
-
                                     <div class="fw-semibold">
                                         {{ $berita->judul }}
                                     </div>
@@ -162,85 +168,86 @@
                                     <small class="text-muted">
                                         {{ \Illuminate\Support\Str::limit(strip_tags($berita->isi), 70) }}
                                     </small>
-
                                 </td>
 
-                                <!-- Tanggal -->
+                                {{-- TANGGAL --}}
                                 <td>
-
                                     {{ \Carbon\Carbon::parse($berita->tanggal)->translatedFormat('d F Y') }}
-
                                 </td>
 
-                                <!-- Penulis -->
+                                {{-- PENULIS --}}
                                 <td>
-
                                     @if($berita->user)
-
                                         {{ $berita->user->username }}
-
                                     @else
-
                                         -
+                                    @endif
+                                </td>
+
+                                {{-- AKSI --}}
+                                <td class="text-center">
+
+                                    {{-- DETAIL: SEMUA ROLE --}}
+                                    <a
+                                        href="{{ route('admin.berita.detail', Crypt::encrypt($berita->id_berita)) }}"
+                                        class="btn btn-sm btn-outline-primary"
+                                        title="Lihat Detail"
+                                        aria-label="Lihat Detail">
+
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+
+                                    {{-- EDIT DAN HAPUS: ADMIN DAN OPERATOR --}}
+                                    @if(auth()->check() && in_array(strtolower(auth()->user()->role), ['admin', 'operator1', 'operator2'], true))
+
+                                        {{-- EDIT --}}
+                                        <a
+                                            href="{{ route('admin.berita.edit', Crypt::encrypt($berita->id_berita)) }}"
+                                            class="btn btn-sm btn-outline-secondary"
+                                            title="Edit"
+                                            aria-label="Edit Berita">
+
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+
+                                        {{-- HAPUS --}}
+                                        <form
+                                            action="{{ route('admin.berita.destroy', $berita->id_berita) }}"
+                                            method="POST"
+                                            class="d-inline"
+                                            onsubmit="return confirm('Yakin ingin menghapus berita ini?');">
+
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button
+                                                type="submit"
+                                                class="btn btn-sm btn-outline-danger"
+                                                title="Hapus"
+                                                aria-label="Hapus Berita">
+
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+
+                                        </form>
 
                                     @endif
 
                                 </td>
-
-                                <!-- Aksi -->
-                                <td class="text-center">
-
-                                    <!-- Detail -->
-                                    <a href="{{ route('admin.berita.detail',  Crypt::encrypt($berita->id_berita)) }}"
-                                       class="btn btn-sm btn-outline-primary"
-                                       title="Lihat Detail">
-
-                                        <i class="bi bi-eye"></i>
-
-                                    </a>
-
-                                    <!-- Edit -->
-                                    <a href="{{ route('admin.berita.edit', Crypt::encrypt($berita->id_berita)) }}"
-                                       class="btn btn-sm btn-outline-secondary"
-                                       title="Edit">
-
-                                        <i class="bi bi-pencil"></i>
-
-                                    </a>
-
-                                    <!-- Hapus -->
-                                    <form
-                                        action="{{ route('admin.berita.destroy', $berita->id_berita) }}"
-                                        method="POST"
-                                        class="d-inline"
-                                        onsubmit="return confirm('Yakin ingin menghapus berita ini?');">
-
-                                        @csrf
-                                        @method('DELETE')
-
-                                        <button
-                                            type="submit"
-                                            class="btn btn-sm btn-outline-danger"
-                                            title="Hapus">
-
-                                            <i class="bi bi-trash"></i>
-
-                                        </button>
-
-                                    </form>
-
-                                </td>
-
                             </tr>
 
-                        @endforeach
-
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center text-muted py-4">
+                                    <i class="bi bi-inbox fs-3 d-block mb-2"></i>
+                                    Belum ada data berita.
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
 
                 </table>
-
             </div>
-
         </div>
 
     </div>
@@ -274,6 +281,14 @@
     .btn-outline-secondary:hover,
     .btn-outline-danger:hover {
         color: #fff;
+    }
+
+    @media (max-width: 768px) {
+        .container-fluid > .d-flex.justify-content-between {
+            align-items: flex-start !important;
+            flex-direction: column;
+            gap: 15px;
+        }
     }
 </style>
 

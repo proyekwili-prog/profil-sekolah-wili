@@ -82,7 +82,11 @@
                 </li>
 
                 
-                <?php if(auth()->user() && strtolower(auth()->user()->role) === 'admin'): ?>
+                <?php if(auth()->user() && in_array(
+                strtolower(auth()->user()->role),
+            ['admin', 'operator1', 'operator2'],
+                true
+)): ?>
 
                     <li class="sidebar-menu-item">
                         <a href="<?php echo e(route('admin.profile')); ?>"
@@ -135,18 +139,25 @@
                     </a>
                 </li>
 
-                
-                <div class="sidebar-menu-title text-uppercase text-white-50 px-3 small fw-semibold mt-3">
-                    Pengguna
-                </div>
 
-                <li class="sidebar-menu-item">
-                    <a href="<?php echo e(route('admin.user.index')); ?>"
-                       class="sidebar-menu-link text-white">
-                        <i class="bi bi-people fs-9"></i>
-                        <span>Data User</span>
-                    </a>
-                </li>
+                
+
+<?php if(auth()->user() && strtolower(auth()->user()->role) === 'admin'): ?>
+
+    <div class="sidebar-menu-title text-uppercase text-white-50 px-3 small fw-semibold mt-3">
+        Pengguna
+    </div>
+
+    <li class="sidebar-menu-item">
+        <a href="<?php echo e(route('admin.user.index')); ?>"
+           class="sidebar-menu-link text-white">
+            <i class="bi bi-people fs-9"></i>
+            <span>Data User</span>
+        </a>
+    </li>
+
+<?php endif; ?>
+
 
             </ul>
         </div>

@@ -1,5 +1,5 @@
-@php
 
+@php
     use Illuminate\Support\Facades\Crypt;
     use Illuminate\Support\Facades\Storage;
 @endphp
@@ -12,7 +12,7 @@
 
 <div class="container-fluid px-0">
 
-    <!-- Header -->
+    {{-- HEADER --}}
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <div class="d-flex align-items-center gap-2 mb-1">
@@ -29,14 +29,17 @@
             </div>
         </div>
 
-        <a href="{{ route('admin.galeri.create') }}"
-           class="btn btn-primary">
-            <i class="bi bi-plus-circle me-1"></i>
-            Tambah Galeri
-        </a>
+        {{-- TAMBAH GALERI: ADMIN DAN OPERATOR --}}
+        @if(auth()->check() && in_array(strtolower(auth()->user()->role), ['admin', 'operator1', 'operator2'], true))
+            <a href="{{ route('admin.galeri.create') }}"
+               class="btn btn-primary">
+                <i class="bi bi-plus-circle me-1"></i>
+                Tambah Galeri
+            </a>
+        @endif
     </div>
 
-    <!-- Success -->
+    {{-- NOTIFIKASI SUKSES --}}
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show shadow-sm"
              role="alert">
@@ -51,7 +54,7 @@
         </div>
     @endif
 
-    <!-- Error -->
+    {{-- NOTIFIKASI ERROR --}}
     @if(session('error'))
         <div class="alert alert-danger alert-dismissible fade show shadow-sm"
              role="alert">
@@ -66,12 +69,13 @@
         </div>
     @endif
 
-    <!-- Card -->
+    {{-- CARD DATA GALERI --}}
     <div class="card border-0 shadow-sm">
 
-        <!-- Card Header -->
+        {{-- CARD HEADER --}}
         <div class="card-header bg-white border-bottom py-3">
             <div class="d-flex justify-content-between align-items-center">
+
                 <div class="d-flex align-items-center">
                     <div class="bg-primary bg-opacity-10 text-primary rounded-3 p-2 me-3">
                         <i class="bi bi-images fs-5"></i>
@@ -88,10 +92,11 @@
                 <span class="badge bg-primary rounded-pill px-3 py-2">
                     {{ $galeri->count() }} Data
                 </span>
+
             </div>
         </div>
 
-        <!-- Card Body -->
+        {{-- CARD BODY --}}
         <div class="card-body p-0">
             <div class="table-responsive">
 
@@ -112,12 +117,12 @@
                         @forelse($galeri as $i => $item)
                             <tr>
 
-                                <!-- Nomor -->
+                                {{-- NOMOR --}}
                                 <td class="text-center">
                                     {{ $i + 1 }}
                                 </td>
 
-                                <!-- Foto / Video -->
+                                {{-- FOTO / VIDEO --}}
                                 <td class="text-center">
                                     @if($item->file)
                                         @if($item->kategori === 'Video')
@@ -127,8 +132,9 @@
                                                 preload="metadata"
                                                 playsinline
                                                 aria-label="{{ $item->judul }}">
-                                                <source
-                                                    src="{{ Storage::url($item->file) }}">
+
+                                                <source src="{{ Storage::url($item->file) }}">
+
                                                 Browser tidak mendukung pemutar video.
                                             </video>
                                         @else
@@ -149,12 +155,12 @@
                                     @endif
                                 </td>
 
-                                <!-- Judul -->
+                                {{-- JUDUL --}}
                                 <td class="fw-semibold">
                                     {{ $item->judul }}
                                 </td>
 
-                                <!-- Kategori -->
+                                {{-- KATEGORI --}}
                                 <td>
                                     @if($item->kategori === 'Foto')
                                         <span class="badge bg-primary">
@@ -169,7 +175,7 @@
                                     @endif
                                 </td>
 
-                                <!-- Tanggal -->
+                                {{-- TANGGAL --}}
                                 <td>
                                     @if($item->tanggal)
                                         {{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('d F Y') }}
@@ -178,45 +184,55 @@
                                     @endif
                                 </td>
 
-                                <!-- Aksi -->
+                                {{-- AKSI --}}
                                 <td class="text-center">
 
-                                    <!-- Detail -->
+                                    {{-- DETAIL: SEMUA ROLE YANG DAPAT MENGAKSES HALAMAN --}}
                                     <a
                                         href="{{ route('admin.galeri.detail', Crypt::encrypt($item->id_galeri)) }}"
                                         class="btn btn-sm btn-outline-primary"
                                         title="Lihat Detail">
+
                                         <i class="bi bi-eye"></i>
                                     </a>
 
-                                    <!-- Edit -->
-                                    <a
-                                        href="{{ route('admin.galeri.edit', Crypt::encrypt($item->id_galeri)) }}"
-                                        class="btn btn-sm btn-outline-secondary"
-                                        title="Edit">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
+                                    {{-- EDIT DAN HAPUS: ADMIN DAN OPERATOR --}}
+                                    @if(auth()->check() && in_array(strtolower(auth()->user()->role), ['admin', 'operator1', 'operator2'], true))
 
-                                    <!-- Hapus -->
-                                    <form
-                                        action="{{ route('admin.galeri.destroy', Crypt::encrypt($item->id_galeri)) }}"
-                                        method="POST"
-                                        class="d-inline"
-                                        onsubmit="return confirm('Yakin ingin menghapus data galeri ini?');">
+                                        {{-- EDIT --}}
+                                        <a
+                                            href="{{ route('admin.galeri.edit', Crypt::encrypt($item->id_galeri)) }}"
+                                            class="btn btn-sm btn-outline-secondary"
+                                            title="Edit">
 
-                                        @csrf
-                                        @method('DELETE')
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
 
-                                        <button
-                                            type="submit"
-                                            class="btn btn-sm btn-outline-danger"
-                                            title="Hapus">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </form>
+                                        {{-- HAPUS --}}
+                                        <form
+                                            action="{{ route('admin.galeri.destroy', Crypt::encrypt($item->id_galeri)) }}"
+                                            method="POST"
+                                            class="d-inline"
+                                            onsubmit="return confirm('Yakin ingin menghapus data galeri ini?');">
+
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button
+                                                type="submit"
+                                                class="btn btn-sm btn-outline-danger"
+                                                title="Hapus">
+
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+
+                                        </form>
+
+                                    @endif
 
                                 </td>
                             </tr>
+
                         @empty
                             <tr>
                                 <td colspan="6" class="text-center py-5">
@@ -232,7 +248,9 @@
                 </table>
             </div>
         </div>
+
     </div>
+
 </div>
 
 <style>
@@ -285,6 +303,14 @@
     .btn-outline-secondary:hover,
     .btn-outline-danger:hover {
         color: #fff;
+    }
+
+    @media (max-width: 768px) {
+        .container-fluid > .d-flex.justify-content-between {
+            align-items: flex-start !important;
+            flex-direction: column;
+            gap: 15px;
+        }
     }
 </style>
 

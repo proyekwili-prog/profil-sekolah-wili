@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -11,18 +12,21 @@ use App\Http\Controllers\KelolaGaleriController;
 use App\Http\Controllers\KelolaGuruController;
 use App\Http\Controllers\KelolaEkstraKuliKulerController;
 
-
-
 // ======================================================
-// PUBLIC WEBSITE
+// WEBSITE PUBLIK
 // ======================================================
 
-Route::get('/', [DashboardController::class, 'indexPublic'])->name('public.dashboard');
+Route::get('/', [DashboardController::class, 'indexPublic'])
+    ->name('public.dashboard');
 
-Route::get('/profil', [DashboardController::class, 'profil'])->name('public.profil');
+Route::get('/profil', [DashboardController::class, 'profil'])
+    ->name('public.profil');
 
-Route::get('/guru', [DashboardController::class, 'guru'])->name('public.guru');
-Route::get('/guru/{id}', [DashboardController::class, 'guruDetail'])->name('public.guru.detail');
+Route::get('/guru', [DashboardController::class, 'guru'])
+    ->name('public.guru');
+
+Route::get('/guru/{id}', [DashboardController::class, 'guruDetail'])
+    ->name('public.guru.detail');
 
 Route::get('/ekstrakurikuler', [DashboardController::class, 'ekstrakurikuler'])
     ->name('public.ekstrakurikuler');
@@ -42,9 +46,8 @@ Route::get('/galeri', [DashboardController::class, 'galeri'])
 Route::get('/galeri/{id}', [DashboardController::class, 'galeriDetail'])
     ->name('public.galeri.detail');
 
-
 // ======================================================
-// LOGIN
+// LOGIN DAN LOGOUT
 // ======================================================
 
 Route::get('/login', [AuthController::class, 'index'])
@@ -57,9 +60,8 @@ Route::post('/logout', [AuthController::class, 'logout'])
     ->middleware('auth')
     ->name('admin.logout');
 
-
 // ======================================================
-// ADMIN
+// HALAMAN ADMIN DAN OPERATOR
 // ======================================================
 
 Route::middleware('auth')
@@ -67,119 +69,51 @@ Route::middleware('auth')
     ->name('admin.')
     ->group(function () {
 
-        // Dashboard
+        // DASHBOARD
         Route::get('/dashboard', [DashboardController::class, 'index'])
             ->name('dashboard');
 
-
         // ==================================================
-        // DATA USER
-        // Admin & Operator hanya bisa melihat
+        // MENU YANG BISA DILIHAT ADMIN DAN OPERATOR
         // ==================================================
 
-        Route::get('/user', [UserController::class, 'index'])
-            ->name('user.index');
+        // PROFIL SEKOLAH: LIHAT
+        Route::get('/profile', [ProfileSekolahController::class, 'index'])
+            ->name('profile');
 
+        // GURU: LIHAT
+        Route::get('/guru', [KelolaGuruController::class, 'index'])
+            ->name('guru.index');
 
-        // ==================================================
-        // ADMIN SAJA
-        // ==================================================
+        Route::get('/guru/{id}/detail', [KelolaGuruController::class, 'detail'])
+            ->name('guru.detail');
 
-        Route::middleware('role:admin')->group(function () {
+        // SISWA: LIHAT
+        Route::get('/siswa', [KelolaSiswaController::class, 'index'])
+            ->name('siswa.index');
 
-            // DATA USER
-            Route::get('/user/tambah', [UserController::class, 'create'])
-                ->name('user.create');
-
-            Route::post('/user', [UserController::class, 'store'])
-                ->name('user.store');
-
-            Route::get('/user/{id}/edit', [UserController::class, 'edit'])
-                ->name('user.edit');
-
-            Route::put('/user/{id}', [UserController::class, 'update'])
-                ->name('user.update');
-
-            Route::delete('/user/{id}', [UserController::class, 'destroy'])
-                ->name('user.destroy');
-
-
-            // PROFIL SEKOLAH
-            Route::get('/profile', [ProfileSekolahController::class, 'index'])
-                ->name('profile');
-
-            Route::get('/profile/edit', [ProfileSekolahController::class, 'edit'])
-                ->name('edit_profile');
-
-            Route::put('/profile/update', [ProfileSekolahController::class, 'update'])
-                ->name('profile.update');
-
-
-           
-Route::get('/guru', [KelolaGuruController::class, 'index'])
-    ->name('guru.index');
-
-Route::get('/guru/tambah', [KelolaGuruController::class, 'create'])
-    ->name('guru.create');
-
-Route::post('/guru', [KelolaGuruController::class, 'store'])
-    ->name('guru.store');
-
-Route::get('/guru/{id}/detail', [KelolaGuruController::class, 'detail'])
-    ->name('guru.detail');
-
-Route::get('/guru/{id}/edit', [KelolaGuruController::class, 'edit'])
-    ->name('guru.edit');
-
-Route::put('/guru/{id}', [KelolaGuruController::class, 'update'])
-    ->name('guru.update');
-
-Route::delete('/guru/{id}', [KelolaGuruController::class, 'destroy'])
-    ->name('guru.destroy');
-
-
-
-Route::get('/siswa', [KelolaSiswaController::class, 'index'])
-    ->name('siswa.index');
-
-Route::get('/siswa/{id}/detail', [KelolaSiswaController::class, 'detail'])
-    ->name('siswa.detail');
-
-Route::get('/siswa/tambah', [KelolaSiswaController::class, 'create'])
-    ->name('siswa.create');
-
-Route::post('/siswa', [KelolaSiswaController::class, 'store'])
-    ->name('siswa.store');
-
-Route::get('/siswa/{id}/edit', [KelolaSiswaController::class, 'edit'])
-    ->name('siswa.edit');
-
-Route::put('/siswa/{id}', [KelolaSiswaController::class, 'update'])
-    ->name('siswa.update');
-
-Route::delete('/siswa/{id}', [KelolaSiswaController::class, 'destroy'])
-    ->name('siswa.destroy');
-        });
-
+        Route::get('/siswa/{id}/detail', [KelolaSiswaController::class, 'detail'])
+            ->name('siswa.detail');
 
         // ==================================================
-        // ADMIN & OPERATOR
+        // ADMIN DAN OPERATOR 1 & 2: CRUD BERITA, GALERI,
+        // EKSTRAKURIKULER
         // ==================================================
 
-        Route::middleware('role:admin,operator')->group(function () {
+        Route::middleware('role:admin,operator1,operator2')->group(function () {
 
             // BERITA
             Route::get('/berita', [KelolaBeritaController::class, 'index'])
                 ->name('berita.index');
-
-            Route::get('/berita/{id}/detail', [KelolaBeritaController::class, 'detail'])
-                 ->name('berita.detail');
 
             Route::get('/berita/tambah', [KelolaBeritaController::class, 'tambah'])
                 ->name('berita.tambah');
 
             Route::post('/berita', [KelolaBeritaController::class, 'store'])
                 ->name('berita.store');
+
+            Route::get('/berita/{id}/detail', [KelolaBeritaController::class, 'detail'])
+                ->name('berita.detail');
 
             Route::get('/berita/{id}/edit', [KelolaBeritaController::class, 'edit'])
                 ->name('berita.edit');
@@ -197,8 +131,9 @@ Route::delete('/siswa/{id}', [KelolaSiswaController::class, 'destroy'])
 
             Route::get('/galeri/tambah', [KelolaGaleriController::class, 'create'])
                 ->name('galeri.create');
-                Route::get('/galeri/{id}/detail', [KelolaGaleriController::class, 'detail'])
-    ->name('galeri.detail');
+
+            Route::get('/galeri/{id}/detail', [KelolaGaleriController::class, 'detail'])
+                ->name('galeri.detail');
 
             Route::post('/galeri', [KelolaGaleriController::class, 'store'])
                 ->name('galeri.store');
@@ -219,8 +154,9 @@ Route::delete('/siswa/{id}', [KelolaSiswaController::class, 'destroy'])
 
             Route::get('/ekstrakulikuler/tambah', [KelolaEkstraKuliKulerController::class, 'tambah'])
                 ->name('ekstrakulikuler.tambah');
+
             Route::get('/ekstrakulikuler/{id}/detail', [KelolaEkstraKuliKulerController::class, 'detail'])
-              ->name('ekstrakulikuler.detail');
+                ->name('ekstrakulikuler.detail');
 
             Route::post('/ekstrakulikuler', [KelolaEkstraKuliKulerController::class, 'store'])
                 ->name('ekstrakulikuler.store');
@@ -233,5 +169,73 @@ Route::delete('/siswa/{id}', [KelolaSiswaController::class, 'destroy'])
 
             Route::delete('/ekstrakulikuler/{id}', [KelolaEkstraKuliKulerController::class, 'destroy'])
                 ->name('ekstrakulikuler.destroy');
+        });
+
+        // ==================================================
+        // ADMIN SAJA
+        // ==================================================
+
+        Route::middleware('role:admin')->group(function () {
+
+            // DATA USER
+            Route::get('/user', [UserController::class, 'index'])
+                ->name('user.index');
+
+            Route::get('/user/tambah', [UserController::class, 'create'])
+                ->name('user.create');
+
+            Route::post('/user', [UserController::class, 'store'])
+                ->name('user.store');
+
+            Route::get('/user/{id}/edit', [UserController::class, 'edit'])
+                ->name('user.edit');
+
+            Route::put('/user/{id}', [UserController::class, 'update'])
+                ->name('user.update');
+
+            Route::delete('/user/{id}', [UserController::class, 'destroy'])
+                ->name('user.destroy');
+
+
+            // PROFIL SEKOLAH: UBAH
+            Route::get('/profile/edit', [ProfileSekolahController::class, 'edit'])
+                ->name('edit_profile');
+
+            Route::put('/profile/update', [ProfileSekolahController::class, 'update'])
+                ->name('profile.update');
+
+
+            // GURU: CRUD
+            Route::get('/guru/tambah', [KelolaGuruController::class, 'create'])
+                ->name('guru.create');
+
+            Route::post('/guru', [KelolaGuruController::class, 'store'])
+                ->name('guru.store');
+
+            Route::get('/guru/{id}/edit', [KelolaGuruController::class, 'edit'])
+                ->name('guru.edit');
+
+            Route::put('/guru/{id}', [KelolaGuruController::class, 'update'])
+                ->name('guru.update');
+
+            Route::delete('/guru/{id}', [KelolaGuruController::class, 'destroy'])
+                ->name('guru.destroy');
+
+
+            // SISWA: CRUD
+            Route::get('/siswa/tambah', [KelolaSiswaController::class, 'create'])
+                ->name('siswa.create');
+
+            Route::post('/siswa', [KelolaSiswaController::class, 'store'])
+                ->name('siswa.store');
+
+            Route::get('/siswa/{id}/edit', [KelolaSiswaController::class, 'edit'])
+                ->name('siswa.edit');
+
+            Route::put('/siswa/{id}', [KelolaSiswaController::class, 'update'])
+                ->name('siswa.update');
+
+            Route::delete('/siswa/{id}', [KelolaSiswaController::class, 'destroy'])
+                ->name('siswa.destroy');
         });
     });

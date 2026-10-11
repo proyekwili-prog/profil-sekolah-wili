@@ -359,13 +359,18 @@
             </p>
         </div>
 
-        <a href="<?php echo e(route('admin.edit_profile')); ?>"
-           class="btn-edit-profile">
+        
 
-            <i class="bi bi-pencil-square"></i>
-            Edit Profil
+<?php if(auth()->check() && strtolower(auth()->user()->role) === 'admin'): ?>
+    <a href="<?php echo e(route('admin.edit_profile')); ?>"
+       class="btn-edit-profile">
 
-        </a>
+        <i class="bi bi-pencil-square"></i>
+        Edit Profil
+
+    </a>
+<?php endif; ?>
+
 
     </div>
 

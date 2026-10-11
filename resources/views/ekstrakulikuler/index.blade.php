@@ -1,3 +1,8 @@
+
+@php
+    use Illuminate\Support\Facades\Crypt;
+@endphp
+
 @extends('layout.admin')
 
 @section('title', $title)
@@ -6,7 +11,7 @@
 
 <div class="container-fluid px-0">
 
-    <!-- Header -->
+    {{-- HEADER --}}
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <div class="d-flex align-items-center gap-2 mb-1">
@@ -28,19 +33,20 @@
             </div>
         </div>
 
-        <a href="{{ route('admin.ekstrakulikuler.tambah') }}"
-           class="btn btn-primary">
+        {{-- TAMBAH: ADMIN DAN OPERATOR --}}
+        @if(auth()->check() && in_array(strtolower(auth()->user()->role), ['admin', 'operator1', 'operator2'], true))
+            <a href="{{ route('admin.ekstrakulikuler.tambah') }}"
+               class="btn btn-primary">
 
-            <i class="bi bi-plus-circle me-1"></i>
-            Tambah Ekstrakurikuler
+                <i class="bi bi-plus-circle me-1"></i>
+                Tambah Ekstrakurikuler
 
-        </a>
+            </a>
+        @endif
     </div>
 
-
-    <!-- Notifikasi -->
+    {{-- NOTIFIKASI SUKSES --}}
     @if(session('success'))
-
         <div class="alert alert-success alert-dismissible fade show shadow-sm"
              role="alert">
 
@@ -49,18 +55,34 @@
 
             <button type="button"
                     class="btn-close"
-                    data-bs-dismiss="alert">
+                    data-bs-dismiss="alert"
+                    aria-label="Tutup">
             </button>
 
         </div>
-
     @endif
 
+    {{-- NOTIFIKASI ERROR --}}
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show shadow-sm"
+             role="alert">
 
-    <!-- Card Data -->
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            {{ session('error') }}
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Tutup">
+            </button>
+
+        </div>
+    @endif
+
+    {{-- CARD DATA --}}
     <div class="card border-0 shadow-sm">
 
-        <!-- Card Header -->
+        {{-- CARD HEADER --}}
         <div class="card-header bg-white border-bottom py-3">
 
             <div class="d-flex justify-content-between align-items-center">
@@ -91,8 +113,7 @@
 
         </div>
 
-
-        <!-- Card Body -->
+        {{-- CARD BODY --}}
         <div class="card-body p-0">
 
             <div class="table-responsive">
@@ -100,7 +121,6 @@
                 <table class="table table-bordered table-hover align-middle mb-0">
 
                     <thead class="table-light">
-
                         <tr>
 
                             <th class="text-center" style="width:60px;">
@@ -128,22 +148,20 @@
                             </th>
 
                         </tr>
-
                     </thead>
 
                     <tbody>
 
-                        @foreach($ekstrakurikulers as $i => $ekstrakurikuler)
+                        @forelse($ekstrakurikulers as $i => $ekstrakurikuler)
 
                             <tr>
 
-                                <!-- No -->
+                                {{-- NOMOR --}}
                                 <td class="text-center">
                                     {{ $i + 1 }}
                                 </td>
 
-
-                                <!-- Gambar -->
+                                {{-- GAMBAR --}}
                                 <td class="text-center">
 
                                     @if($ekstrakurikuler->gambar)
@@ -158,8 +176,9 @@
 
                                     @else
 
-                                        <div class="bg-light border rounded d-inline-flex align-items-center justify-content-center"
-                                             style="width:75px;height:55px;">
+                                        <div
+                                            class="bg-light border rounded d-inline-flex align-items-center justify-content-center"
+                                            style="width:75px;height:55px;">
 
                                             <i class="bi bi-image text-muted"></i>
 
@@ -169,74 +188,87 @@
 
                                 </td>
 
-
-                                <!-- Nama -->
+                                {{-- NAMA --}}
                                 <td class="fw-semibold">
                                     {{ $ekstrakurikuler->nama_eskul }}
                                 </td>
 
-
-                                <!-- Pembina -->
+                                {{-- PEMBINA --}}
                                 <td>
                                     {{ $ekstrakurikuler->pembina }}
                                 </td>
 
-
-                                <!-- Jadwal -->
+                                {{-- JADWAL --}}
                                 <td>
                                     {{ $ekstrakurikuler->jadwal_latihan }}
                                 </td>
 
-
-                                <!-- Aksi -->
+                                {{-- AKSI --}}
                                 <td class="text-center">
 
-                                    <!-- Detail -->
-                                    <a href="{{ route('admin.ekstrakulikuler.detail', Crypt::encrypt($ekstrakurikuler->id_eskul)) }}"
-                                       class="btn btn-sm btn-outline-primary"
-                                       title="Lihat Detail">
+                                    {{-- DETAIL --}}
+                                    <a
+                                        href="{{ route('admin.ekstrakulikuler.detail', Crypt::encrypt($ekstrakurikuler->id_eskul)) }}"
+                                        class="btn btn-sm btn-outline-primary"
+                                        title="Lihat Detail">
 
                                         <i class="bi bi-eye"></i>
 
                                     </a>
 
+                                    {{-- EDIT DAN HAPUS: ADMIN DAN OPERATOR --}}
+                                    @if(auth()->check() && in_array(strtolower(auth()->user()->role), ['admin', 'operator1', 'operator2'], true))
 
-                                    <!-- Edit -->
-                                    <a href="{{ route('admin.ekstrakulikuler.edit',Crypt::encrypt($ekstrakurikuler->id_eskul)) }}"
-                                       class="btn btn-sm btn-outline-secondary"
-                                       title="Edit">
+                                        {{-- EDIT --}}
+                                        <a
+                                            href="{{ route('admin.ekstrakulikuler.edit', Crypt::encrypt($ekstrakurikuler->id_eskul)) }}"
+                                            class="btn btn-sm btn-outline-secondary"
+                                            title="Edit">
 
-                                        <i class="bi bi-pencil"></i>
+                                            <i class="bi bi-pencil"></i>
 
-                                    </a>
+                                        </a>
 
+                                        {{-- HAPUS --}}
+                                        <form
+                                            action="{{ route('admin.ekstrakulikuler.destroy', $ekstrakurikuler->id_eskul) }}"
+                                            method="POST"
+                                            class="d-inline"
+                                            onsubmit="return confirm('Yakin ingin menghapus data ekstrakurikuler ini?');">
 
-                                    <!-- Hapus -->
-                                    <form
-                                        action="{{ route('admin.ekstrakulikuler.destroy', $ekstrakurikuler->id_eskul) }}"
-                                        method="POST"
-                                        class="d-inline"
-                                        onsubmit="return confirm('Yakin ingin menghapus data ekstrakurikuler ini?');">
+                                            @csrf
+                                            @method('DELETE')
 
-                                        @csrf
-                                        @method('DELETE')
+                                            <button
+                                                type="submit"
+                                                class="btn btn-sm btn-outline-danger"
+                                                title="Hapus">
 
-                                        <button
-                                            type="submit"
-                                            class="btn btn-sm btn-outline-danger"
-                                            title="Hapus">
+                                                <i class="bi bi-trash"></i>
 
-                                            <i class="bi bi-trash"></i>
+                                            </button>
 
-                                        </button>
+                                        </form>
 
-                                    </form>
+                                    @endif
 
                                 </td>
 
                             </tr>
 
-                        @endforeach
+                        @empty
+
+                            <tr>
+                                <td colspan="6" class="text-center py-5">
+                                    <i class="bi bi-trophy fs-1 text-muted d-block mb-2"></i>
+
+                                    <span class="text-muted">
+                                        Belum ada data ekstrakurikuler.
+                                    </span>
+                                </td>
+                            </tr>
+
+                        @endforelse
 
                     </tbody>
 
@@ -249,7 +281,6 @@
     </div>
 
 </div>
-
 
 <style>
     .table thead th {
@@ -278,6 +309,14 @@
     .btn-outline-secondary:hover,
     .btn-outline-danger:hover {
         color: #fff;
+    }
+
+    @media (max-width: 768px) {
+        .container-fluid > .d-flex.justify-content-between {
+            align-items: flex-start !important;
+            flex-direction: column;
+            gap: 15px;
+        }
     }
 </style>
 

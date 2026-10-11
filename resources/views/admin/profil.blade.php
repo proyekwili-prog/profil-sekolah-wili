@@ -362,13 +362,18 @@
             </p>
         </div>
 
-        <a href="{{ route('admin.edit_profile') }}"
-           class="btn-edit-profile">
+        
+{{-- Tombol Edit Profil hanya untuk Admin --}}
+@if(auth()->check() && strtolower(auth()->user()->role) === 'admin')
+    <a href="{{ route('admin.edit_profile') }}"
+       class="btn-edit-profile">
 
-            <i class="bi bi-pencil-square"></i>
-            Edit Profil
+        <i class="bi bi-pencil-square"></i>
+        Edit Profil
 
-        </a>
+    </a>
+@endif
+
 
     </div>
 

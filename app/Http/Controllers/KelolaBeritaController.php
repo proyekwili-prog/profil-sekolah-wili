@@ -12,6 +12,26 @@ use Illuminate\Support\Facades\Crypt;
 
 class KelolaBeritaController extends Controller
 {
+    /**
+     * Pastikan hanya Admin atau pemilik berita yang boleh mengubahnya.
+     */
+    private function pastikanPemilikAtauAdmin(KelolaBerita $berita): void
+    {
+        $user = Auth::user();
+
+        abort_unless($user, 401);
+
+        if (strtolower((string) $user->role) === 'admin') {
+            return;
+        }
+
+        abort_unless(
+            (int) $berita->id_user === (int) $user->getAuthIdentifier(),
+            403,
+            'Anda hanya dapat mengelola berita milik sendiri.'
+        );
+    }
+
     public function index()
     {
         $beritas = KelolaBerita::with('user')
@@ -35,24 +55,21 @@ class KelolaBeritaController extends Controller
 
     public function detail($id)
     {
-        try{
-
+        try {
             $berita = KelolaBerita::with('user')
                 ->findOrFail(Crypt::decrypt($id));
-    
+
             return view('berita.detail', [
                 'title' => 'Detail Berita',
                 'berita' => $berita,
-                ]);
-        }
-       catch(Exception $e) {
+            ]);
+        } catch (Exception $e) {
             return redirect()->route('admin.berita.index');
         }
     }
 
     public function store(Request $request)
     {
-        // Pastikan pengguna sudah login.
         if (!Auth::check()) {
             return redirect()->route('admin.login');
         }
@@ -64,9 +81,8 @@ class KelolaBeritaController extends Controller
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
-        // Ambil ID dari akun yang sedang login,
-        // bukan dari input form.
-        $data['id_user'] = Auth::user()->getAuthIdentifier();
+        // Pembuat diambil dari akun login, bukan dari form.
+        $data['id_user'] = Auth::id();
 
         if ($request->hasFile('gambar')) {
             $data['gambar'] = $request->file('gambar')
@@ -79,26 +95,31 @@ class KelolaBeritaController extends Controller
             ->with('success', 'Berita berhasil ditambahkan.');
     }
 
-    public function edit($id)
-    {
-        try {
-
-            return view('berita.edit', [
-                'title' => 'Edit Berita',
-                'berita' => KelolaBerita::findOrFail(
-                    Crypt::decrypt($id)
-                ),
-            ]);
-        }
-        catch(Exception $e) {
-            return redirect()->route('admin.berita.index');
-        }
-
+   
+public function edit($id)
+{
+    try {
+        $berita = KelolaBerita::findOrFail(
+            Crypt::decrypt($id)
+        );
+    } catch (Exception $e) {
+        return redirect()->route('admin.berita.index');
     }
+
+    $this->pastikanPemilikAtauAdmin($berita);
+
+    return view('berita.edit', [
+        'title' => 'Edit Berita',
+        'berita' => $berita,
+    ]);
+}
+
 
     public function update(Request $request, $id)
     {
         $berita = KelolaBerita::findOrFail($id);
+
+        $this->pastikanPemilikAtauAdmin($berita);
 
         $data = $request->validate([
             'judul' => 'required|string|max:50',
@@ -118,7 +139,7 @@ class KelolaBeritaController extends Controller
             unset($data['gambar']);
         }
 
-        // id_user tidak diubah saat berita diedit.
+        // Jangan izinkan perubahan id_user melalui form.
         $berita->update($data);
 
         return redirect()->route('admin.berita.index')
@@ -128,6 +149,8 @@ class KelolaBeritaController extends Controller
     public function destroy($id)
     {
         $berita = KelolaBerita::findOrFail($id);
+
+        $this->pastikanPemilikAtauAdmin($berita);
 
         if ($berita->gambar) {
             Storage::disk('public')->delete($berita->gambar);
