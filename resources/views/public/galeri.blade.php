@@ -8,7 +8,7 @@
 
     <title>Galeri - {{ $profile?->nama_sekolah ?? 'SMPN Satu Atap 1 Mangunreja' }}</title>
 
-     @if($profile?->logo)
+    @if($profile?->logo)
         <link rel="icon" href="{{ asset('storage/' . $profile->logo) }}">
     @endif
 
@@ -100,7 +100,7 @@
             box-shadow: none !important;
         }
 
-        /* HEADER — MENYESUAIKAN EKSTRAKURIKULER */
+        /* HEADER */
         .page-header {
             margin-top: 72px;
             min-height: 360px;
@@ -190,7 +190,7 @@
             line-height: 1.8;
         }
 
-        /* KARTU FOTO */
+        /* KARTU GALERI */
         .gallery-card {
             position: relative;
             width: 100%;
@@ -216,21 +216,43 @@
             transition: transform .4s ease;
         }
 
-        .gallery-card:hover .gallery-image {
+        .gallery-card:hover .gallery-image:not(.gallery-video) {
             transform: scale(1.06);
         }
 
+        /* VIDEO GALERI */
+        .gallery-video {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #000;
+            transition: none;
+        }
+
+        .gallery-card:has(.gallery-video) {
+            background: #000;
+        }
+
+        .gallery-card:hover .gallery-video {
+            transform: none;
+        }
+
+        /* OVERLAY */
         .gallery-overlay {
             position: absolute;
             right: 0;
             bottom: 0;
             left: 0;
+            z-index: 3;
             padding: 65px 20px 20px;
             color: #fff;
             background: linear-gradient(
                 transparent,
                 rgba(0, 0, 0, .88)
             );
+            pointer-events: none;
         }
 
         .gallery-overlay h5 {
@@ -557,11 +579,45 @@
                             <div class="gallery-card">
 
                                 @if($item->file)
-                                    <img
-                                        src="{{ asset('storage/' . $item->file) }}"
-                                        class="gallery-image"
-                                        alt="{{ $item->judul }}"
-                                        loading="lazy">
+                                    @php
+                                        $filePath = $item->file;
+                                        $extension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+
+                                        $isVideo = in_array($extension, [
+                                            'mp4', 'webm', 'ogg', 'ogv', 'mov', 'm4v'
+                                        ]);
+
+                                        $videoTypes = [
+                                            'mp4'  => 'video/mp4',
+                                            'webm' => 'video/webm',
+                                            'ogg'  => 'video/ogg',
+                                            'ogv'  => 'video/ogg',
+                                            'mov'  => 'video/quicktime',
+                                            'm4v'  => 'video/mp4',
+                                        ];
+                                    @endphp
+
+                                    @if($isVideo)
+                                        <video
+                                            class="gallery-image gallery-video"
+                                            controls
+                                            preload="metadata"
+                                            playsinline
+                                            aria-label="{{ $item->judul }}">
+
+                                            <source
+                                                src="{{ asset('storage/' . $filePath) }}"
+                                                type="{{ $videoTypes[$extension] }}">
+
+                                            Browser Anda tidak mendukung pemutaran video.
+                                        </video>
+                                    @else
+                                        <img
+                                            src="{{ asset('storage/' . $filePath) }}"
+                                            class="gallery-image"
+                                            alt="{{ $item->judul }}"
+                                            loading="lazy">
+                                    @endif
                                 @else
                                     <img
                                         src="{{ asset('assets/school-template/img/acara.webp') }}"
@@ -670,4 +726,3 @@
 
 </body>
 </html>
-

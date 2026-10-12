@@ -1,16 +1,39 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use App\Models\KelolaGaleri;
-use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\ValidationException;
 
 class KelolaGaleriController extends Controller
 {
+    /**
+     * Admin dapat mengelola semua galeri.
+     * Operator hanya dapat mengelola galeri miliknya sendiri.
+     */
+    private function pastikanPemilikAtauAdmin(KelolaGaleri $galeri): void
+    {
+        $user = Auth::user();
+
+        abort_unless($user, 401);
+
+        if (strtolower((string) $user->role) === 'admin') {
+            return;
+        }
+
+        abort_unless(
+            (int) $galeri->id_user === (int) $user->getAuthIdentifier(),
+            403,
+            'Anda hanya dapat mengelola galeri milik sendiri.'
+        );
+    }
+
     public function index()
     {
         $galeri = KelolaGaleri::orderByDesc('tanggal')
@@ -33,17 +56,15 @@ class KelolaGaleriController extends Controller
     public function detail($id)
     {
         try {
-
             $galeri = KelolaGaleri::findOrFail(
                 Crypt::decrypt($id)
             );
-    
+
             return view('galeri.detail', [
                 'title' => 'Detail Galeri',
                 'galeri' => $galeri,
             ]);
-        }
-         catch(Exception $e) {
+        } catch (Exception $e) {
             return redirect()->route('admin.galeri.index');
         }
     }
@@ -57,7 +78,6 @@ class KelolaGaleriController extends Controller
             'tanggal' => 'required|date',
         ]);
 
-        // Validasi file disesuaikan dengan kategori.
         $aturanFile = $request->input('kategori') === 'Video'
             ? 'required|file|mimes:mp4,webm,mov,ogg|max:51200'
             : 'required|image|mimes:jpeg,png,jpg,webp|max:2048';
@@ -74,6 +94,9 @@ class KelolaGaleriController extends Controller
         $data['file'] = $request->file('file')
             ->store('galeri', 'public');
 
+        // Pemilik ditentukan dari akun yang sedang login.
+        $data['id_user'] = Auth::id();
+
         KelolaGaleri::create($data);
 
         return redirect()
@@ -84,24 +107,28 @@ class KelolaGaleriController extends Controller
     public function edit($id)
     {
         try {
-
-            return view('galeri.edit', [
-                'title' => 'Edit Galeri',
-                'galeri' => KelolaGaleri::findOrFail(
-                    Crypt::decrypt($id)
-                ),
-            ]);
-        }
-         catch(Exception $e) {
+            $galeri = KelolaGaleri::findOrFail(
+                Crypt::decrypt($id)
+            );
+        } catch (Exception $e) {
             return redirect()->route('admin.galeri.index');
         }
+
+        // Periksa pemilik sebelum menampilkan formulir edit.
+        $this->pastikanPemilikAtauAdmin($galeri);
+
+        return view('galeri.edit', [
+            'title' => 'Edit Galeri',
+            'galeri' => $galeri,
+        ]);
     }
 
     public function update(Request $request, $id)
     {
-        $galeri = KelolaGaleri::findOrFail(
-           $id
-        );
+        $galeri = KelolaGaleri::findOrFail($id);
+
+        // Periksa pemilik sebelum mengubah data atau file.
+        $this->pastikanPemilikAtauAdmin($galeri);
 
         $data = $request->validate([
             'judul' => 'required|string|max:50',
@@ -110,7 +137,6 @@ class KelolaGaleriController extends Controller
             'tanggal' => 'required|date',
         ]);
 
-        // Jika kategori berubah, file pengganti wajib diunggah.
         if (
             $request->input('kategori') !== $galeri->kategori
             && !$request->hasFile('file')
@@ -135,6 +161,7 @@ class KelolaGaleriController extends Controller
 
             // Simpan file baru sebelum menghapus file lama.
             $fileLama = $galeri->file;
+
             $fileBaru = $request->file('file')
                 ->store('galeri', 'public');
 
@@ -146,7 +173,7 @@ class KelolaGaleriController extends Controller
                 Storage::disk('public')->delete($fileLama);
             }
         } else {
-            // File tetap dipertahankan jika tidak diganti.
+            // File lama tetap digunakan jika tidak diganti.
             $galeri->update($data);
         }
 
@@ -157,9 +184,17 @@ class KelolaGaleriController extends Controller
 
     public function destroy($id)
     {
-        $galeri = KelolaGaleri::findOrFail(
-            Crypt::decrypt($id)
-        );
+        // Route hapus saat ini menggunakan ID terenkripsi.
+        try {
+            $galeri = KelolaGaleri::findOrFail(
+                Crypt::decrypt($id)
+            );
+        } catch (Exception $e) {
+            return redirect()->route('admin.galeri.index');
+        }
+
+        // Periksa izin sebelum menghapus file maupun data.
+        $this->pastikanPemilikAtauAdmin($galeri);
 
         if ($galeri->file) {
             Storage::disk('public')->delete($galeri->file);
